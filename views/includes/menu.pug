@@ -1,0 +1,60 @@
+//- .list-group
+//-         ul.menu
+//-                 div(class="search-container")
+//-                         form(autocomplete="off")
+//-                                 input(type="text" placeholder="Arama.." name="search").p-2.border-0.w-100
+//-                                 button(type="submit").bg-info.w-100.border-0.text-light
+//-                                         i(class="fa fa-search")
+//-         p.list-group-item.border-0
+//-                 |KATEGORİLER
+//-         each category in categories
+//-                 //-a(href=`/categories/${category._id}` class=category._id==selectedCategory ? "list-group-item active": "list-group-item") #{category.name}
+//-                 .dropright.drop1
+//-                         button(type="button" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false").list-group-item.w-100 #{category.name}
+
+//-                         div(class="dropdown-menu drop-menu1" ).m-0.p-0.w-100
+                        
+//-                                 each subcategory in subcategories
+//-                                         -var subcategoryCategories = `${subcategory.categories}`
+//-                                         if category._id == subcategoryCategories
+//-                                                 .dropright.drop2
+//-                                                         button(type="button" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false").list-group-item.w-100 #{subcategory.name}
+                                                
+//-                                                         div(class="dropdown-menu drop-menu2" style="max-height: 600px; overflow-x: hidden; overflow-y: scroll;").m-0.p-0.w-100
+//-                                                                 each subsubcategory in subsubcategories
+//-                                                                         -var subsubcategoryCategories = `${subsubcategory.categories}`
+//-                                                                         if subcategory._id == subsubcategoryCategories
+//-                                                                                 a(href=`/categories/${subsubcategory._id}` class=subsubcategory._id==selectedCategory ? "list-group-item active": "list-group-item") #{subsubcategory.name}
+.list-group
+        ul.menu
+                div(class="search-container")
+                        form(autocomplete="off")
+                                input(type="text" placeholder="Arama.." name="search").p-2.border-0.w-100
+                                button(type="submit").bg-info.w-100.border-0.text-light
+                                        i(class="fa fa-search")
+                //- p.list-group-item.border-0
+                //-         i(class="fas fa-stream")
+                //-         |  KATEGORİLER      
+        
+                each category in categories
+                        li.list
+                                a(href='#') 
+                                        |#{category.name}
+                                        i(class="fas fa-angle-double-down").mr-3               
+                                ul.items        
+                                        each subcategory in subcategories
+                                                -var subcategoryCategories = `${subcategory.categories}`
+                                                if category._id == subcategoryCategories
+                                                        li.list
+                                                                a
+                                                                        |#{subcategory.name}
+                                                                        i(class="fas fa-angle-down").float-left.mr-3.ml-3
+                                                                ul.items
+                                                                        each subsubcategory in subsubcategories
+                                                                                -var subsubcategoryCategories = `${subsubcategory.categories}`
+                                                                                if subcategory._id == subsubcategoryCategories
+                                                                                        
+                                                                                        li.subsublink
+                                                                                                a(href=`/categories/${subsubcategory._id}`) #{subsubcategory.name}
+                                                                                                        i(class="fas fa-chevron-right").float-right.mr-3
+                                                                                                        

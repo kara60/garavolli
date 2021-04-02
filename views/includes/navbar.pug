@@ -1,0 +1,80 @@
+nav.navbar.navbar-expand-xl.navbar-light.fixed-top.navbar-inverse.p-0
+    .container-fluid
+        
+        img(src="/img/garavolli.png" width="40").mr-2
+        a(href="/").navbar-brand.mr-4 Garavolli
+            
+        button(type="button" class="navbar-toggler" data-toggle="collapse" data-target="#myNavbar")
+            span.navbar-toggler-icon
+            img(src="/img/emu_logo.png" width="40").ml-2
+
+        span.text-secondary.mr-0.pr-0.mr-1
+            i(class="fas fa-people-carry fa-lg").mr-1
+            | İkinci Elde 
+            span.font-weight-bold 1. 
+            |Tercih
+
+        div(class="collapse navbar-collapse" id="myNavbar")
+            ul.nav.navbar-nav.mr-auto
+                li.nav-item
+                    a(href="/", class=(path === '/'?'nav-link active p-3':'nav-link p-3')) Anasayfa
+
+                li.nav-item
+                    a(href="/products", class=(path === '/products'?'nav-link active p-3':'nav-link p-3')) Ürünler
+
+                if isAuthenticated
+                    //- Sepet ve siparişler linkleri
+                    //- li.nav-item
+                    //-     a(href="/cart", class=(path === '/cart'?'nav-link active p-3':'nav-link p-3')) Sepet
+
+                    //- li.nav-item
+                    //-     a(href="/orders", class=(path === '/orders'?'nav-link active p-3':'nav-link p-3')) Siparişler
+                    
+                
+                    li.nav-item
+                        a(href="/admin/choose-category", class=(path==='/admin/choose-category'?'nav-link active p-3':'nav-link p-3')) Ürün Ekle
+
+                    li.nav-item
+                        a(href="/admin/products", class=(path==='/admin/products'?'nav-link active p-3':'nav-link p-3')) Ürünlerim
+
+                if isAdmin
+                    li.nav-item.dropdown
+                        a(class=(path==="#"?"nav-link dropdown-toggle active p-3":'nav-link dropdown-toggle p-3') data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false").dropDownStyle Admin Paneli
+                        div.dropdown-menu
+                            a(href="/admin/add-category", class=(path==='/admin/add-category'?'dropdown-item active bg-secondary':'dropdown-item')).px-5.py-2.dropDownStyle Ana Kategori Ekle
+                            a(href="/admin/add-sub-category", class=(path==='/admin/add-sub-category'?'dropdown-item active bg-secondary':'dropdown-item')).px-5.py-2.dropDownStyle Alt Kategori Ekle
+                            a(href="/admin/add-sub-sub-category", class=(path==='/admin/add-sub-sub-category'?'dropdown-item active bg-secondary':'dropdown-item')).px-5.py-2.dropDownStyle En Alt Kategori Ekle
+                            a(href="/admin/categories", class=(path==='/admin/categories'?'dropdown-item active bg-secondary':'dropdown-item')).px-5.py-2.dropDownStyle Kategoriler
+                            div(class="dropdown-divider")
+                            a(href="/admin/confirmation", class=(path==='/admin/confirmation'?'dropdown-item active bg-secondary':'dropdown-item')).px-5.py-2.dropDownStyle Onaylama
+                            div(class="dropdown-divider")
+                            a(href="/admin/all-products", class=(path==='/admin/all-products'?'dropdown-item active bg-secondary':'dropdown-item')).px-5.py-2.dropDownStyle Tüm Ürünler
+                            a(href="/admin/all-users", class=(path==='/admin/all-users'?'dropdown-item active bg-secondary':'dropdown-item')).px-5.py-2.dropDownStyle Tüm Kullanıcılar
+                            
+            ul.nav.navbar-nav.navbar-right
+                div(class="topnav").mr-4.my-auto
+
+                li.nav-item
+                        a.nav-link.text-warning(href="/contact" data-toggle="tooltip" data-placement="top" title="İletişim").p-3
+                            i(class="fas fa-exclamation fa-lg")
+
+                if isAuthenticated
+
+                    li.nav-item
+                        a.nav-link.text-info(href="/account/profile" data-toggle="tooltip" data-placement="top" title="Profile Git").p-3
+                           <i class="fas fa-user"></i>
+
+                    li.nav-item
+                        a.nav-link.text-danger(href="/logout" data-toggle="tooltip" data-placement="top" title="Çıkış Yap").p-3
+                            i(class="fas fa-sign-out-alt fa-lg")
+
+                    
+                else
+                    li.nav-item
+                        a.nav-link.text-success(href="/login" data-toggle="tooltip" data-placement="top" title="Giriş Yap").p-3
+                            i(class="fas fa-sign-in-alt fa-lg")
+                            
+                    li.nav-item
+                        a.nav-link(href="/register").p-3
+                            strong Üye Ol
+            img(src="/img/emu_logo.png" width="40").ml-2

@@ -1,0 +1,30 @@
+if isAuthenticated
+        div(class="card" style="width: 17.9rem;").mb-3.mt-3
+                div(class="card-body")
+                        h5(class="card-title")
+                                strong  #{user.name} #{user.surname}
+                        hr
+                        p(class="card-text") 
+                                em #{user.email}
+                if isAdmin
+                        div(class="card-body")
+                                h4(class="card-title")
+                                        strong Bilgiler    
+                                hr
+                                
+                                p(class="card-text") Kullanıcı sayısı: 
+                                        strong #{userNumber.length}
+                                p(class="card-text") Ürün sayısı: 
+                                        strong #{products.length}
+                                p(class="card-text") Ana kategori sayısı: 
+                                        strong #{categories.length}
+                                p(class="card-text") Alt kategori sayısı: 
+                                        strong #{subcategories.length}
+                                p(class="card-text") En alt kategori sayısı: 
+                                        strong #{subsubcategories.length}
+                                p(class="card-text") Sipariş sayısı: 
+                                        strong #{orders.length}
+                                p(class="card-text") 
+                                        strong Onay bekleyen ürün: #{confirm.length}
+                                        
+                                //-a(href="#" class="btn btn-outline-dark") Profile git

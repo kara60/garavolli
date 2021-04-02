@@ -1,0 +1,80 @@
+extends ../layouts/main-layout.pug
+
+block content
+    .row
+        .col-lg-3
+            img(src=`/img/${product.imageUrl}` alt=`${product.description}`).img-fluid
+            //- #mySlider.carousel.slide(data-ride="carousel").mb-1.mt-0
+
+            //-     ol.carousel-indicators
+            //-         li(data-target="#mySlider" data-slide-to="1")
+            //-         li(data-target="#mySlider" data-slide-to="2")
+            //-         li(data-target="#mySlider" data-slide-to="3")
+            
+            //-     .carousel-inner
+            //-         .carousel-item.active
+            //-             img(src=`/img/${product.imageUrl}` alt="").d-block.img-fluid
+                    
+            //-         .carousel-item
+            //-             img(src=`/img/3.jpg` alt="").d-block.img-fluid
+
+            //-         .carousel-item
+            //-             img(src=`/img/1.jpg` alt="").d-block.img-fluid 
+    
+            //-     a(href="#mySlider"  data-slide="prev").carousel-control-prev
+            //-         span.carousel-control-prev-icon.bg-secondary
+                
+            //-     a(href="#mySlider"  data-slide="next").carousel-control-next
+            //-         span.carousel-control-next-icon.bg-secondary
+                   
+        .col-lg-5.pl-3
+            h2.mb-3.text-uppercase.font-weight-bold #{product.name}
+            hr
+            each subsubcategory in subsubcategories
+                -var productCategories = `${product.categories}`
+                    if productCategories == `${subsubcategory._id}`
+                        a(href=`/categories/${subsubcategory._id}`).btn.btn-link.p-0.mb-3.text-info - #{subsubcategory.name} Kategorisi
+            p
+                b İlan Tarihi: 
+                | #{product.date}
+            p
+                b İkinci El: 
+                if `${product.isSecondHand}` == 'İkinci El'
+                    | Evet
+                else
+                    |Hayır
+            p
+            .mb-3
+                h4.text-success.mb-3 
+                    i.fas.fa-lira-sign #{product.price}
+                //- Ürün detayı sayfasındaki sepete ekle butonu ve çalışma fonksiyonu..
+                //- form(action="/cart" method="POST")
+                //-     input(type="hidden" name="_csrf" value=`${csrfToken}`)
+                //-     input(type="hidden" name='productId' value=`${product._id}`)
+                //-     button(type="submit" data-toggle="tooltip" data-placement="top" title="Sepete Ekle").btn.btn-primary.btn-lg
+                //-         i(class="fas fa-cart-plus")
+        .col-lg-4.pl-3
+            h2.font-weight-bold Satıcı Bilgileri
+            hr
+            p 
+                b İlçe: 
+                |#{product.city}
+            p 
+                b Satıcı İsmi: 
+                |#{product.nameOfSeller}
+            p 
+                b Satıcı Numarası: 
+                |#{product.phoneOfSeller}
+            p 
+                b Satıcı Emaili: 
+                |#{product.mailOfSeller}
+    //- .row 
+    //-     .col-md-3
+    //-         img(src=`/img/${product.imageUrl}` alt="").w-25 
+    //-         img(src=`/img/3.jpg` alt="").w-25
+    //-         img(src=`/img/1.jpg` alt="").w-25
+    .row
+        .col-md-12
+            hr
+            h3.font-weight-bold Ürün Bilgileri:  
+            p.p-3 !{product.description}

@@ -1,0 +1,41 @@
+extends ../layouts/main-layout.pug
+
+block styles
+    link(rel="stylesheet" href="/css/products-table.css")
+
+block content
+    if (action !== 'undefined' && action === 'delete')
+        div.alert.alert-danger Kulanıcı silindi.
+    
+    div(class="panel panel-default panel-table")
+    div(class="panel-heading")
+        div(class="row")
+            div(class="col col-xs-6")
+                h2(class="panel-title") Toplam Kullanıcı Sayısı: #{users.length}
+
+    if users.length > 0
+        table.table.table-striped.table-bordered.table-list
+            thead
+                tr
+                    th(style="width: auto;") Adı    
+                    th(style="width: auto;") Soyadı
+                    th(style="width: auto;") Emaili
+                    th(style="width: auto; text-align:center;")
+                        em(class="fa fa-cog")
+                    
+            tbody
+                each user in users
+                    tr          
+                        td.hidden-xs #{user.name}
+                        td #{user.surname}
+                        td #{user.email}
+                        td.mr-0.ml-0.pr-0.pl-0
+
+                            form(action="/admin/delete-user" method="POST" onSubmit="return confirm('Silmek istediğinden emin misin?') ")
+                                input(type="hidden" name="_csrf" value=`${csrfToken}`)
+                                input(type="hidden" name="productid" value=`${user._id}`)
+                                button(type="submit" data-toggle="tooltip" data-placement="top" title="Kullanıcıyı Sil").btn.btn-danger
+                                    em(class="fas fa-trash-alt")
+                            
+    else
+        h1 Gösterilecek kullanıcı bulunamadı.

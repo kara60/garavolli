@@ -1,0 +1,25 @@
+extends ../layouts/main-layout.pug
+
+block styles
+    link(rel="stylesheet" href="/css/forms.css")
+
+block content
+    .alert.alert-primary Unutmayın, ürününüzü doğru kategoriye eklemek daha kolay bulunmasını ve satılmasını sağlar.
+    form(action="/admin/choose-category" method="POST" enctype="multipart/form-data")
+        input(type="hidden" name="_csrf" value=`${csrfToken}`)
+
+        .form-group.row
+            .col-sm-12
+                div.alert.alert-success
+                    |Lütfen eklemek istediğiniz ürünün ana kategorisini seçiniz.
+            .col-sm-12
+                select(class="browser-default custom-select custom-select-lg mb-3" name="categoryids" aria-label="Kategori Seçme" onchange="location = this.value;")
+                    option(value="#").selected Ana Kategori Seç
+                    each category in categories
+                        option(value=`/admin/choose-sub-category/${category._id}`) #{category.name}
+            //- .col-sm-12
+            //-     button(type="submit" data-toggle="tooltip" data-placement="top" title="İleri").btn.btn-success.pl-2.ml-1
+            //-         i(class="fas fa-arrow-right")
+
+block script
+    script(src="/js/script.js")

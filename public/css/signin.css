@@ -1,0 +1,80 @@
+html,
+body {
+  height: 100%;
+}
+
+body {
+  display: flex;
+  align-items: center;
+  padding-top: 0px;
+  padding-bottom: 40px;
+  background-color: #ffffff;
+}
+
+.form-signin {
+  width: 100%;
+  max-width: 330px;
+  padding: 15px;
+  margin: auto;
+}
+.form-signin .checkbox {
+  font-weight: 400;
+}
+.form-signin .form-control {
+  position: relative;
+  box-sizing: border-box;
+  height: auto;
+  padding: 10px;
+  font-size: 16px;
+  transition: all .5s ease-in-out;  
+}
+.form-signin .form-control:focus {
+  z-index: 2;
+  transform: translate(15px,0);
+  -webkit-transform: translate(15px,0);
+}
+.form-signin input[type="email"] {
+  margin-bottom: -1px;
+  border-bottom-right-radius: 0;
+  border-bottom-left-radius: 0;
+}
+.form-signin input[type="password"] {
+  margin-bottom: 10px;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+
+.bd-placeholder-img {
+  font-size: 1.125rem;
+  text-anchor: middle;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  user-select: none;
+}
+@media (min-width: 768px) {
+  .bd-placeholder-img-lg {
+  font-size: 3.5rem;
+  }
+}
+
+form .h3{
+  font-family: 'EB Garamond', serif;
+}
+
+form a{
+  font-family: 'EB Garamond', serif;
+}
+form{
+  text-align: center;
+}
+
+.loginButtonCss{
+  background-color: #ECF0F1;
+  transition: all .5s ease-in-out;  
+}
+.loginButtonCss:hover{
+  background-color: #c5cbcc;
+  transform: scale(1.05);
+  -webkit-transform: scale(1.0.5);
+}
+

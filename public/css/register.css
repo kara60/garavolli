@@ -1,0 +1,35 @@
+.register-form{
+    width: 65%;
+}
+.form-content
+{
+    padding: 5%;
+    border: 1px solid #ced4da;
+    margin-bottom: 2%;
+    width: 100%;
+}
+.form-control{
+    border-radius:0rem;
+    transition: all .5s ease-in-out; 
+}
+.form-control:focus{
+    border-radius:0.4rem;
+    transform: scale(1.2);
+    -webkit-transform: scale(1.04);
+}
+.btnSubmit
+{
+    border:none;
+    border-radius:0.4rem;
+    padding: 0.7%;
+    width: 100%;
+    cursor: pointer;
+    background: rgb(128, 185, 71);
+    color: #fff;
+    transition: all .5s ease-in-out; 
+}
+.btnSubmit:hover{
+    background-color: rgb(132, 179, 86);
+    transform: scale(0.97);
+    -webkit-transform: scale(0.97);
+}

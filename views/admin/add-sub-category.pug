@@ -1,0 +1,30 @@
+extends ../layouts/main-layout.pug
+
+block styles
+    link(rel="stylesheet" href="/css/forms.css")
+
+block content
+    form(action="/admin/add-sub-category" method="POST")
+        input(type="hidden" name="_csrf" value=`${csrfToken}`)
+        .form-group.row
+            .col-sm-12
+                h2.mb-3 Alt Kategori Ekleme
+                    hr
+            .col-sm-12
+                select(class="browser-default custom-select custom-select-lg mb-3" name="categoryids" aria-label="Kategori Seçme")
+                    option.selected Ana Kategori Seç
+                    each category in categories
+                        option(value=`${category._id}`) #{category.name}
+            label(for="name").col-sm-2.col-form-label Kategori Adı:
+            .col-sm-10
+                input.form-control#name(type="text" name="name")
+        
+        .form-group.row
+            label(for="description").col-sm-2.col-form-label Kategori Açıklaması:
+            .col-sm-10
+                textarea.form-control(cols="95" rows="10" name="description")
+
+        .form-group.row
+            .col-sm-10.offset-sm-2
+                button(type="submit" data-toggle="tooltip" data-placement="top" title="Kategori Ekle").btn.btn-success
+                    <i class="fas fa-plus"></i>

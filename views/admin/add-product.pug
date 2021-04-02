@@ -1,0 +1,102 @@
+extends ../layouts/main-layout.pug
+
+block styles
+    link(rel="stylesheet" href="/css/forms.css")
+
+block content
+    if errorMessage
+        div.alert.alert-danger.col-sm-7 !{errorMessage}
+    
+    div.alert.alert-info.col-sm-12 Ürününüzü ekledikten sonra kontrol ve onay işlemi için bize gelecektir. En yakın zamanda onay vereceğimizden şüpheniz olmasın. Teşekkürler..
+    div.alert.alert-warning.col-sm-12 Unutmayın, ürününüz sadece Kıbrıs'ta satılabilir. Türkiye ile şuan herhangi bir bağlantımız yoktur.
+    
+    form(action="/admin/add-product" method="POST" enctype="multipart/form-data" autocomplete="off")
+        input(type="hidden" name="_csrf" value=`${csrfToken}`)
+        .form-group.row
+            h2.font-weight-bold
+                |Yeni Ürün Ekleme
+        hr
+        .form-group.row
+                select(class="browser-default custom-select custom-select-lg mb-3" name="categoryids" aria-label="Kategori Seçme" /*onchange="location = this.value;"*/)
+                    each category in categories
+                        if category._id == selectedCategory
+                            option(value=`${category._id}`).selected #{category.name} Kategorisi için Ürün ekleme işlemi yapıyorsunuz..
+        
+        h2.font-weight-bold Ürün Bilgileri
+        br
+        .form-group.row
+            label(for="name").col-sm-2.col-form-label Ürün Adı:
+            .col-sm-10
+                input.form-control#name(type="text" name="name" maxlength="20" value=`${inputs.name}` placeholder="Lütfen en az 5 karakter giriniz." required)
+
+        .form-group.row
+            label(for="price").col-sm-2.col-form-label Fiyatı:
+            .col-sm-2.pr-0
+                input.form-control#price(type="text" name="price" maxlength="7" placeholder="Ör: 1200" value=`${inputs.price}` required)
+            //- .col.sm-2
+            //-     input.form-control#price(type="text" name="price" maxlength="2" value=`00`).w-25
+
+        .form-group.row
+            label(for="imageUrl").col-sm-2.col-form-label Ürün Resmi:
+            .col-sm-10
+                input.form-control-file#image(type="file" name="image" required)
+                p 
+        
+        .form-group.row
+            label(for="isSecondHand").col-sm-2.col-form-label İkinci El:
+            .col-sm-10
+                select(class="form-select custom-select" name="isSecondHand" required)#isSecondHand
+                    option(value="").selected Lütfen Seçim Yapınız
+                    option(value="İkinci El") İkinci El
+                    option(value="İkinci El Değil") İkinci El Değil
+
+    
+        //- .form-group.row
+        //-     label(for="categoryid").col-sm-2.col-form-label Ürün Kategorisi:
+        //-     .col-sm-10
+        //-         each category in categories
+        //-             input(type="checkbox" name="categoryids" value=`${category._id}`)
+        //-             |  #{category.name}
+        //-             br
+        
+        .form-group.row
+            label(for="description").col-sm-2.col-form-label Ürün Açıklaması:
+            .col-sm-10
+                textarea.form-control(id="editor" cols="95" rows="10" name="description" required) #{inputs.description}
+        hr
+        h2.font-weight-bold Satıcı Bilgileri
+        br
+
+        .form-group.row
+            label(for="city").col-sm-2.col-form-label İlçe Seçimi:
+            .col-sm-10
+                select(class="form-select custom-select" name="city" required)#city
+                    option(value="").selected Lütfen size en yakın ilçeyi seçiniz
+                    option(value="Lefkoşa") Lefkoşa
+                    option(value="Girne") Girne
+                    option(value="Gazimağusa") Gazimağusa
+                    option(value="Lefke") Lefke
+                    option(value="İskele") İskele
+                    option(value="Güzelyurt") Güzelyurt
+
+        .form-group.row
+            label(for="nameOfSeller").col-sm-2.col-form-label İsminiz:
+            .col-sm-10
+                input.form-control#nameOfSeller(type="text" name="nameOfSeller" maxlength="20" placeholder="Lütfen ürünle beraber gösterilecek satıcı isminizi giriniz" value=`${inputs.nameOfSeller}` required)
+        .form-group.row
+            label(for="phoneOfSeller").col-sm-2.col-form-label İrtibat Numaranız:
+            .col-sm-10
+                input.form-control#phoneOfSeller(type="text" name="phoneOfSeller" maxlength="20" value=`${inputs.phoneOfSeller}` placeholder="Lütfen müşterinin ulaşması için telefon numaranızı doğru giriniz" required)
+        .form-group.row
+            label(for="mailOfSeller").col-sm-2.col-form-label Emailiniz:
+            .col-sm-10
+                input.form-control#mailOfSeller(type="text" name="mailOfSeller" maxlength="50" value=`${inputs.mailOfSeller}` placeholder="Lütfen emailinizi giriniz" required)
+
+
+        .form-group.row
+            .col-sm-10.offset-sm-2
+                button(type="submit" data-toggle="tooltip" data-placement="top" title="Ürün Ekle").btn.btn-success
+                    i(class="fas fa-plus")
+block script
+    script(src="https://cdn.ckeditor.com/4.15.1/standard/ckeditor.js")
+    script(src="/js/script.js")

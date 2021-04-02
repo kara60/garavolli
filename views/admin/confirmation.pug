@@ -1,0 +1,72 @@
+extends ../layouts/main-layout.pug
+
+block styles
+    link(rel="stylesheet" href="/css/products-table.css")
+
+block content
+    if (action !== 'undefined' && action === 'delete')
+        div.alert.alert-danger Ürün onaylanmadı.
+    
+    if (action !== 'undefined' && action === 'confirm')
+        div.alert.alert-warning Ürün onaylandı.
+    
+    if products.length > 0
+        table.table.table-striped.table-bordered.table-list
+            thead
+                tr
+                    th(style="width: 120px;") Resmi    
+                    th(style="width: auto;") Ürün adı
+                    th(style="width: auto;") Fiyatı 
+                    th(style="width: auto;") Ekleyen
+                    th(style="width: auto; text-align:center;")
+                        em(class="fa fa-cog")
+                    
+            tbody
+                each product in products
+                    tr
+                        td
+                            img(src=`/img/${product.imageUrl}` width='120')
+                            
+                        td.hidden-xs.text-uppercase #{product.name}
+                        td #{product.price} TL
+                        td #{product.userId.name}
+                        td.mr-0.ml-0.pr-0.pl-0
+                            a(href=`/admin/confirmation/${product._id}` data-toggle="tooltip" data-placement="top" title="İncele").btn.btn-default
+                                em(class="far fa-eye fa-lg")
+
+                            form(action="/admin/delete-confirmation" method="POST" onSubmit="return confirm('Silmek istediğinden emin misin?') ")
+                                input(type="hidden" name="_csrf" value=`${csrfToken}`)
+                                input(type="hidden" name="productid" value=`${product._id}`)
+                                button(type="submit" data-toggle="tooltip" data-placement="top" title="Reddet").btn.btn-danger
+                                    em(class="fas fa-minus-circle")
+                            
+    else
+        h1 Onaylanacak ürün bulunamadı.
+
+
+    //-if products.length > 0
+        table.table.table-bordered.table-hover
+            thead.thead-dark
+                tr
+                    th(style="width: 100px;") Resim
+                    th Ürün Adı
+                    th(style="width: 150px;") Fiyatı
+                    th Ürünü Ekleyen Kişi
+                    th(style="width: 150px;")
+            tbody
+                each product in products
+                    tr
+                        td
+                            img(src=`/img/${product.imageUrl}` width='80')
+                        td #{product.name}
+                        td #{product.price} TL
+                        td #{product.userId.name}
+                        td 
+                            a.btn.btn-warning.btn-sm.mr-2(href=`/admin/confirmation/${product._id}`) İncele
+
+                            form(action="/admin/delete-confirmation" method="POST" onSubmit="return confirm('Onaylamak istemediğinden emin misin?') ")
+                                input(type="hidden" name="_csrf" value=`${csrfToken}`)
+                                input(type="hidden" name="productid" value=`${product._id}`)
+                                button(type="submit").btn.btn-danger.btn-sm Reddet
+    //-else
+        h1 Henüz onaylanacak ürün yok.

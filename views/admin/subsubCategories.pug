@@ -1,0 +1,44 @@
+extends ../layouts/main-layout.pug
+
+block styles
+    link(rel="stylesheet" href="/css/products-table.css")
+
+block content
+    if (action !== 'undefined' && action === 'edit')
+        div.alert.alert-info En Alt Kategori Güncellendi.
+
+    div(class="panel panel-default panel-table")
+        div(class="panel-heading")
+            div(class="row")
+                div(class="col col-xs-6")
+                    h3(class="panel-title") En Alt Kategoriler : ##{categories.length}
+ 
+                div(class="col col-xs-6 text-right")
+                    a(href="/admin/add-category" class="btn btn-sm btn-success btn-create") Ana Kategori Ekle
+                    a(href="/admin/add-sub-category" class="btn btn-sm btn-success btn-create").ml-1 Alt Kategori Ekle
+                    a(href="/admin/add-sub-sub-category" class="btn btn-sm btn-success btn-create").ml-1 En Alt Kategori Ekle
+    
+    if categories.length > 0
+        table.table.table-striped.table-bordered.table-list
+            thead
+                tr
+                    th(style="width: auto;") Kategori Adı
+                    th(style="width: auto;") Kategori Açıklaması
+                    th(style="width: auto; text-align:center;")
+                        em(class="fa fa-cog")
+            tbody
+                each category in categories
+                    tr
+                        td #{category.name}
+                        td #{category.description}
+                        td
+                            a.btn.btn-warning.btn-sm.mr-2(href=`/admin/editsubsubCategories/${category._id}` data-toggle="tooltip" data-placement="top" title="Kategoriyi Düzenle")
+                                em(class="fas fa-edit fa-lg")
+
+                            form(action="/admin/delete-sub-sub-category" method="POST" onSubmit="return confirm('Silmek istediğinden emin misin?') ")
+                                input(type="hidden" name="_csrf" value=`${csrfToken}`)
+                                input(type="hidden" name="categoryid" value=`${category._id}`)
+                                button(type="submit" data-toggle="tooltip" data-placement="top" title="Kategoriyi Kaldır").btn.btn-danger.btn-sm
+                                    em(class="fas fa-trash-alt")
+    else
+        h1.mt-5 Bu kategoriye ait En alt kategori bulunmamaktadır.

@@ -1,0 +1,60 @@
+extends ../layouts/main-layout.pug
+
+block styles
+    link(rel="stylesheet" href="/css/signin.css")
+    
+block content
+    if (action !== 'undefined' && action === 'success')
+         script(type='text/javascript').
+            alert("Hesabınız başarıyla oluşturuldu. Giriş sayfasına yönlendiriliyorsunuz..");
+
+    
+    if (action !== 'undefined' && action === 'reset')
+        script(type='text/javascript').
+            alert("Epostanıza mail gönderilmiştir lütfen kontrol ediniz.");
+    
+    if (action !== 'undefined' && action === 'newPassword')
+        script(type='text/javascript').
+            alert("Şifreniz başarıyla değiştirilmiştir.");
+            
+    if errorMessage
+        script(type='text/javascript').
+            alert("Eposta veya parolanız hatalı, Lütfen tekrar deneyin."); 
+
+    main.form-signin
+        form(action="/login" method="POST")
+            input(type="hidden" name="_csrf" value=`${csrfToken}`)
+
+            img(src="img/garavolli.png" alt="garavolliAvatar" width="135" height="115").mb-3.mx-auto
+            h1.h3.mb-0.fw-normal Giriş Yapınız
+            br
+
+            input(type="text" id="email" name="email" placeholder="Emailinizi Giriniz" required autofocus).form-control
+
+            input(type="password" id="password" name="password" placeholder="Şifrenizi Giriniz" required).form-control
+
+            input(type="submit" value="Giriş yap").w-100.btn.btn-md.loginButtonCss
+
+            a(href="/reset-password").btn.btn-link.p-0.mt-3 Şifremi Unuttum
+
+    
+    //-form(action="/login" method="POST")
+        input(type="hidden" name="_csrf" value=`${csrfToken}`)
+        .form-group.row
+            label(for="email").col-sm-2.col-form-label Email
+            .col-sm-5.pr-0
+                input.form-control#name(type="text" name="email")
+        
+        .form-group.row
+            label(for="password").col-sm-2.col-form-label Parola
+            .col-sm-5.pr-0
+                input.form-control#name(type="password" name="password")
+
+        .form-group.row
+            .col-sm-5.offset-sm-2
+                input(type="submit" value="Giriş yap").btn.btn-dark
+
+        .form-group.row
+            .col-sm-5.offset-sm-2
+                a(href="/reset-password").btn.btn-link.p-0 Parola Yenile
+        

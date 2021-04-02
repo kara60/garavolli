@@ -1,0 +1,52 @@
+extends ../layouts/main-layout.pug
+
+block styles
+    link(rel="stylesheet" href="/css/register.css")
+
+block content
+    if errorMessage
+        div.alert.alert-danger.col-sm-7.container !{errorMessage}
+
+    div(class="container register-form").mt-5
+        form(action="/register" method="POST" autocomplete="off")
+            input(type="hidden" name="_csrf" value=`${csrfToken}`)
+            div(class="form-content")
+                div(class="row")
+                    
+                    div(class="col-md-12")
+                        h2.text-success  KAYIT OL
+                        br
+                        .row
+                            label(for="name").col-sm-2 Adınız:
+                            div(class="form-group").col-sm-10
+                                input(type="text" id="name" class="form-control" placeholder="Lütfen adınızı giriniz" name="name" value="" required autofocus)
+
+                        .row
+                            label(for="surname").col-sm-2 Soyadınız:
+                            div(class="form-group").col-sm-10
+                                input(type="text" id="surname" class="form-control" placeholder="Lütfen soyadınızı giriniz" name="surname" required value="")
+
+                        .row
+                            label(for="email").col-sm-2 Email:
+                            div(class="form-group").col-sm-10
+                                input(type="text" id="email" class="form-control" placeholder="example@email.com" name="email" required value="")
+
+                        //- Kayıt olurken telefon numarası isteme..
+                        //- .row
+                        //-     label(for="phone").col-sm-2 Telefon:
+                        //-     div(class="form-group").col-sm-1
+                        //-         <input type="text" readonly class="form-control-plaintext" name="phoneNumber1" id="phone" value="(0)">
+                            
+                        //-     div(class="form-group").col-sm-2
+                        //-         input(type="text" id="phone" class="form-control" placeholder="543" maxlength="3" name="phoneNumber2" required value="")
+                            
+                        //-     div(class="form-group").col-sm-7
+                        //-         input(type="text" id="phone" class="form-control" placeholder="9876543" maxlength="7" name="phoneNumber3" required value="")
+
+                        .row
+                            label(for="password").col-sm-2 Parola:
+                            div(class="form-group").col-sm-10
+                                input(type="password" id="password" class="form-control" placeholder="Hesap güvenliği için güçlü bir parola seçiniz" name="password" required value="")
+                            
+                input(type="submit" class="btnSubmit" value="Kayıt Ol")
+

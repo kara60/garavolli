@@ -1,0 +1,24 @@
+extends ../layouts/main-layout.pug
+
+include ../mixins/createProduct.pug
+
+block content
+    .row
+        .col-lg-3.p-0
+            include ../includes/menu.pug
+
+        .col-lg-9
+            each subsubcategory in subsubcategories
+                if selectedCategory == `${subsubcategory._id}`
+                    h2.font-italic.ml-2 
+                        |#{subsubcategory.name} Kategorisi 
+                        hr
+            
+            .row
+                if products.length > 0
+                    each product in products
+                        +createProduct(product)
+                else
+                    h2.ml-4 Gösterilecek ürün yok!
+block script
+    script(src="/js/deneme.js")

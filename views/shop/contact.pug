@@ -1,0 +1,35 @@
+extends ../layouts/main-layout.pug
+
+block styles
+    link(rel="stylesheet" href="/css/register.css")
+
+block content
+    .container-fluid 
+        .alert.alert-info Reklam, işbirliği, şikayet, bug ve diğer her türlü istekleriniz için bizim ile iletişime geçebilirsiniz.
+    div(class="container register-form").mt-5
+        form(action="/register" method="POST" autocomplete="off")
+            input(type="hidden" name="_csrf" value=`${csrfToken}`)
+            div(class="form-content")
+                div(class="row")
+                    
+                    div(class="col-md-12")
+                        h2.text-dark.font-weight-bold  Bizim İle iletişime geçin.
+                        br
+                        .row
+                            label(for="name").col-sm-2 Adınız:
+                            div(class="form-group").col-sm-10
+                                input(type="text" id="name" class="form-control" placeholder="Lütfen adınızı giriniz" name="name" value="" required autofocus)
+
+                        .row
+                            label(for="email").col-sm-2 Email:
+                            div(class="form-group").col-sm-10
+                                input(type="text" id="email" class="form-control" placeholder="example@email.com" name="email" required value="")
+
+                        .row
+                            label(for="email").col-sm-2 Mesajınız:
+                            div(class="form-floating").col-sm-10
+                                textarea(class="form-control" placeholder="Mesajınız.." style="height: 200px;" requiredd).mb-3
+
+                            
+                input(type="submit" class="btnSubmit" value="Gönder").bg-info
+

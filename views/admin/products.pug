@@ -1,0 +1,87 @@
+extends ../layouts/main-layout.pug
+
+block styles
+    link(rel="stylesheet" href="/css/products-table.css")
+
+block content
+    if (action !== 'undefined' && action === 'waiting')
+        div.alert.alert-success Ürününüz onay için beklemede. En kısa zamanda dönüş yapılacaktır. Bizi seçtiğiniz için teşekkürler..
+
+    if (action !== 'undefined' && action === 'delete')
+        div.alert.alert-danger Ürün Silindi.
+    
+    if (action !== 'undefined' && action === 'edit')
+        div.alert.alert-info Ürününüz güncelleme için onaya gönderildi. En yakın zamanda dönüş yapılacaktır. Teşekkürler..
+    
+    div(class="panel panel-default panel-table")
+        div(class="panel-heading")
+            div(class="row")
+                div(class="col col-xs-6")
+                    h2(class="panel-title") Ürünlerim : ##{products.length}
+ 
+                div(class="col col-xs-6 text-right")
+                    a(href="/admin/choose-category" class="btn btn-sm btn-success btn-create") 
+                        |Yeni Ürün 
+                        i(class="fas fa-plus")
+                            
+
+
+    if products.length > 0
+        table.table.table-striped.table-bordered.table-list
+            thead
+                tr
+                    th(style="width: 80px;") Resmi    
+                    th(style="width: auto;") Ürün adı
+                    th(style="width: auto;") Fiyatı 
+                    th(style="width: auto; text-align:center;")
+                        em(class="fa fa-cog")
+                    
+            tbody
+                each product in products
+                    tr
+                        td
+                            img(src=`/img/${product.imageUrl}` width='80')
+                           
+                        td.hidden-xs.text-uppercase #{product.name}
+                        td #{product.price} TL
+                        td.mr-0.ml-0.pr-0.pl-0
+                            a(href=`/admin/products/${product._id}` data-toggle="tooltip" data-placement="top" title="Ürünü Düzenle").btn.btn-default
+                                em(class="fas fa-edit fa-lg")
+                                
+
+                            form(action="/admin/delete-product" method="POST" onSubmit="return confirm('Silmek istediğinden emin misin?') ")
+                                input(type="hidden" name="_csrf" value=`${csrfToken}`)
+                                input(type="hidden" name="productid" value=`${product._id}`)
+                                button(type="submit" data-toggle="tooltip" data-placement="top" title="Ürünü Kaldır").btn.btn-danger
+                                    em(class="fas fa-trash-alt")
+                                    
+    else
+        h1 Ürün Yok
+
+
+    //-if products.length > 0
+        table.table.table-bordered.table-hover
+            thead.thead-dark
+                tr
+                    th(style="width: 100px;") Resim
+                    th Ürün Adı
+                    th(style="width: 150px;") Fiyatı
+                    th
+                    th(style="width: 150px;")
+            tbody
+                each product in products
+                    tr
+                        td
+                            img(src=`/img/${product.imageUrl}` width='80')
+                        td #{product.name}
+                        td #{product.price} TL
+                        td #{product.userId.name}
+                        td 
+                            a.btn.btn-warning.btn-sm.mr-2(href=`/admin/products/${product._id}`) Düzenle
+
+                            form(action="/admin/delete-product" method="POST" onSubmit="return confirm('Silmek istediğinden emin misin?') ")
+                                input(type="hidden" name="_csrf" value=`${csrfToken}`)
+                                input(type="hidden" name="productid" value=`${product._id}`)
+                                button(type="submit").btn.btn-danger.btn-sm Sil
+    //-else
+        h1 Ürün Yok

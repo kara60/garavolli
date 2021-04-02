@@ -1,0 +1,35 @@
+extends ../layouts/main-layout.pug
+
+block content   
+
+    if orders.length > 0 
+        each order in orders
+            .card.mb-5
+                .card-header
+                    h3 Sipariş numarası: ##{order._id}
+                table.table.table-bordered.table-hover
+                    thead.thead-dark
+                        tr
+                            th Resim
+                            th Ürün Adı
+                            th Fiyatı
+                            th Miktarı
+                    tbody
+                        each item in order.items
+                            tr
+                                td
+                                    img(src=`/img/${item.product.imageUrl}` width="80")
+                                td #{item.product.name}
+                                td #{item.product.price}
+                                td #{item.quantity}
+                    tfoot
+                        tr
+                            td(colspan="2") #{order.date}
+                            td
+                            - var total = 0;
+                            each item in order.items
+                                - total += (item.product.price * item.quantity)
+                            td  #{total} TL
+
+    else
+        h1 Sipariş yok.
