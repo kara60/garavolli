@@ -18,10 +18,10 @@ nav{
     font-family: 'Cinzel', serif;
     padding-top: 7px;
 }
-.row .col-lg-3 .list-group p{
+/* .row .col-lg-3 .list-group p{
     background-color: #ecf0f1;
     color: #000000;
-}
+} */
 
 /* .row .col-lg-3 .list-group a{
     transition: all .5s ease-in-out;  
@@ -67,7 +67,7 @@ nav{
     height: 373.14px;
 }
 
- nav div ul li a{
+nav div ul li a{
     display: inline-block;
     font-size: 16.5px;
 }
@@ -78,15 +78,15 @@ nav div ul li:after{
     border-bottom: solid 1px #747f8a;
     transform: scaleX(0);  
     transition: all 300ms ease-in-out;
-}  */
+}  
 
- nav div ul li:hover:after{
+nav div ul li:hover:after{
     transform: scaleX(1);
     -webkit-transform: scaleX(1);
-}  
+}
  
 .drop1:hover .drop-menu1 {display: block;}
-.drop2:hover .drop-menu2 {display: block;} 
+.drop2:hover .drop-menu2 {display: block;}
 
 /*----------------------------------------*/
 
