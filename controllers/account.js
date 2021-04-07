@@ -262,5 +262,5 @@ exports.getlogout = (req, res, next) => {
     req.session.destroy(err => {
         res.redirect('/');
     });
-}
+} 
 
