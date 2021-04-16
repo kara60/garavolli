@@ -23,7 +23,7 @@ const errorController = require('./controllers/errors');
 
 const User = require('./models/user');
 const ConnectionString = 'mongodb+srv://garavolli:enekcanel@cluster0.chjjh.mongodb.net/node-app?retryWrites=true&w=majority';
-
+ 
 var store = new mongoDbStore({
     uri: ConnectionString,
     collection: 'mySessions'
