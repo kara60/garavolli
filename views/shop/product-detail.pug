@@ -36,7 +36,7 @@ block content
                         a(href=`/categories/${subsubcategory._id}`).btn.btn-link.p-0.mb-3.text-info - #{subsubcategory.name} Kategorisi
             p
                 b İlan Tarihi: 
-                | #{product.date}
+                | #{product.date.toDateString()}
             p
                 b İkinci El: 
                 if `${product.isSecondHand}` == 'İkinci El'
