@@ -3,7 +3,9 @@
     padding: 0;
     box-sizing: border-box;
 }
-
+html,body{
+  height: 100%;
+}
 h1,h2,h5,h6,h4{
     font-family: 'Montserrat', sans-serif;
 }
@@ -15,7 +17,7 @@ nav{
     background-color: #e1e6e7;
 }
 
-.page-footer{
+/* .page-footer{
   background-color: #e1e6e7;
   color: rgb(61, 59, 59);
   display: flex;
@@ -24,7 +26,7 @@ nav{
   height: 65px;
   width: 100%;
   margin-top:25px;
-}
+} */
 .navbar-brand{
     font-family: 'Cinzel', serif;
     padding-top: 7px;
