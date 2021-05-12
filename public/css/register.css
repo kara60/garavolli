@@ -24,12 +24,12 @@
     padding: 0.7%;
     width: 100%;
     cursor: pointer;
-    background: rgb(128, 185, 71);
+    background:rgba(242,122,26);
     color: #fff;
     transition: all .5s ease-in-out; 
 }
 .btnSubmit:hover{
-    background-color: rgb(132, 179, 86);
+    background-color:rgba(255,139,57);
     transform: scale(0.97);
     -webkit-transform: scale(0.97);
 }

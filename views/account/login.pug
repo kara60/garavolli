@@ -26,16 +26,24 @@ block content
             input(type="hidden" name="_csrf" value=`${csrfToken}`)
 
             img(src="img/garavolli.png" alt="garavolliAvatar" width="135" height="115").mb-3.mx-auto
-            h1.h3.mb-0.fw-normal Giriş Yapınız
+            h1.h3.mb-0.fw-normal Giriş Yap
             br
 
-            input(type="text" id="email" name="email" placeholder="Emailinizi Giriniz" required autofocus).form-control
+            input(type="text" id="email" name="email" placeholder="E-posta" required autofocus).form-control.mb-2
+        
+       
+            input(type="password" id="password" name="password" placeholder="Şifre" required).form-control.mb-2
 
-            input(type="password" id="password" name="password" placeholder="Şifrenizi Giriniz" required).form-control
+            span(class="glyphicon glyphicon-eye-open")
+               
+      
+
+
+
 
             input(type="submit" value="Giriş yap").w-100.btn.btn-md.loginButtonCss
 
-            a(href="/reset-password").btn.btn-link.p-0.mt-3 Şifremi Unuttum
+            a(href="/reset-password" class="f-pas").btn.btn-link.p-0.mt-3 Şifremi Unuttum
 
     //-form(action="/login" method="POST")
         input(type="hidden" name="_csrf" value=`${csrfToken}`)
