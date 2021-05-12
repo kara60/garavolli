@@ -14,8 +14,10 @@ block content
                 div(class="row")
                     
                     div(class="col-md-12")
-                        h2.text-success  KAYIT OL
+                        h2.text-dark  KAYIT 
+                        hr
                         br
+                        
                         .row
                             label(for="name").col-sm-2 Adınız:
                             div(class="form-group").col-sm-10
@@ -48,5 +50,17 @@ block content
                             div(class="form-group").col-sm-10
                                 input(type="password" id="password" class="form-control" placeholder="Hesap güvenliği için güçlü bir parola seçiniz" name="password" required value="")
                             
+                        .row
+                            div(class="form-group").col-sm-1
+                                input(type="checkbox",id="" class="form-control agreement-button" required)
+                            div(class="form-group").col-sm-11
+                                | Kayıt Ol'a basarak 
+                                a(href="#") Üyelik Koşulları 
+                                |'nı ve  
+                                a(href="#") Kişisel Verilerin Korunması Metni 
+                                |'ni kabul ediyorum
+
+
+
                 input(type="submit" class="btnSubmit" value="Kayıt Ol")
 
