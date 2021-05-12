@@ -85,9 +85,13 @@ form{
   text-decoration:underline;
   float:right;
 
+<<<<<<< HEAD
+
+=======
 }
 .f-pas:hover{
   color:rgba(255,139,57);
   text-decoration:none;
 
 }
+>>>>>>> 52bf01ae3f76ba0577d04afeb1b53df811d9ec02

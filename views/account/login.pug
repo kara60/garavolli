@@ -8,7 +8,6 @@ block content
          script(type='text/javascript').
             alert("Hesabınız başarıyla oluşturuldu. Giriş sayfasına yönlendiriliyorsunuz..");
 
-    
     if (action !== 'undefined' && action === 'reset')
         script(type='text/javascript').
             alert("Epostanıza mail gönderilmiştir lütfen kontrol ediniz.");
@@ -29,6 +28,7 @@ block content
             h1.h3.mb-0.fw-normal Giriş Yap
             br
 
+            input(type="text" id="email" name="email" class="input-field" placeholder="Emailinizi Giriniz" required autofocus).form-control
             input(type="text" id="email" name="email" placeholder="E-posta" required autofocus).form-control.mb-2
         
        
