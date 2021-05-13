@@ -209,40 +209,6 @@ ul.menu .active .list a {
 
 /**************************************/
 /* kategori menu */
-/* .categoryMenu{
-    background-color: #7c7a7a;
-    position: relative;
-    top: 58px;
-    
-}
-.categoryMenu ul{
-    list-style-type: none;
-    display: inline;
-}
-.categoryMenu .dropdown-menu{
-    width: 100px;
-    padding: 25px 20px;
-    position: absolute;
-    left: 0;
-
-    
-}
-.categoryMenu ul li .list{
-    display: inline-block;
-}
-
-.categoryMenu a{
-    text-decoration: none;
-
-}
-.categoryMenu .dropdown-item{
-    width: auto;
-}
-
-.categoryMenu a:hover{
-    text-decoration: none;
-    
-} */
 
 .area nav{
     position: relative;
@@ -284,3 +250,22 @@ ul.menu .active .list a {
     margin-bottom: 20px;
     overflow: auto;
 }
+
+::-webkit-scrollbar {
+    width: 15px;
+  }
+  
+  ::-webkit-scrollbar-track {
+    background-color: transparent;
+  }
+  
+  ::-webkit-scrollbar-thumb {
+    background-color: #d6dee1;
+    border-radius: 10px;
+    border: 6px solid transparent;
+    background-clip: content-box;
+  }
+  
+  ::-webkit-scrollbar-thumb:hover {
+    background-color: #a8bbbf;
+  }
