@@ -1,16 +1,8 @@
-html,
-body {
-  height: 100%;
-}
-
-body {
+.loginDiv{
+  height: 85vh;
   display: flex;
   align-items: center;
-  padding-top: 0px;
-  padding-bottom: 40px;
-  background-color: #ffffff;
 }
-
 .form-signin {
   width: 100%;
   max-width: 330px;
@@ -84,14 +76,11 @@ form{
   color:rgba(62,39,35);
   text-decoration:underline;
   float:right;
+  font-size: 15px;
 
-<<<<<<< HEAD
-
-=======
 }
 .f-pas:hover{
   color:rgba(255,139,57);
   text-decoration:none;
-
 }
->>>>>>> 52bf01ae3f76ba0577d04afeb1b53df811d9ec02
+

@@ -14,7 +14,7 @@ block content
                 div(class="row")
                     
                     div(class="col-md-12")
-                        h2.text-dark  KAYIT 
+                        h2.text-success  Üye Ol 
                         hr
                         br
                         
@@ -50,17 +50,28 @@ block content
                             div(class="form-group").col-sm-10
                                 input(type="password" id="password" class="form-control" placeholder="Hesap güvenliği için güçlü bir parola seçiniz" name="password" required value="")
                             
-                        .row
-                            div(class="form-group").col-sm-1
-                                input(type="checkbox",id="" class="form-control agreement-button" required)
-                            div(class="form-group").col-sm-11
-                                | Kayıt Ol'a basarak 
-                                a(href="#") Üyelik Koşulları 
-                                |'nı ve  
-                                a(href="#") Kişisel Verilerin Korunması Metni 
-                                |'ni kabul ediyorum
+                        //- .row
+                        //-     div(class="form-group").col-sm-1
+                        //-         input(type="checkbox" id="" class="form-control agreement-button" required)
+                        //-     div(class="form-group").col-sm-11
+                        //-         | Kayıt Ol'a basarak 
+                        //-         a(href="#") Üyelik Koşulları 
+                        //-         |'nı ve  
+                        //-         a(href="#") Kişisel Verilerin Korunması Metni 
+                        //-         |'ni kabul ediyorum
 
+                        .row.form-check.mt-2
+                            div.col-sm-12
+                                input(type="checkbox" class="form-check-input" id="registerCheck")
+                            
+                                label(class="form-check-label" for="registerCheck")
+                                    | Üye ol'a basarak 
+                                    a(href="/" target="_blank") Üyelik Koşulları
+                                    |'nı ve  
+                                    a(href="/" target="_blank") Kişisel Verilerin Korunması Metni
+                                    |'ni kabul ediyorum.
 
+                input(type="submit" class="btnSubmit" value="Üye Ol" id="registerButton" disabled).mt-3
 
-                input(type="submit" class="btnSubmit" value="Kayıt Ol")
-
+block script
+    script(src="/js/register.js")

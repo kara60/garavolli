@@ -33,3 +33,16 @@
     transform: scale(0.97);
     -webkit-transform: scale(0.97);
 }
+
+
+input[disabled]{
+  background-color: #cccccc;
+  color: #666666;
+}
+
+input[disabled]:hover{
+    background-color: #cccccc;
+    color: #666666;
+    transform: scale(1);
+    -webkit-transform: scale(1);
+  }
