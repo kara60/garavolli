@@ -1,5 +1,3 @@
-
-    
 nav.navbar.navbar-expand-xl.navbar-light.fixed-top.navbar-inverse.p-0
     .container-fluid
         
@@ -60,7 +58,7 @@ nav.navbar.navbar-expand-xl.navbar-light.fixed-top.navbar-inverse.p-0
                     div(class="")
                         a.nav-link.text-info(href="/contact" data-toggle="tooltip" data-placement="top" title="İletişim").p-3
                             i(class="fas fa-envelope fa-lg")
-                                p(class="giriş-text").d-inline.ml-1 İletişim
+                            p(class="giriş-text").d-inline.ml-1 İletişim
 
                 if isAuthenticated
 
@@ -69,8 +67,10 @@ nav.navbar.navbar-expand-xl.navbar-light.fixed-top.navbar-inverse.p-0
                     //-        <i class="fas fa-user"></i>
 
                     li.nav-item
-                        a.nav-link.text-danger(href="/logout" data-toggle="tooltip" data-placement="top" title="Çıkış Yap").p-3
-                            i(class="fas fa-sign-out-alt fa-lg")
+                        div(class="")
+                            a.nav-link.text-danger(href="/logout" data-toggle="tooltip" data-placement="top" title="Çıkış Yap").p-3
+                                i(class="fas fa-sign-out-alt fa-lg")
+                                p(class="giriş-text").d-inline.ml-1 Çıkış Yap
 
                     
                 else
@@ -78,9 +78,9 @@ nav.navbar.navbar-expand-xl.navbar-light.fixed-top.navbar-inverse.p-0
                         div(class="")
                             a.nav-link.text-success(href="/login" data-toggle="tooltip" data-placement="top" title="Giriş Yap").p-3
                                 i(class="far fa-user fa lg ")
-                                    p(class="giriş-text").d-inline.ml-1 Giriş Yap
+                                p(class="giriş-text").d-inline.ml-1 Giriş Yap / Üye Ol
                             
-                    li.nav-item
-                        a.nav-link.text-warning(href="/register").p-3
-                            strong Üye Ol
+                    //- li.nav-item
+                    //-     a.nav-link.text-warning(href="/register").p-3
+                    //-         |Üye Ol
             img(src="/img/emu_logo.png" width="40").ml-2
