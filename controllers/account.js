@@ -47,7 +47,7 @@ exports.postLogin = (req,res,next) => {
                             return req.session.save(function(err) {
                                 var url = req.session.redirectTo || '/';
                                 delete req.session.redirectTo;
-                                res.redirect(url);
+                                res.redirect('/');
                             });
                         }
                         req.session.errorMessage = 'Hatalı eposta yada parola girdiniz.';

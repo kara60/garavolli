@@ -13,8 +13,24 @@ body{
     background-color: #ffffff;
     overflow: scroll;
 }
-nav{
-    background-color: #e1e6e7;
+
+.list-group-item{
+  color: black;
+}
+
+.list-group-item:hover{
+  color: #fff;
+  background-color: #343a40;
+}
+
+.list-group-item.active{
+  border-color: #343A40;
+} 
+
+.img-card-height{
+  display: flex;
+  align-items: center;
+  height: 373.14px;
 }
 
 /* .page-footer{
@@ -27,10 +43,7 @@ nav{
   width: 100%;
   margin-top:25px;
 } */
-.navbar-brand{
-    font-family: 'Cinzel', serif;
-    padding-top: 7px;
-}
+
 /* .row .col-lg-3 .list-group p{
     background-color: #ecf0f1;
     color: #000000;
@@ -57,214 +70,6 @@ nav{
 /* Menu düzenlemesi*/
 
 /* ---------------- */
-.pt-100 {
-    padding-top: 100px;
-}
-
-.list-group-item{
-    color: black;
-}
-
- .list-group-item:hover{
-    color: #fff;
-    background-color: #343a40;
-}
-
-.list-group-item.active{
-    border-color: #343A40;
-} 
-
-.img-card-height{
-    display: flex;
-    align-items: center;
-    height: 373.14px;
-}
-
-nav div ul li a{
-    display: inline-block;
-    font-size: 16.5px;
-}
-
-nav div ul li:after{
-    display: block;
-    content: '';
-    border-bottom: solid 1px #747f8a;
-    transform: scaleX(0);  
-    transition: all 300ms ease-in-out;
-}  
-
-nav div ul li:hover:after{
-    transform: scaleX(1);
-    -webkit-transform: scaleX(1);
-}
- 
-.drop1:hover .drop-menu1 {display: block;}
-.drop2:hover .drop-menu2 {display: block;}
 
 /*----------------------------------------*/
-
-
-ul.menu {
-    padding: 0;
-    list-style: none;
-    width: 100%;
-    height: auto;
-    margin: 0;
-    box-shadow: 0px 0px 10px #3a383870;
-    clear: both;
-    display: table;
-  }
-  /* En üst kategori */
-ul.menu .list {
-    font-size: 14px;
-    border-bottom: 0px solid #575754;
-    position: relative;
-    width: 100%;
-    height: auto;
-    box-sizing: border-box;
-    height: 50px;
-    vertical-align: sub;
-    background: #FFFFFF;
-    clear: both;
-    opacity: 0.95;
-  }
-  ul.menu .list i.fa-angle-double-down{
-    float: right;
-  }
-ul.menu .list:after {
-    content: "";
-    position: absolute;
-    right: 17px;
-    top: 17px;
-    padding: 0px 5px;
-    color: #fff;
-  }
-  ul.menu .list:before {
-    content: "";
-    position: absolute;
-    left: 17px;
-    top: 17px;
-    padding: 0px 5px;
-    color: #fff;
-  }
-  ul.menu .list a {
-    text-decoration: none;
-    color: black;
-    padding: 17px 0px 17px 12px;
-    display: block;
-    height: 100%;
-    box-sizing: border-box;
-    transition: all .5s ease-in-out;
-  }
-  /* Ana kategori hover*/
-  ul.menu .list a:hover {
-    background-color: #FFFFFF;
-    transform: translate(5%);
-    -webkit-transform: translate(5%);
-  }
-  ul.menu .list .items {
-    height: 0px;
-    overflow: hidden;
-    
-  }
-  ul.menu .list .items a {
-    padding: 17px;
-    transition: all .5s ease-in-out;
-  }
-  /* Orta ve en alt kategori kategori hover olduğunda*/
-  ul.menu .list .items a:hover {
-    background-color: #f3f9fa;
-    color: black;
-    cursor: pointer;
-    transform: translate(5%);
-    -webkit-transform: translate(5%);
-  }
-/* en alt kategori hover olduğunda*/
-  ul.menu .list .items .subsublink a:hover {
-    background-color: #dbdfdf;
-    color: black;
-    cursor: pointer;
-    transform: translate(5%);
-    -webkit-transform: translate(5%);
-  }
-  
-  ul.menu .list:last-child {
-    border-bottom: none;
-  }
-  ul.menu .active:after {
-    content: "";
-    position: absolute;
-    right: 17px;
-    top: 17px;
-    padding: 0px 5px;
-    color: #fff;
-  }
-  ul.menu .active:before {
-    content: "";
-    position: absolute;
-    left: 17px;
-    top: 17px;
-    padding: 0px 5px;
-    color: #fff;
-  }
-  ul.menu .active > .items {
-    display: block;
-    background: #000000;
-    padding: 0px;
-    height: auto;
-    color: #fff;
-    clear: both;
-    float: left;
-    width: 100%;
-  }
-  ul.menu .active > .items li {
-    padding: 0px;
-    border-bottom: 0px solid black;
-    list-style: none;
-  }
-  ul.menu .active > .items li:last-child {
-    border-color: transparent;
-    padding-bottom: 0px;
-  }
-  /*  En alt kategori arka plan */
-  ul.menu .active > .items .active > .items {
-    background-color: #d5e2e2;
-
-  }
-  /* en alt kategori yazı rengi*/
-  ul.menu .active > .items .active > .items a{
-   color: #000000;
-   font-size: 14px;
-   font-style: normal;
-
-  }
-  /* ana kategori aktifken*/
-  ul.menu .active > a {
-    color: black;
-    transform: translate(-25%);
-    -webkit-transform: translate(-25%);
-    background-color: #FFFFFF;
-    border-top-left-radius: 7px;
-    border-bottom-left-radius: 7px;
-  }
-  /* orta kategori aktif olduktan sonraki rengi*/
-  ul.items .active > a{
-    color: rgb(89, 102, 102);
-    font-style: italic; 
-    /* font-weight: bold; */
-    transform: translate(-15%);
-    -webkit-transform: translate(-15%);
-    background-color: #f3f9fa;
-  }
-  /* orta kategori arka plan*/
-  ul.menu .active .list {
-    background: #f3f9fa;
-    font-size: 14px;
-  }
-  ul.menu .active .list a {
-    padding: 17px 0px 17px 10px;
-  }
-  .giriş-text{
-    font-size:16px;
-  }
   

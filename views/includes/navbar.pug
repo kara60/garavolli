@@ -14,6 +14,8 @@ nav.navbar.navbar-expand-xl.navbar-light.fixed-top.navbar-inverse.p-0
             span.font-weight-bold 1. 
             |Tercih
 
+        div(class="vr")
+        
         div(class="collapse navbar-collapse" id="myNavbar")
             ul.nav.navbar-nav.mr-auto
                 li.nav-item
@@ -59,7 +61,7 @@ nav.navbar.navbar-expand-xl.navbar-light.fixed-top.navbar-inverse.p-0
                         a.nav-link.text-info(href="/contact" data-toggle="tooltip" data-placement="top" title="İletişim").p-3
                             i(class="fas fa-envelope fa-lg")
                             p(class="giriş-text").d-inline.ml-1 İletişim
-
+                
                 if isAuthenticated
 
                     //- li.nav-item
@@ -84,3 +86,36 @@ nav.navbar.navbar-expand-xl.navbar-light.fixed-top.navbar-inverse.p-0
                     //-     a.nav-link.text-warning(href="/register").p-3
                     //-         |Üye Ol
             img(src="/img/emu_logo.png" width="40").ml-2
+
+.area.container-fluid
+    .container-fluid 
+        .row 
+            .col-12
+                nav(class="navbar navbar-expand-lg navbar-light")
+                    div(class="container-fluid")
+                        button(class="navbar-toggler" type="button" data-bs-toggle="collapse" data-target="#navbar" aria-controls="navbars" aria-expanded="false" aria-label="Toggle navigation")
+                            span(class="navbar-toggler-icon")
+                        
+                        div(class="collapse navbar-collapse justify-content-around" id="navbars")
+                            ul(class="navbar-nav me-auto mb-2 mb-lg-0")
+                                each category in categories
+                                    li(class="nav-item dropdown menu-area")
+                                        a(class="nav-link" href="#" id="mega-one " role="button" data-toggle="dropdown" aria-expanded="false") #{category.name}
+                                
+                                        div(class="dropdown-menu mega-area" aria-labelledby="mega-one")
+                                            .row 
+                                                each subcategory in subcategories
+                                                    -var subcategoryCategories = `${subcategory.categories}`
+                                                    if category._id == subcategoryCategories
+                                                        .col-lg-2.subsubMenuStyle
+                                                            h5.d-block 
+                                                                b #{subcategory.name}
+                                                                hr
+                                                                each subsubcategory in subsubcategories
+                                                                    -var subsubcategoryCategories = `${subsubcategory.categories}`
+                                                                    if subcategory._id == subsubcategoryCategories
+                                                                        a(href=`/categories/${subsubcategory._id}` class="dropdown-item subsubStyle") #{subsubcategory.name}
+
+                                                
+                                
+                            
