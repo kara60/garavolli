@@ -25,12 +25,13 @@
 //-                                                                         -var subsubcategoryCategories = `${subsubcategory.categories}`
 //-                                                                         if subcategory._id == subsubcategoryCategories
 //-                                                                                 a(href=`/categories/${subsubcategory._id}` class=subsubcategory._id==selectedCategory ? "list-group-item active": "list-group-item") #{subsubcategory.name}
+
 .list-group
         ul.menu
                 div(class="search-container")
                         form(autocomplete="off")
-                                input(type="text" placeholder="Arama.." name="search").p-2.border-0.w-100
-                                button(type="submit").bg-info.w-100.border-0.text-light
+                                input(type="text" placeholder="Arama.." name="search" class="form-control no-border").p-2.border-0.w-100
+                                button(type="submit" class="searchButton").bg-info.w-100.border-0.text-light
                                         i(class="fa fa-search")
                 //- p.list-group-item.border-0
                 //-         i(class="fas fa-stream")
