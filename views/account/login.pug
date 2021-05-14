@@ -23,7 +23,7 @@ block content
         script(type='text/javascript').
             alert("Eposta veya parolanız hatalı, Lütfen tekrar deneyin."); 
     div.loginDiv
-        main.form-signin
+        main.form-signin.mt-5
             form(action="/login" method="POST")
                 input(type="hidden" name="_csrf" value=`${csrfToken}`)
                 img(src="img/garavolli.png" alt="garavolliAvatar" width="135" height="115").mb-3.mx-auto
