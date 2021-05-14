@@ -214,6 +214,10 @@ ul.menu .active .list a {
     position: relative;
     top: 58px;
     background-color: #535353;
+    max-width: 1300px;
+    margin: auto;
+    border-bottom-right-radius: 30px;
+    border-bottom-left-radius: 30px;
 }
 .menu-area{
    position: static;
@@ -228,7 +232,7 @@ ul.menu .active .list a {
     margin: 0;
     /* animation: rotateMenu 400ms ease-in-out forwards;
     transform-origin: top center; */
-
+    border-radius: 30px;
     animation: rotateX 1000ms ease-in-out forwards;
     transform-origin: top center;
     opacity: 0.96;
@@ -251,7 +255,9 @@ ul.menu .active .list a {
 .area .dropdown-item{
     padding: 5px 0;
 }
-
+.area a{
+    word-wrap:break;   
+}
 .area .navbar-nav .nav-item .nav-link{
     color: rgb(218, 217, 217);
     font-size: 18px;
