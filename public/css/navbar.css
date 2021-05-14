@@ -255,8 +255,12 @@ ul.menu .active .list a {
 .area .dropdown-item{
     padding: 5px 0;
 }
-.area a{
-    
+.area .subsubStyle:hover{
+    background-color: #bdbdbd;
+    border-radius: 3px;
+}
+.area .subsubStyle:focus{
+    background-color: #F7F7F8;
 }
 .area .navbar-nav .nav-item .nav-link{
     color: rgb(218, 217, 217);
