@@ -214,8 +214,6 @@ ul.menu .active .list a {
     position: relative;
     top: 58px;
     background-color: #535353;
-    left: -30px;
-    width: 1865px;
 }
 .menu-area{
    position: static;
