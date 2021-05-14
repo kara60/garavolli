@@ -1,5 +1,6 @@
 .register-form{
     width: 65%;
+    
 }
 .form-content
 {
@@ -7,6 +8,7 @@
     border: 1px solid #ced4da;
     margin-bottom: 2%;
     width: 100%;
+    background-color: #FFFFFF;
 }
 .form-control{
     border-radius:0rem;
