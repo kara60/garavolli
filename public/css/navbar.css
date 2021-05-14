@@ -214,6 +214,8 @@ ul.menu .active .list a {
     position: relative;
     top: 58px;
     background-color: #535353;
+    left: -30px;
+    width: 1865px;
 }
 .menu-area{
    position: static;
@@ -231,6 +233,7 @@ ul.menu .active .list a {
 
     animation: rotateX 1000ms ease-in-out forwards;
     transform-origin: top center;
+    opacity: 0.96;
 }
 @keyframes rotateX {
     0% {
