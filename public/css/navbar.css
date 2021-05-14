@@ -250,7 +250,9 @@ ul.menu .active .list a {
    }
 }
 .area h5{
-    font-size: 17px;
+    font-size: 20px;
+    font-weight: bold;
+    font
 
 }
 .area .dropdown-item{
@@ -270,14 +272,15 @@ ul.menu .active .list a {
 }
 .area .subsubStyle{
     font-size: 15px;
-    font-weight: 400;
-    color: black;
+    font-weight: 600;
+    color: rgb(27, 27, 27);
 }
 
 .area .subsubMenuStyle{
     margin-bottom: 20px;
     
 }
+
 .area .subsubCategoryStyle{
     max-height: 250px;
     overflow: auto;
