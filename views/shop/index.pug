@@ -5,7 +5,6 @@ block megaMenu
     include ../includes/menu.pug
 block content
     
-    marquee(direction=right) Sitemize hoşgeldiniz. Keyifli alışverişler..
     .div.alert.alert-info.ml-0 Merhaba, sitemizde bulunduğunuz süre boyunca yaşadığınız sıkıntıları, hataları ve eklemesini istediğiniz yenilikleri bizlere <a href="/contact">iletişim</a> sayfasından iletirseniz mutluluk duyarız. Teşekkürler..
     .row
         //- .col-lg-3.p-0
@@ -13,7 +12,9 @@ block content
         //-     include ../includes/information.pug
             
                    
-        .col-lg-12.pr-0.pl-0
+        .col-lg-12.pr-0.pl-0.homePageContent
+            marquee(direction=right) Sitemize hoşgeldiniz. Keyifli alışverişler..
+            
             include ../includes/slider.pug
           
             //-.container
