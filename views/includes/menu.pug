@@ -20,10 +20,11 @@
                                                     if category._id == subcategoryCategories
                                                         .col-lg-3.subsubMenuStyle
                                                             h5.d-block
-                                                                b #{subcategory.name}
+                                                                strong #{subcategory.name}
                                                                 hr
                                                                 .subsubCategoryStyle
                                                                     each subsubcategory in subsubcategories
                                                                         -var subsubcategoryCategories = `${subsubcategory.categories}`
                                                                         if subcategory._id == subsubcategoryCategories
-                                                                            a(href=`/categories/${subsubcategory._id}` class="dropdown-item subsubStyle") #{subsubcategory.name}
+                                                                            a(href=`/categories/${subsubcategory._id}` class="dropdown-item subsubStyle")
+                                                                                i #{subsubcategory.name}
