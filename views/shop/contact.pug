@@ -6,7 +6,7 @@ block megaMenu
     include ../includes/menu.pug
 block content
     .container-fluid 
-        .alert.alert-info Reklam, işbirliği, şikayet, bug ve diğer her türlü istekleriniz için bizim ile iletişime geçebilirsiniz.
+        .alert.alert-secondary Reklam, işbirliği, şikayet, bug ve diğer her türlü istekleriniz için bizim ile iletişime geçebilirsiniz.
     div(class="container register-form").mt-5
         form(action="/register" method="POST" autocomplete="off")
             input(type="hidden" name="_csrf" value=`${csrfToken}`)

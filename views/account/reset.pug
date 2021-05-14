@@ -7,13 +7,15 @@ block megaMenu
 block content
     if errorMessage
         div.alert.alert-danger.col-sm-7 #{errorMessage}
-    form(action="/reset-password" method="POST")
-        input(type="hidden" name="_csrf" value=`${csrfToken}`)
-        .form-group.row
-            label(for="email").col-sm-2.col-form-label Email:
-            .col-sm-5
-                input.form-control#email(type="text" name="email" placeholder="Lütfen email adresinizi giriniz" autofocus)
+    .container-fluid 
+        .alert.alert-secondary Lütfen size parola sıfırlama linki gönderebilmemiz için emailinizi doğru giriniz!
+        form(action="/reset-password" method="POST")
+            input(type="hidden" name="_csrf" value=`${csrfToken}`)
+            .form-group.row
+                label(for="email").col-sm-2.col-form-label Email:
+                .col-sm-5
+                    input.form-control#email(type="text" name="email" placeholder="Lütfen email adresinizi giriniz" autofocus)
 
-        .form-group.row
-            .col-sm-5.offset-sm-2
-                input(type="submit" value="Gönder").btn.btn-outline-secondary
+            .form-group.row
+                .col-sm-5.offset-sm-2
+                    input(type="submit" value="Gönder").btn.btn-outline-secondary

@@ -213,7 +213,7 @@ ul.menu .active .list a {
 .area nav{
     position: relative;
     top: 58px;
-    background-color: #535353;
+    background-color: #61605e;
     max-width: 1300px;
     margin: auto;
     border-bottom-right-radius: 30px;
@@ -256,7 +256,7 @@ ul.menu .active .list a {
     padding: 5px 0;
 }
 .area a{
-    word-wrap:break;   
+    
 }
 .area .navbar-nav .nav-item .nav-link{
     color: rgb(218, 217, 217);
