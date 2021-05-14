@@ -6,23 +6,55 @@ const SubCategory = require('../models/sub-category');
 const SubSubCategory = require('../models/sub-sub-category');
 const fs = require('fs');
 
+// exports.getProducts = (req, res, next) => {
+//     Product
+//         .find({userId: req.user._id})
+//         .populate('userId', 'name -_id')
+//         .select('name price imageUrl userId')
+//         .then(products => {
+//             res.render('admin/products', {
+//                 title: 'Ürünlerim',
+//                 products: products,
+//                 path: '/admin/products',
+//                 action: req.query.action
+//             });
+//         })
+//         .catch((err) => {
+//             next(err);
+//         });
+// }
+
+
 exports.getProducts = (req, res, next) => {
     Product
         .find({userId: req.user._id})
         .populate('userId', 'name -_id')
         .select('name price imageUrl userId')
         .then(products => {
-            res.render('admin/products', {
-                title: 'Ürünlerim',
-                products: products,
-                path: '/admin/products',
-                action: req.query.action
-            });
-        })
+            Category.find()
+                .then(categories => {
+                    SubCategory.find()
+                        .then(subcategories => {
+                            SubSubCategory.find()
+                                .then(subsubcategories => {
+                                    res.render('admin/products', {
+                                        title: 'Ürünlerim',
+                                        products: products,
+                                        path: '/admin/products',
+                                        action: req.query.action,
+                                        categories: categories,
+                                        subcategories: subcategories,
+                                        subsubcategories: subsubcategories
+                                    });
+                        })
+                })
+        })})
         .catch((err) => {
             next(err);
-        });
+        });     
+        
 }
+
 
 exports.getChooseCategory = (req, res, next) => {
     Category.find()
@@ -43,7 +75,7 @@ exports.getChooseSubCategory = (req, res, next) => {
         .then(categories => {
             model.categories = categories;
             return SubCategory.find({
-                categories: categoryid
+                categories: categoryid   
             });
         })
         .then(subCategories => {
@@ -59,6 +91,8 @@ exports.getChooseSubCategory = (req, res, next) => {
             next(err);
         })
 }
+
+
 
 exports.getChooseSubSubCategory = (req, res, next) => {
     const categoryid = req.params.categoryid;

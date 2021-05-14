@@ -2,7 +2,8 @@ extends ../layouts/main-layout.pug
 
 block styles
     link(rel="stylesheet" href="/css/register.css")
-
+block megaMenu 
+    include ../includes/menu.pug
 block content
     .container-fluid 
         .alert.alert-info Reklam, işbirliği, şikayet, bug ve diğer her türlü istekleriniz için bizim ile iletişime geçebilirsiniz.

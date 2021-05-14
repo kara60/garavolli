@@ -1,9 +1,7 @@
-h3{
+h4,h3,h1{
     font-family: 'Montserrat', sans-serif;
 }
-h1{
-    font-family: 'Montserrat', sans-serif;
-}
+
 .product-grid6,.product-grid6 .product-image6{overflow:hidden}
 .product-grid6{font-family:'Open Sans',sans-serif;text-align:center;position:relative;transition:all .5s ease 0s}
 .product-grid6:hover{box-shadow:0 0 10px rgba(0,0,0,.3)}

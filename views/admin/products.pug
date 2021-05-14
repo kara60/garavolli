@@ -2,7 +2,8 @@ extends ../layouts/main-layout.pug
 
 block styles
     link(rel="stylesheet" href="/css/products-table.css")
-
+block megaMenu 
+    include ../includes/menu.pug
 block content
     if (action !== 'undefined' && action === 'waiting')
         div.alert.alert-success Ürününüz onay için beklemede. En kısa zamanda dönüş yapılacaktır. Bizi seçtiğiniz için teşekkürler..

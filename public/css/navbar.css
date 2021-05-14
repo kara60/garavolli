@@ -216,7 +216,7 @@ ul.menu .active .list a {
     background-color: #535353;
 }
 .menu-area{
-   position: static; 
+   position: static;
 }
 .mega-area{
     position: absolute;
@@ -225,6 +225,23 @@ ul.menu .active .list a {
     right:0;
     padding: 15px;
     background-color: rgb(243, 242, 242);
+    margin: 0;
+    /* animation: rotateMenu 400ms ease-in-out forwards;
+    transform-origin: top center; */
+
+    animation: rotateX 1000ms ease-in-out forwards;
+    transform-origin: top center;
+}
+@keyframes rotateX {
+    0% {
+       transform: rotateX(90deg)
+   }
+   80% {
+       transform: rotateX(-10deg)
+   }
+   100% {
+       transform: rotateX(0)
+   }
 }
 .area h5{
     font-size: 17px;
