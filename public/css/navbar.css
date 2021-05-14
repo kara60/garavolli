@@ -235,7 +235,7 @@ ul.menu .active .list a {
     border-radius: 30px;
     animation: rotateX 1000ms ease-in-out forwards;
     transform-origin: top center;
-    opacity: 0.96;
+    opacity: 0.97;
 }
 @keyframes rotateX {
     0% {
