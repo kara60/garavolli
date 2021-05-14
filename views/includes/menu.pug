@@ -1,5 +1,5 @@
-.area.container-fluid.w-100
-    .container-fluid.w-100
+.area.container-fluid
+    .container-fluid
         .row 
             .col-12
                 nav(class="navbar navbar-expand-lg navbar-light")
@@ -18,7 +18,7 @@
                                                 each subcategory in subcategories
                                                     -var subcategoryCategories = `${subcategory.categories}`
                                                     if category._id == subcategoryCategories
-                                                        .col-lg-2.subsubMenuStyle
+                                                        .col-lg-3.subsubMenuStyle
                                                             h5.d-block
                                                                 b #{subcategory.name}
                                                                 hr
