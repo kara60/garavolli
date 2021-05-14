@@ -276,11 +276,33 @@ exports.postOrder = (req, res, next) => {
 }
 
 
+// exports.getContact = (req, res, next) => {
+
+//     res.render('shop/contact', {
+//         title: 'İletişim',
+//         path: '/contact'
+//     });
+
+// }
+
 exports.getContact = (req, res, next) => {
-
-    res.render('shop/contact', {
-        title: 'İletişim',
-        path: '/contact'
-    });
-
+    Category.find()
+        .then(categories => {
+            SubCategory.find()
+                .then(subcategories => {
+                    SubSubCategory.find()
+                        .then(subsubcategories => {
+                            res.render('shop/contact', {
+                                title: 'İletişim',
+                                path: '/contact',
+                                categories: categories,
+                                subcategories: subcategories,
+                                subsubcategories: subsubcategories
+                            });
+                        })
+                })
+        })
+        .catch((err) => {
+            next(err);
+        });     
 }

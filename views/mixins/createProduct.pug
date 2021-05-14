@@ -1,11 +1,11 @@
 mixin createProduct(product)
-    div.col-md-4.mt-0.mb-3
+    div.col-md-3.mt-0.mb-3
         div.product-grid6
             div.product-image6
                 a(href=`/products/${product._id}`)
                     img(src=`/img/${product.imageUrl}` alt=`${product.description}` ).pic-1
             div.product-content
-                h3.title
+                h4.title
                     a(href=`/products/${product._id}`).text-uppercase #{product.name}
                     div.price.mt-1
                         i.fas.fa-lira-sign #{product.price}

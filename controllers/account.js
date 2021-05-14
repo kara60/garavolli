@@ -4,18 +4,55 @@ const bcrypt = require('bcrypt');
 const sgMail = require('@sendgrid/mail');
 const crypto = require('crypto');
 
+const Product = require('../models/product');
+const Category = require('../models/category');
+const SubCategory = require('../models/sub-category');
+const SubSubCategory = require('../models/sub-sub-category');
+const Order = require('../models/order');
+const Confirmation = require('../models/confirmation');
+const product = require('../models/product');
+
 sgMail.setApiKey('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');
 
-exports.getLogin = (req,res,next) => {
-    var errorMessage = req.session.errorMessage;
-    delete req.session.errorMessage;
-    res.render('account/login', {
-        path: '/login',
-        title: 'Giriş',
-        errorMessage: errorMessage,
-        action: req.query.action
-    });
+// exports.getLogin = (req,res,next) => {
+
+//     var errorMessage = req.session.errorMessage;
+//     delete req.session.errorMessage;
+//     res.render('account/login', {
+//         path: '/login',
+//         title: 'Giriş',
+//         errorMessage: errorMessage,
+//         action: req.query.action
+//     });
+// }
+
+
+exports.getLogin = (req, res, next) => {
+    Category.find()
+        .then(categories => {
+            SubCategory.find()
+                .then(subcategories => {
+                    SubSubCategory.find()
+                        .then(subsubcategories => {
+                            var errorMessage = req.session.errorMessage;
+                            delete req.session.errorMessage;
+                            res.render('account/login', {
+                                path: '/login',
+                                title: 'Giriş',
+                                categories: categories,
+                                subcategories: subcategories,
+                                subsubcategories: subsubcategories,
+                                errorMessage: errorMessage,
+                                action: req.query.action
+                            });
+                        })
+                })
+        })
+        .catch((err) => {
+            next(err);
+        });
 }
+
 
 exports.postLogin = (req,res,next) => {
     
@@ -81,14 +118,41 @@ exports.postLogin = (req,res,next) => {
         });
 }
 
-exports.getRegister = (req,res,next) => {
-    var errorMessage = req.session.errorMessage;
-    delete req.session.errorMessage;
-    res.render('account/register', {
-        path: '/register',
-        title: 'Kayıt Ol',
-        errorMessage: errorMessage
-    });
+// exports.getRegister = (req,res,next) => {
+//     var errorMessage = req.session.errorMessage;
+//     delete req.session.errorMessage;
+//     res.render('account/register', {
+//         path: '/register',
+//         title: 'Kayıt Ol',
+//         errorMessage: errorMessage
+//     });
+// }
+
+
+exports.getRegister = (req, res, next) => {
+
+    Category.find()
+        .then(categories => {
+            SubCategory.find()
+                .then(subcategories => {
+                    SubSubCategory.find()
+                        .then(subsubcategories => {
+                            var errorMessage = req.session.errorMessage;
+                            delete req.session.errorMessage;
+                            res.render('account/register', {
+                                path: '/register',
+                                title: 'Kayıt Ol',
+                                categories: categories,
+                                subcategories: subcategories,
+                                subsubcategories: subsubcategories,
+                                errorMessage: errorMessage
+                            });
+                        })
+                })
+        })
+        .catch((err) => {
+            next(err);
+        });
 }
 
 exports.postRegister = (req,res,next) => {
@@ -151,17 +215,44 @@ exports.postRegister = (req,res,next) => {
         })
 }
 
-exports.getReset = (req,res,next) => {
-    var errorMessage = req.session.errorMessage;
-    delete req.session.errorMessage;
+// exports.getReset = (req,res,next) => {
+//     var errorMessage = req.session.errorMessage;
+//     delete req.session.errorMessage;
 
 
-    res.render('account/reset', {
-        path: '/reset-password',
-        title: 'Parola yenileme',
-        errorMessage: errorMessage
-    });
+//     res.render('account/reset', {
+//         path: '/reset-password',
+//         title: 'Parola yenileme',
+//         errorMessage: errorMessage
+//     });
+// }
+
+
+exports.getReset = (req, res, next) => {
+    Category.find()
+        .then(categories => {
+            SubCategory.find()
+                .then(subcategories => {
+                    SubSubCategory.find()
+                        .then(subsubcategories => {
+                            var errorMessage = req.session.errorMessage;
+                            delete req.session.errorMessage;
+                            res.render('account/reset', {
+                                path: '/reset-password',
+                                title: 'Parola yenileme',
+                                categories: categories,
+                                subcategories: subcategories,
+                                subsubcategories: subsubcategories,
+                                errorMessage: errorMessage
+                            });
+                        })
+                })
+        })
+        .catch((err) => {
+            next(err);
+        });     
 }
+
 
 exports.postReset = (req,res,next) => {
     const email = req.body.email;
@@ -206,30 +297,68 @@ exports.postReset = (req,res,next) => {
     });
 }
 
+// exports.getNewPassword = (req, res, next) => {
+
+//     var errorMessage = req.session.errorMessage;
+//     delete req.session.errorMessage;
+
+//     const token = req.params.token;
+
+//     User.findOne({
+//         resetToken: token, resetTokenExpiration:{
+//         $gt: Date.now()
+//         }
+//     }).then(user => {
+
+//         res.render('account/new-password', {
+//             path: '/new-password',
+//             title: 'Yeni Parola',
+//             errorMessage: errorMessage,
+//             userId: user._id.toString(),
+//             passwordToken: token
+//         });
+//     }).catch(err => {
+//         next(err);
+//     })
+// }
+
+
 exports.getNewPassword = (req, res, next) => {
+    Category.find()
+        .then(categories => {
+            SubCategory.find()
+                .then(subcategories => {
+                    SubSubCategory.find()
+                        .then(subsubcategories => {
+                            var errorMessage = req.session.errorMessage;
+                            delete req.session.errorMessage;
 
-    var errorMessage = req.session.errorMessage;
-    delete req.session.errorMessage;
+                            const token = req.params.token;
 
-    const token = req.params.token;
+                            User.findOne({
+                                resetToken: token, resetTokenExpiration:{
+                                $gt: Date.now()
+                                }
+                            }).then(user => {
 
-    User.findOne({
-        resetToken: token, resetTokenExpiration:{
-        $gt: Date.now()
-        }
-    }).then(user => {
-
-        res.render('account/new-password', {
-            path: '/new-password',
-            title: 'Yeni Parola',
-            errorMessage: errorMessage,
-            userId: user._id.toString(),
-            passwordToken: token
-        });
-    }).catch(err => {
-        next(err);
-    })
+                                res.render('account/new-password', {
+                                    path: '/new-password',
+                                    title: 'Yeni Parola',
+                                    errorMessage: errorMessage,
+                                    categories: categories,
+                                    subcategories: subcategories,
+                                    subsubcategories: subsubcategories,
+                                    userId: user._id.toString(),
+                                    passwordToken: token
+                                });
+                                                })
+                                        })
+                                })
+        .catch((err) => {
+            next(err);
+        });     })
 }
+
 
 exports.postNewPassword = (req, res, next) => {
     const newPassword = req.body.password;
