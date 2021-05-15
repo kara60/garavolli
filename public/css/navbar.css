@@ -236,7 +236,7 @@ ul.menu .active .list a {
     border-radius: 30px;
     animation: rotateX 1000ms ease-in-out forwards;
     transform-origin: top center;
-    opacity: 0.97;
+    opacity: 0.96;
 }
 @keyframes rotateX {
     0% {
@@ -252,7 +252,6 @@ ul.menu .active .list a {
 .area h5{
     font-size: 20px;
     font-weight: bold;
-    font
 
 }
 .area .dropdown-item{
