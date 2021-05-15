@@ -1,24 +1,22 @@
 extends ../layouts/main-layout.pug
 
 include ../mixins/createProduct.pug
+
 block megaMenu 
     include ../includes/menu.pug
+
 block content
-    
     .div.alert.alert-info.ml-0 Merhaba, sitemizde bulunduğunuz süre boyunca yaşadığınız sıkıntıları, hataları ve eklemesini istediğiniz yenilikleri bizlere <a href="/contact">iletişim</a> sayfasından iletirseniz mutluluk duyarız. Teşekkürler..
     .row
         //- .col-lg-3.p-0
         //-     //-include ../includes/menu.pug
         //-     include ../includes/information.pug
-            
-                   
+                       
         .col-lg-12.pr-0.pl-0.homePageContent
             marquee(direction=right) Sitemize hoşgeldiniz. Keyifli alışverişler..
             
             include ../includes/slider.pug
             
-
-
             //-.container
                 .row
                     if products.length > 0
