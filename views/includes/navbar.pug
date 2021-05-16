@@ -42,7 +42,7 @@ nav.navbar.navbar-expand-xl.navbar-light.fixed-top.navbar-inverse.p-0
                 if isAdmin
                     li.nav-item.dropdown
                         a(class=(path==="#"?"nav-link dropdown-toggle active p-3":'nav-link dropdown-toggle p-3') data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false").dropDownStyle Admin Paneli
-                        div.dropdown-menu
+                        div.dropdown-menu.mt-0
                             a(href="/admin/add-category", class=(path==='/admin/add-category'?'dropdown-item active bg-secondary':'dropdown-item')).px-5.py-2.dropDownStyle Ana Kategori Ekle
                             a(href="/admin/add-sub-category", class=(path==='/admin/add-sub-category'?'dropdown-item active bg-secondary':'dropdown-item')).px-5.py-2.dropDownStyle Alt Kategori Ekle
                             a(href="/admin/add-sub-sub-category", class=(path==='/admin/add-sub-sub-category'?'dropdown-item active bg-secondary':'dropdown-item')).px-5.py-2.dropDownStyle En Alt Kategori Ekle

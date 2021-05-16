@@ -14,6 +14,9 @@ body{
 
     overflow: scroll;
 }
+.mainContainerStyle{
+  padding-top: 100px;
+}
 .allProductPage{
   background-color: #FFFFFF;
   padding-top: 10px;
@@ -30,7 +33,7 @@ body{
 }
 .homePageContent{
   background-color: #FFFFFF;
-  padding-top: 10px;
+  padding-top: 0px;
   padding-left: 0;
   padding-right: 0;
   width: 100%;
@@ -41,6 +44,12 @@ body{
       0 0  0 2px #FFFFFF,
       0.3em 0.3em 1em rgba(0,0,0,0.3);
 }
+
+.sliderStyle, .sliderStyle img{
+  border-top-left-radius: 15px;
+  border-top-right-radius: 15px;
+}
+
 .pic-1{
   border-radius: 15px;
 }

@@ -6,14 +6,15 @@ block megaMenu
     include ../includes/menu.pug
 
 block content
-    .div.alert.alert-info.ml-0 Merhaba, sitemizde bulunduğunuz süre boyunca yaşadığınız sıkıntıları, hataları ve eklemesini istediğiniz yenilikleri bizlere <a href="/contact">iletişim</a> sayfasından iletirseniz mutluluk duyarız. Teşekkürler..
+    marquee(direction=right) Merhaba, sitemizde bulunduğunuz süre boyunca yaşadığınız sıkıntıları, hataları ve eklemesini istediğiniz yenilikleri bizlere <a href="/contact" target="_blank">iletişim</a> sayfasından iletirseniz mutluluk duyarız. Teşekkürler..
+    //- .div.alert.alert-info.ml-0 Merhaba, sitemizde bulunduğunuz süre boyunca yaşadığınız sıkıntıları, hataları ve eklemesini istediğiniz yenilikleri bizlere <a href="/contact">iletişim</a> sayfasından iletirseniz mutluluk duyarız. Teşekkürler..
     .row
         //- .col-lg-3.p-0
         //-     //-include ../includes/menu.pug
         //-     include ../includes/information.pug
                        
         .col-lg-12.pr-0.pl-0.homePageContent
-            marquee(direction=right) Sitemize hoşgeldiniz. Keyifli alışverişler..
+            
             
             include ../includes/slider.pug
             
