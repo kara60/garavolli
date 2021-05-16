@@ -1,11 +1,16 @@
 extends ../layouts/main-layout.pug
 
 //- block megaMenu 
-//-     include ../includes/menu.pug
+//-     include ../includes/menu.
+block styles
+    link(rel="stylesheet" href="/css/product-detail.css")
+
 block content
     .row
         .col-lg-3
-            img(src=`/img/${product.imageUrl}` alt=`${product.description}`).img-fluid.productDetailImg
+            div(class="image-zoom-container")
+                img(src=`/img/${product.imageUrl}` alt=`${product.description}` id="myimage").img-fluid.
+                div(id="myresult" class="image-zoom-result")
             //- #mySlider.carousel.slide(data-ride="carousel").mb-1.mt-0
 
             //-     ol.carousel-indicators
@@ -80,3 +85,7 @@ block content
             hr
             h3.font-weight-bold Ürün Bilgileri:  
             p.p-3 !{product.description}
+
+block script
+    script(src="/js/product-detail.js")
+            
