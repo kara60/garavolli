@@ -1,16 +1,29 @@
 extends ../layouts/main-layout.pug
 
 //- block megaMenu 
-//-     include ../includes/menu.
+//-     include ../includes/menu.pug
 block styles
     link(rel="stylesheet" href="/css/product-detail.css")
 
 block content
     .row
-        .col-lg-3
-            div(class="image-zoom-container")
-                img(src=`/img/${product.imageUrl}` alt=`${product.description}` id="myimage").img-fluid.
-                div(id="myresult" class="image-zoom-result")
+        .col-lg-4
+            .images
+                img(src=`/img/${product.imageUrl}`).img-fluid
+                hr
+                .productDetailMultiPicture
+                    img(src=`/img/1.jpg` width="85").img-fluid
+                    img(src=`/img/2.jpg` width="85").img-fluid
+                    img(src=`/img/3.jpg` width="85").img-fluid
+                    img(src=`/img/4.jpg` width="85").img-fluid
+            div(id="image-viewer")
+                span.close &times;
+                img(id="full-image").modal-content
+
+            //- div(class="image-zoom-container")
+            //-     img(src=`/img/${product.imageUrl}` alt=`${product.description}` id="myimage").img-fluid.productDetailImg
+            //-     div(id="myresult" class="image-zoom-result")
+
             //- #mySlider.carousel.slide(data-ride="carousel").mb-1.mt-0
 
             //-     ol.carousel-indicators
@@ -34,7 +47,7 @@ block content
             //-     a(href="#mySlider"  data-slide="next").carousel-control-next
             //-         span.carousel-control-next-icon.bg-secondary
                    
-        .col-lg-5.pl-3
+        .col-lg-4.pl-3
             h2.mb-3.text-uppercase.font-weight-bold #{product.name}
             hr
             each subsubcategory in subsubcategories

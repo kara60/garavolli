@@ -1,27 +1,89 @@
-.image-zoom-container {
+/* .image-zoom-container {
     position: relative;
 }
 
-.image-zoom-container #myimage {
+#myimage {
     width: 300px;
-    height: 300px;
-    border: 1px solid #d4d4d4;
+    height: auto;
 }
 
-.image-zoom-container .image-zoom-result {
+.image-zoom-container:hover .image-zoom-result{
     border: 1px solid #d4d4d4;
-    width: 300px;
-    height: 300px;
+    width: 500px;
+    height: 500px;
     position: absolute;
     top: 0px;
     left: 275px;
-    z-index: 2;
+    z-index: 1;
 }
 
-.image-zoom-container .img-zoom-lens {
+.image-zoom-container .img-zoom-lens{
     position: absolute;
-    border: 1px solid #d4d4d4;
     width: 100px;
     height: 100px;
     cursor:crosshair;
+} */
+.productDetailMultiPicture{
+    display: flex;
+    justify-content: flex-start;
+}
+    img{
+    border: 1px solid rgb(204, 203, 203);
+}
+img {
+    border-radius: 5px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+img:hover {opacity: 0.7;}
+
+/* The Modal (background) */
+#image-viewer {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    padding-top: 100px;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgb(0,0,0);
+    background-color: rgba(0,0,0,0.9);
+}
+.modal-content {
+    margin: auto;
+    display: block;
+    width: 80%;
+    max-width: 700px;
+}
+.modal-content { 
+    animation-name: zoom;
+    animation-duration: 0.6s;
+}
+@keyframes zoom {
+    from {transform:scale(0)} 
+    to {transform:scale(1)}
+}
+#image-viewer .close {
+    position: relative;
+    top: 15px;
+    right: 35px;
+    color: #f1f1f1;
+    font-size: 40px;
+    font-weight: bold;
+    transition: 0.3s;
+}
+#image-viewer .close:hover,
+#image-viewer .close:focus {
+    color: #bbb;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+@media only screen and (max-width: 700px){
+    .modal-content {
+        width: 100%;
+    }
 }
