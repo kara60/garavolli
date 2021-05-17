@@ -2,13 +2,12 @@ h4,h3,h1{
     font-family: 'Montserrat', sans-serif;
 }
 
-.product-grid6,.product-grid6 .product-image6{overflow:hidden}
-.product-grid6{font-family:'Open Sans',sans-serif;text-align:center;position:relative;transition:all .5s ease 0s}
-.product-grid6:hover{box-shadow:0 0 10px rgba(0,0,0,.3)}
+.product-grid6,.product-grid6 .product-image6{overflow:hidden; }
+.product-grid6{font-family:'Open Sans',sans-serif;text-align:center;position:relative;transition:all .5s ease 0s; border:0px solid rgb(160, 160, 160); border-radius: 15px; box-shadow: rgba(136, 165, 191, 0.48) 6px 2px 16px 0px, rgba(255, 255, 255, 0.8) -6px -2px 16px 0px;}
 .product-grid6 .product-image6 a{display:block}
-.product-grid6 .product-image6 img{width:100%;height:382.03px;transition:all .5s ease 0s; object-fit: contain; }
+.product-grid6 .product-image6 img{width:100%;height:300px;transition:all .5s ease 0s; object-fit: contain; }
 .product-grid6:hover .product-image6 img{transform:scale(1.1); }
-.product-grid6 .product-content{padding:12px 12px 15px;transition:all .5s ease 0s}
+.product-grid6 .product-content{padding:12px 0px 0px;transition:all .5s ease 0s}
 .product-grid6:hover .product-content{opacity:0}
 .product-grid6 .title{font-size:20px;font-weight:600;text-transform:capitalize;margin:0 0 10px;transition:all .3s ease 0s}
 .product-grid6 .title a{color:#000}

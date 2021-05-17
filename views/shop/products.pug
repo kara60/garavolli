@@ -1,25 +1,67 @@
 extends ../layouts/main-layout.pug
 
 include ../mixins/createProduct.pug
+
 block megaMenu 
     include ../includes/menu.pug
+
 block content
     .row
-        //- .col-lg-3.p-0
-        //-     include ../includes/menu.pug
-
-        .col-lg-12.allProductPage
-            each subsubcategory in subsubcategories
-                if selectedCategory == `${subsubcategory._id}`
-                    h2.font-italic.ml-2 
-                        |#{subsubcategory.name} Kategorisi 
+        .col-lg-12.productPageCartBg
+            .row 
+                .col-lg-3.p-0
+                    div(style="width:auto;").card.m-2.productFilter
+                        .card-body
+                            h5.card-title 
+                                strong Arama Kutusu
+                            br
+                            p.card-text 
+                                input(type="text" class="form-control" placeholder="Ara").w-100
+                                button(type="button").btn.btn-sm.btn-secondary.w-100.mt-1 Ara
                         hr
-            
-            .row
-                if products.length > 0
-                    each product in products
-                        +createProduct(product)
-                else
-                    h2.ml-4 Gösterilecek ürün yok!
+                        .card-body
+                            h5.card-title 
+                                strong Fiyat Aralığı
+                            br
+                            p.card-text
+                                input(type="text" class="form-control" placeholder="En az").d-inline
+                                span  - 
+                                input(type="text" class="form-control" placeholder="En çok").d-inline 
+                        hr
+                        .card-body
+                            h5.card-title 
+                                strong Renk tercihi
+                            br
+                            p.card-text.form-check
+                                input(type="checkbox" id="defaultCheck1").form-check-input.w-25
+                                label(for="defaultCheck1").form-check-label.w-75.ml-5 Mavi
+                            p.card-text.form-check
+                                input(type="checkbox" id="defaultCheck2").form-check-input.w-25
+                                label(for="defaultCheck2").form-check-label.w-75.ml-5 Kırmızı
+                            p.card-text.form-check
+                                input(type="checkbox" id="defaultCheck3").form-check-input.w-25
+                                label(for="defaultCheck3").form-check-label.w-75.ml-5 Siyah
+                            p.card-text.form-check
+                                input(type="checkbox" id="defaultCheck4").form-check-input.w-25
+                                label(for="defaultCheck4").form-check-label.w-75.ml-5 Yeşil
+                            p.card-text.form-check
+                                input(type="checkbox" id="defaultCheck5").form-check-input.w-25
+                                label(for="defaultCheck5").form-check-label.w-75.ml-5 Beyaz
+
+                                
+                                    
+                .col-lg-9.p-0
+                    each subsubcategory in subsubcategories
+                        if selectedCategory == `${subsubcategory._id}`
+                            h2.font-italic.ml-2 
+                                |#{subsubcategory.name} Kategorisi 
+                                hr
+                    
+                    .row.pr-3
+                        if products.length > 0
+                            each product in products
+                                +createProduct(product)
+                        else
+                            h2.ml-4 Gösterilecek ürün yok!
 block script
     script(src="/js/deneme.js")

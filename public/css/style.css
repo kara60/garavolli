@@ -17,6 +17,15 @@ body{
 .mainContainerStyle{
   padding-top: 100px;
 }
+.productPageCartBg{
+  background-color: #FFFFFF;
+  border-radius: 15px;
+  width: 100%;
+  height: auto;
+}
+.productFilter input{
+  width: 40%;
+}
 .allProductPage{
   background-color: #FFFFFF;
   padding-top: 10px;
