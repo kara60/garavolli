@@ -5,7 +5,6 @@ const SubSubCategory = require('../models/sub-sub-category');
 const Order = require('../models/order');
 const Confirmation = require('../models/confirmation');
 const User = require('../models/user');
-const product = require('../models/product');
 
 exports.getIndex = (req, res, next) => {
 
@@ -305,4 +304,69 @@ exports.getContact = (req, res, next) => {
         .catch((err) => {
             next(err);
         });     
+}
+
+/* Search box*/
+function escapeRegex(text) {
+    return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
+};
+
+exports.getSearch = (req, res, next) => {
+    Order
+        .find()
+        .then(orders => {
+            return orders;
+        })
+        .then(orders => {
+            User
+                .find()
+                .then(userNumber => {
+                    Confirmation
+                        .find()
+                        .then(confirm => {
+                            return confirm;
+                })
+                .then(confirm => {
+                    Product.find()
+                        .then(products => {
+                        return products;
+                    })
+                    .then(products => {
+                        SubSubCategory.find()
+                            .then(subsubcategories => {
+                                SubCategory.find()
+                                    .then(subcategories => {
+                                        Category.find()
+                                            .then(categories => {
+                                                    if(req.query.search){
+                                                        const regex = new RegExp(escapeRegex(req.query.search), 'gi');
+                                                        Product.find({ "name": regex }, function(err, foundjobs) {
+                                                            if(err) {
+                                                                console.log(err);
+                                                            } else {
+                                                                res.render('shop/products', {
+                                                                    title: 'Tüm Ürünler',
+                                                                    products: foundjobs,
+                                                                    path: '/products',
+                                                                    categories: categories,
+                                                                    subcategories: subcategories,
+                                                                    subsubcategories: foundjobs,
+                                                                    confirm: confirm,
+                                                                    userNumber: userNumber,
+                                                                    orders: orders
+                                                                });
+                                                    }
+                                                });
+                                        }
+                                
+                                            })
+                                    })   
+                            })
+                    })
+                    .catch((err) => {
+                        next(err);
+                    });
+                })
+            })
+        })
 }

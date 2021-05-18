@@ -14,10 +14,11 @@ block content
                         .card-body
                             h5.card-title 
                                 strong Arama Kutusu
-                            br
+                            
                             p.card-text 
-                                input(type="text" class="form-control" placeholder="Ara").w-100
-                                button(type="button").btn.btn-sm.btn-secondary.w-100.mt-1 Ara
+                                form(action="/search" method="GET")
+                                    input(type="text" class="form-control" name="search" placeholder="Ara").w-100
+                                    button(type="submit").btn.btn-sm.btn-secondary.w-100.mt-1 Ara
                         hr
                         .card-body
                             h5.card-title 
