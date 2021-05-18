@@ -13,67 +13,50 @@ block content
                     div(style="width:auto;").card.m-2.productFilter
                         .card-body
                             h5.card-title 
-                                strong Arama Kutusu
+                                strong Neye bakmıştınız?
                             
                             p.card-text 
                                 form(action="/search" method="GET")
-                                    input(type="text" class="form-control" name="search" placeholder="Ara").w-100
-                                    button(type="submit").btn.btn-sm.btn-secondary.w-100.mt-1 Ara
+                                    input(type="text" class="form-control" name="search" placeholder="Ürün ara.." autocomplete="off").w-100
+                                    button(type="submit").btn.btn-sm.btn-info.mb-1.w-100
+                                        i(class="fas fa-search")
                         hr
                         .card-body
                             h5.card-title 
-                                strong İkinci El
+                                strong İkinci El Tercihi
                             p.card-text
                                 form(action="/secondHand" method="GET")
                                     select(class="browser-default custom-select custom-select-lg" onchange='this.form.submit()' name="secondHandFilter" aria-label="secondHand")
-                                        option(selected) Seçiniz 
-                                        option(value="İkinci El") İkinci El 
-                                        option(value="İkinci El Değil") İkinci El Değil
+                                        if `${inputs.takeSecondHand}` == 'İkinci El'
+                                            option(selected value="İkinci El") İkinci El
+                                            option(value="İkinci El Değil") İkinci El Değil
+
+                                        else if `${inputs.takeSecondHand}` == 'İkinci El Değil'
+                                            option(selected value="İkinci El Değil") İkinci El Değil
+                                            option(value="İkinci El") İkinci El
+                                        else
+                                            option(selected) Seçiniz 
+                                            option(value="İkinci El") İkinci El
+                                            option(value="İkinci El Değil") İkinci El Değil
+                                        
                         hr
                         .card-body
                             h5.card-title 
                                 strong Fiyat Aralığı
                             p.card-text
                                 form(action="/price" method="GET") 
-                                    input(type="text" class="form-control" name="minPrice" placeholder="En az").d-inline
+                                    input(type="text" class="form-control" name="minPrice" placeholder="En az" autocomplete="off" value=`${inputs.takeMinPrice}`).d-inline
                                     span  - 
-                                    input(type="text" class="form-control" name="maxPrice" placeholder="En çok").d-inline
-                                    button(type="submit").btn.btn-sm.btn-secondary.w-100.mt-1 Bul
-                        hr
-                        .card-body
-                            h5.card-title 
-                                strong Renk tercihi
-                            br
-                            p.card-text.form-check
-                                input(type="checkbox" id="defaultCheck1").form-check-input.w-25
-                                label(for="defaultCheck1").form-check-label.w-75.ml-5 Mavi
-                            p.card-text.form-check
-                                input(type="checkbox" id="defaultCheck2").form-check-input.w-25
-                                label(for="defaultCheck2").form-check-label.w-75.ml-5 Kırmızı
-                            p.card-text.form-check
-                                input(type="checkbox" id="defaultCheck3").form-check-input.w-25
-                                label(for="defaultCheck3").form-check-label.w-75.ml-5 Siyah
-                            p.card-text.form-check
-                                input(type="checkbox" id="defaultCheck4").form-check-input.w-25
-                                label(for="defaultCheck4").form-check-label.w-75.ml-5 Yeşil
-                            p.card-text.form-check
-                                input(type="checkbox" id="defaultCheck5").form-check-input.w-25
-                                label(for="defaultCheck5").form-check-label.w-75.ml-5 Beyaz
-
-                                
-                                    
+                                    input(type="text" class="form-control" name="maxPrice" placeholder="En çok" autocomplete="off" value=`${inputs.takeMaxPrice}`).d-inline
+                                    button(type="submit").btn.btn-sm.btn-info.ml-1.mb-1
+                                        i(class="fas fa-arrow-right")
+                            
                 .col-lg-9.p-0
                     each subsubcategory in subsubcategories
                         if selectedCategory == `${subsubcategory._id}`
                             h2.font-italic.ml-2.mt-3 
                                 |#{subsubcategory.name} Kategorisi 
                                 hr
-                    if action === "İkinci El"
-                        h2.font-italic.ml-2.mt-3 İkinci El Ürünler
-                        hr
-                    if action == "İkinci El Değil"
-                        h2.font-italic.ml-2.mt-3 İkinci El Olmayan Ürünler
-                        hr
 
                     .row.pr-3
                         if products.length > 0
