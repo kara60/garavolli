@@ -16,6 +16,10 @@ router.get('/categories/:subsubcategoryid', locals, shopController.getProductsBy
 
 router.get('/search', locals, shopController.getSearch);
 
+router.get('/secondHand', locals, shopController.getSecondHandFilter);
+
+router.get('/price', locals, shopController.getPrice);
+
 router.get('/contact', locals, shopController.getContact);
 
 router.get('/cart', locals, isAuthentication, shopController.getCart);
