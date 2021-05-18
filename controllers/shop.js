@@ -370,3 +370,127 @@ exports.getSearch = (req, res, next) => {
             })
         })
 }
+
+/* SecondHand Filter*/
+exports.getSecondHandFilter = (req, res, next) => {
+    Order
+        .find()
+        .then(orders => {
+            return orders;
+        })
+        .then(orders => {
+            User
+                .find()
+                .then(userNumber => {
+                    Confirmation
+                        .find()
+                        .then(confirm => {
+                            return confirm;
+                })
+                .then(confirm => {
+                    Product.find()
+                        .then(products => {
+                        return products;
+                    })
+                    .then(products => {
+                        SubSubCategory.find()
+                            .then(subsubcategories => {
+                                SubCategory.find()
+                                    .then(subcategories => {
+                                        Category.find()
+                                            .then(categories => {
+                                                    if(req.query.secondHandFilter){
+                                                        const regex = (req.query.secondHandFilter);
+                                                        Product.find({ "isSecondHand": regex }, function(err, foundjobs) {
+                                                            if(err) {
+                                                                console.log(err);
+                                                            } else {
+                                                                res.render('shop/products', {
+                                                                    title: 'Tüm Ürünler',
+                                                                    products: foundjobs,
+                                                                    path: '/products',
+                                                                    categories: categories,
+                                                                    subcategories: subcategories,
+                                                                    subsubcategories: subsubcategories,
+                                                                    confirm: confirm,
+                                                                    userNumber: userNumber,
+                                                                    orders: orders,
+                                                                    action: regex
+                                                                });
+                                                    }
+                                                });
+                                        }
+                                
+                                            })
+                                    })   
+                            })
+                    })
+                    .catch((err) => {
+                        next(err);
+                    });
+                })
+            })
+        })
+}
+
+/* Price Filter*/
+exports.getPrice = (req, res, next) => {
+    Order
+        .find()
+        .then(orders => {
+            return orders;
+        })
+        .then(orders => {
+            User
+                .find()
+                .then(userNumber => {
+                    Confirmation
+                        .find()
+                        .then(confirm => {
+                            return confirm;
+                })
+                .then(confirm => {
+                    Product.find()
+                        .then(products => {
+                        return products;
+                    })
+                    .then(products => {
+                        SubSubCategory.find()
+                            .then(subsubcategories => {
+                                SubCategory.find()
+                                    .then(subcategories => {
+                                        Category.find()
+                                            .then(categories => {
+                                                    if(req.query.minPrice){
+                                                        const regex = (req.query.minPrice);
+                                                        const regex2 = (req.query.maxPrice);
+                                                        Product.find({ "price": {$gt: regex, $lt: regex2} }, function(err, foundjobs) {
+                                                            if(err) {
+                                                                console.log(err);
+                                                            } else {
+                                                                res.render('shop/products', {
+                                                                    title: 'Tüm Ürünler',
+                                                                    products: foundjobs,
+                                                                    path: '/products',
+                                                                    categories: categories,
+                                                                    subcategories: subcategories,
+                                                                    subsubcategories: subsubcategories,
+                                                                    confirm: confirm,
+                                                                    userNumber: userNumber,
+                                                                    orders: orders
+                                                                });
+                                                    }
+                                                });
+                                        }
+                                
+                                            })
+                                    })   
+                            })
+                    })
+                    .catch((err) => {
+                        next(err);
+                    });
+                })
+            })
+        })
+}

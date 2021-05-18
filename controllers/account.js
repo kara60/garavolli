@@ -10,7 +10,6 @@ const SubCategory = require('../models/sub-category');
 const SubSubCategory = require('../models/sub-sub-category');
 const Order = require('../models/order');
 const Confirmation = require('../models/confirmation');
-const product = require('../models/product');
 
 sgMail.setApiKey('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');
 

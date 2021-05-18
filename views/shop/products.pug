@@ -22,12 +22,23 @@ block content
                         hr
                         .card-body
                             h5.card-title 
-                                strong Fiyat Aralığı
-                            br
+                                strong İkinci El
                             p.card-text
-                                input(type="text" class="form-control" placeholder="En az").d-inline
-                                span  - 
-                                input(type="text" class="form-control" placeholder="En çok").d-inline 
+                                form(action="/secondHand" method="GET")
+                                    select(class="browser-default custom-select custom-select-lg" onchange='this.form.submit()' name="secondHandFilter" aria-label="secondHand")
+                                        option(selected) Seçiniz 
+                                        option(value="İkinci El") İkinci El 
+                                        option(value="İkinci El Değil") İkinci El Değil
+                        hr
+                        .card-body
+                            h5.card-title 
+                                strong Fiyat Aralığı
+                            p.card-text
+                                form(action="/price" method="GET") 
+                                    input(type="text" class="form-control" name="minPrice" placeholder="En az").d-inline
+                                    span  - 
+                                    input(type="text" class="form-control" name="maxPrice" placeholder="En çok").d-inline
+                                    button(type="submit").btn.btn-sm.btn-secondary.w-100.mt-1 Bul
                         hr
                         .card-body
                             h5.card-title 
@@ -54,14 +65,22 @@ block content
                 .col-lg-9.p-0
                     each subsubcategory in subsubcategories
                         if selectedCategory == `${subsubcategory._id}`
-                            h2.font-italic.ml-2 
+                            h2.font-italic.ml-2.mt-3 
                                 |#{subsubcategory.name} Kategorisi 
                                 hr
-                    
+                    if action === "İkinci El"
+                        h2.font-italic.ml-2.mt-3 İkinci El Ürünler
+                        hr
+                    if action == "İkinci El Değil"
+                        h2.font-italic.ml-2.mt-3 İkinci El Olmayan Ürünler
+                        hr
+
                     .row.pr-3
                         if products.length > 0
                             each product in products
+                                
                                 +createProduct(product)
+                                
                         else
                             h2.ml-4 Gösterilecek ürün yok!
 block script
