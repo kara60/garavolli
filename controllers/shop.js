@@ -5,6 +5,7 @@ const SubSubCategory = require('../models/sub-sub-category');
 const Order = require('../models/order');
 const Confirmation = require('../models/confirmation');
 const User = require('../models/user');
+const product = require('../models/product');
 
 exports.getIndex = (req, res, next) => {
 
@@ -95,7 +96,12 @@ exports.getProducts = (req, res, next) => {
                                                     subsubcategories: subsubcategories,
                                                     confirm: confirm,
                                                     userNumber: userNumber,
-                                                    orders: orders
+                                                    orders: orders,
+                                                    inputs:{
+                                                        takeSecondHand: '',
+                                                        takeMinPrice: '',
+                                                        takeMaxPrice: ''
+                                                    }
                                                 });
                                             })
                                     })   
@@ -132,7 +138,12 @@ exports.getProductsByCategoryId = (req, res, next) => {
                             subcategories: subcategories,
                             subsubcategories: model.categories,
                             selectedCategory: categoryid,
-                            path: '/products'
+                            path: '/products',
+                            inputs:{
+                                takeSecondHand: '',
+                                takeMinPrice: '',
+                                takeMaxPrice: ''
+                            }
                             });
                         })
                 })
@@ -350,10 +361,15 @@ exports.getSearch = (req, res, next) => {
                                                                     path: '/products',
                                                                     categories: categories,
                                                                     subcategories: subcategories,
-                                                                    subsubcategories: foundjobs,
+                                                                    subsubcategories: subsubcategories,
                                                                     confirm: confirm,
                                                                     userNumber: userNumber,
-                                                                    orders: orders
+                                                                    orders: orders,
+                                                                    inputs:{
+                                                                        takeSecondHand: regex,
+                                                                        takeMinPrice: '',
+                                                                        takeMaxPrice: ''
+                                                                    }
                                                                 });
                                                     }
                                                 });
@@ -415,7 +431,12 @@ exports.getSecondHandFilter = (req, res, next) => {
                                                                     confirm: confirm,
                                                                     userNumber: userNumber,
                                                                     orders: orders,
-                                                                    action: regex
+                                                                    action: regex,
+                                                                    inputs:{
+                                                                        takeSecondHand: regex,
+                                                                        takeMinPrice: '',
+                                                                        takeMaxPrice: ''
+                                                                    }
                                                                 });
                                                     }
                                                 });
@@ -462,9 +483,9 @@ exports.getPrice = (req, res, next) => {
                                         Category.find()
                                             .then(categories => {
                                                     if(req.query.minPrice){
-                                                        const regex = (req.query.minPrice);
-                                                        const regex2 = (req.query.maxPrice);
-                                                        Product.find({ "price": {$gt: regex, $lt: regex2} }, function(err, foundjobs) {
+                                                        const regex = Number((req.query.minPrice));
+                                                        const regex2 = Number((req.query.maxPrice));
+                                                        Product.find({ "price": {$gt: regex-1, $lt: regex2+1} }, function(err, foundjobs) {
                                                             if(err) {
                                                                 console.log(err);
                                                             } else {
@@ -477,7 +498,12 @@ exports.getPrice = (req, res, next) => {
                                                                     subsubcategories: subsubcategories,
                                                                     confirm: confirm,
                                                                     userNumber: userNumber,
-                                                                    orders: orders
+                                                                    orders: orders,
+                                                                    inputs:{
+                                                                        takeSecondHand: '',                                       
+                                                                        takeMinPrice: regex,
+                                                                        takeMaxPrice: regex2
+                                                                    }
                                                                 });
                                                     }
                                                 });
