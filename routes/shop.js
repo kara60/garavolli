@@ -14,6 +14,8 @@ router.get('/products/:productid', locals, shopController.getProduct);
 
 router.get('/categories/:subsubcategoryid', locals, shopController.getProductsByCategoryId);
 
+router.get('/search', locals, shopController.getSearch);
+
 router.get('/contact', locals, shopController.getContact);
 
 router.get('/cart', locals, isAuthentication, shopController.getCart);
