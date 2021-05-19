@@ -60,60 +60,60 @@ exports.getIndex = (req, res, next) => {
         })
 }
 
-exports.getProducts = (req, res, next) => {
-    Order
-        .find()
-        .then(orders => {
-            return orders;
-        })
-        .then(orders => {
-            User
-                .find()
-                .then(userNumber => {
-                    Confirmation
-                        .find()
-                        .then(confirm => {
-                            return confirm;
-                })
-                .then(confirm => {
-                    Product.find()
-                        .then(products => {
-                        return products;
-                    })
-                    .then(products => {
-                        SubSubCategory.find()
-                            .then(subsubcategories => {
-                                SubCategory.find()
-                                    .then(subcategories => {
-                                        Category.find()
-                                            .then(categories => {
-                                                res.render('shop/products', {
-                                                    title: 'Tüm Ürünler',
-                                                    products: products,
-                                                    path: '/products',
-                                                    categories: categories,
-                                                    subcategories: subcategories,
-                                                    subsubcategories: subsubcategories,
-                                                    confirm: confirm,
-                                                    userNumber: userNumber,
-                                                    orders: orders,
-                                                    inputs:{
-                                                        takeSecondHand: '',
-                                                        takeMinPrice: '',
-                                                        takeMaxPrice: ''
-                                                    }
-                                                });
-                                            })
-                                    })   
-                            })
-                    })
-                    .catch((err) => {
-                        next(err);
-                    });
-                })
-            })
-        })
-}
+// exports.getProducts = (req, res, next) => {
+//     Order
+//         .find()
+//         .then(orders => {
+//             return orders;
+//         })
+//         .then(orders => {
+//             User
+//                 .find()
+//                 .then(userNumber => {
+//                     Confirmation
+//                         .find()
+//                         .then(confirm => {
+//                             return confirm;
+//                 })
+//                 .then(confirm => {
+//                     Product.find()
+//                         .then(products => {
+//                         return products;
+//                     })
+//                     .then(products => {
+//                         SubSubCategory.find()
+//                             .then(subsubcategories => {
+//                                 SubCategory.find()
+//                                     .then(subcategories => {
+//                                         Category.find()
+//                                             .then(categories => {
+//                                                 res.render('shop/products', {
+//                                                     title: 'Tüm Ürünler',
+//                                                     products: products,
+//                                                     path: '/products',
+//                                                     categories: categories,
+//                                                     subcategories: subcategories,
+//                                                     subsubcategories: subsubcategories,
+//                                                     confirm: confirm,
+//                                                     userNumber: userNumber,
+//                                                     orders: orders,
+//                                                     inputs:{
+//                                                         takeSecondHand: '',
+//                                                         takeMinPrice: '',
+//                                                         takeMaxPrice: ''
+//                                                     }
+//                                                 });
+//                                             })
+//                                     })   
+//                             })
+//                     })
+//                     .catch((err) => {
+//                         next(err);
+//                     });
+//                 })
+//             })
+//         })
+// }
 
 exports.getProductsByCategoryId = (req, res, next) => {
     const categoryid = req.params.subsubcategoryid;
@@ -134,11 +134,11 @@ exports.getProductsByCategoryId = (req, res, next) => {
                             res.render('shop/products', {
                             title: 'Kategorilenmiş Ürünler',
                             products: products,
+                            path: '/products',
                             categories: categories,
                             subcategories: subcategories,
                             subsubcategories: model.categories,
-                            selectedCategory: categoryid,
-                            path: '/products',
+                            selectedCategory: categoryid, 
                             inputs:{
                                 takeSecondHand: '',
                                 takeMinPrice: '',
@@ -389,134 +389,83 @@ exports.getSearch = (req, res, next) => {
 
 /* SecondHand Filter*/
 exports.getSecondHandFilter = (req, res, next) => {
-    Order
-        .find()
-        .then(orders => {
-            return orders;
+    const categoryid = req.params.subsubcategoryid;
+    const model = [];
+    const regex = req.query.secondHandFilter;
+    
+    SubSubCategory.find()
+        .then(categories => {
+            model.categories = categories;
+            
+            return Product.find({ categories: categoryid, "isSecondHand": regex });
+            
         })
-        .then(orders => {
-            User
-                .find()
-                .then(userNumber => {
-                    Confirmation
-                        .find()
-                        .then(confirm => {
-                            return confirm;
+        .then(products => {
+            SubCategory.find()
+                .then(subcategories => {
+                    Category.find()
+                        .then(categories => {
+                            res.render('shop/products', {
+                            title: 'Kategorilenmiş Ürünler',
+                            products: products,
+                            path: '/products',
+                            categories: categories,
+                            subcategories: subcategories,
+                            subsubcategories: model.categories,
+                            selectedCategory: categoryid,
+                            action: regex,
+                            inputs:{
+                                takeSecondHand: regex,
+                                takeMinPrice: '',
+                                takeMaxPrice: ''
+                            }
+                            });
+                        })
                 })
-                .then(confirm => {
-                    Product.find()
-                        .then(products => {
-                        return products;
-                    })
-                    .then(products => {
-                        SubSubCategory.find()
-                            .then(subsubcategories => {
-                                SubCategory.find()
-                                    .then(subcategories => {
-                                        Category.find()
-                                            .then(categories => {
-                                                    if(req.query.secondHandFilter){
-                                                        const regex = (req.query.secondHandFilter);
-                                                        Product.find({ "isSecondHand": regex }, function(err, foundjobs) {
-                                                            if(err) {
-                                                                console.log(err);
-                                                            } else {
-                                                                res.render('shop/products', {
-                                                                    title: 'Tüm Ürünler',
-                                                                    products: foundjobs,
-                                                                    path: '/products',
-                                                                    categories: categories,
-                                                                    subcategories: subcategories,
-                                                                    subsubcategories: subsubcategories,
-                                                                    confirm: confirm,
-                                                                    userNumber: userNumber,
-                                                                    orders: orders,
-                                                                    action: regex,
-                                                                    inputs:{
-                                                                        takeSecondHand: regex,
-                                                                        takeMinPrice: '',
-                                                                        takeMaxPrice: ''
-                                                                    }
-                                                                });
-                                                    }
-                                                });
-                                        }
-                                
-                                            })
-                                    })   
-                            })
-                    })
-                    .catch((err) => {
-                        next(err);
-                    });
-                })
-            })
+        })
+        .catch((err) => {
+            next(err);
         })
 }
 
 /* Price Filter*/
-exports.getPrice = (req, res, next) => {
-    Order
-        .find()
-        .then(orders => {
-            return orders;
+exports.getPrice  = (req, res, next) => {
+    const categoryid = req.params.subsubcategoryid;
+    const model = [];
+    const regex = Number((req.query.minPrice));
+    const regex2 = Number((req.query.maxPrice));
+    
+    SubSubCategory.find()
+        .then(categories => {
+            model.categories = categories;
+            
+            return Product.find({ categories: categoryid, "price": {$gt: regex-1, $lt: regex2+1} });
+            
         })
-        .then(orders => {
-            User
-                .find()
-                .then(userNumber => {
-                    Confirmation
-                        .find()
-                        .then(confirm => {
-                            return confirm;
+        .then(products => {
+            SubCategory.find()
+                .then(subcategories => {
+                    Category.find()
+                        .then(categories => {
+                            res.render('shop/products', {
+                            title: 'Kategorilenmiş Ürünler',
+                            products: products,
+                            path: '/products',
+                            categories: categories,
+                            subcategories: subcategories,
+                            subsubcategories: model.categories,
+                            selectedCategory: categoryid,
+                            action: regex,
+                            inputs:{
+                                takeSecondHand: '',
+                                takeMinPrice: regex,
+                                takeMaxPrice: regex2
+                            }
+                            });
+                        })
                 })
-                .then(confirm => {
-                    Product.find()
-                        .then(products => {
-                        return products;
-                    })
-                    .then(products => {
-                        SubSubCategory.find()
-                            .then(subsubcategories => {
-                                SubCategory.find()
-                                    .then(subcategories => {
-                                        Category.find()
-                                            .then(categories => {
-                                                    if(req.query.minPrice){
-                                                        const regex = Number((req.query.minPrice));
-                                                        const regex2 = Number((req.query.maxPrice));
-                                                        Product.find({ "price": {$gt: regex-1, $lt: regex2+1} }, function(err, foundjobs) {
-                                                            if(err) {
-                                                                console.log(err);
-                                                            } else {
-                                                                res.render('shop/products', {
-                                                                    title: 'Tüm Ürünler',
-                                                                    products: foundjobs,
-                                                                    path: '/products',
-                                                                    categories: categories,
-                                                                    subcategories: subcategories,
-                                                                    subsubcategories: subsubcategories,
-                                                                    confirm: confirm,
-                                                                    userNumber: userNumber,
-                                                                    orders: orders,
-                                                                    inputs:{
-                                                                        takeSecondHand: '',                                       
-                                                                        takeMinPrice: regex,
-                                                                        takeMaxPrice: regex2
-                                                                    }
-                                                                });
-                                                    }
-                                                });
-                                        }
-                                
-                                            })
-                                    })   
-                            })
-                    })
-                    .catch((err) => {
-                        next(err);
-                    });
-                })
-            })
+        })
+        .catch((err) => {
+            next(err);
         })
 }

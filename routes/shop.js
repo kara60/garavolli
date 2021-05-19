@@ -8,7 +8,7 @@ const shopController = require('../controllers/shop');
 
 router.get('/', locals, shopController.getIndex);
 
-router.get('/products', locals, shopController.getProducts);
+// router.get('/products', locals, shopController.getProducts);
 
 router.get('/products/:productid', locals, shopController.getProduct);
 
@@ -16,9 +16,9 @@ router.get('/categories/:subsubcategoryid', locals, shopController.getProductsBy
 
 router.get('/search', locals, shopController.getSearch);
 
-router.get('/secondHand', locals, shopController.getSecondHandFilter);
+router.get('/secondHand/categories/:subsubcategoryid', locals, shopController.getSecondHandFilter);
 
-router.get('/price', locals, shopController.getPrice);
+router.get('/price/categories/:subsubcategoryid', locals, shopController.getPrice);
 
 router.get('/contact', locals, shopController.getContact);
 
