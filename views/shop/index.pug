@@ -6,6 +6,16 @@ block megaMenu
     include ../includes/menu.pug
 
 block content
+    .container
+        div(class="row d-flex justify-content-center align-items-center")
+            .col-md-12(class="d-flex justify-content-center align-items-center")
+                div.search
+                    i(class="fas fa-search").text-secondary
+                    form(action="/search" method="GET")
+                        input(type="text" class="form-control" name="search" placeholder="Ürün ara.." autocomplete="off" id="form1")
+                        button().btn.btn-info Bul
+        //-     i(class="fas fa-search")
+
     marquee(direction=right) Merhaba, sitemizde bulunduğunuz süre boyunca yaşadığınız sıkıntıları, hataları ve eklemesini istediğiniz yenilikleri bizlere <a href="/contact" target="_blank">iletişim</a> sayfasından iletirseniz mutluluk duyarız. Teşekkürler..
     //- .div.alert.alert-info.ml-0 Merhaba, sitemizde bulunduğunuz süre boyunca yaşadığınız sıkıntıları, hataları ve eklemesini istediğiniz yenilikleri bizlere <a href="/contact">iletişim</a> sayfasından iletirseniz mutluluk duyarız. Teşekkürler..
     .row

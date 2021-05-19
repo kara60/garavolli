@@ -11,21 +11,21 @@ block content
             .row 
                 .col-lg-3.p-0
                     div(style="width:auto;").card.m-2.productFilter
-                        .card-body
-                            h5.card-title 
-                                strong Neye bakmıştınız?
+                        //- .card-body
+                        //-     h5.card-title 
+                        //-         strong Neye bakmıştınız?
                             
-                            p.card-text 
-                                form(action="/search" method="GET")
-                                    input(type="text" class="form-control" name="search" placeholder="Ürün ara.." autocomplete="off").w-100
-                                    button(type="submit").btn.btn-sm.btn-info.mb-1.w-100
-                                        i(class="fas fa-search")
-                        hr
+                        //-     p.card-text 
+                        //-         form(action="/search" method="GET")
+                        //-             input(type="text" class="form-control" name="search" placeholder="Ürün ara.." autocomplete="off").w-100
+                        //-             button(type="submit").btn.btn-sm.btn-info.mb-1.w-100
+                        //-                 i(class="fas fa-search")
+                        
                         .card-body
                             h5.card-title 
                                 strong İkinci El Tercihi
                             p.card-text
-                                form(action="/secondHand" method="GET")
+                                form(action=`/secondHand/categories/${selectedCategory}` method="GET")
                                     select(class="browser-default custom-select custom-select-lg" onchange='this.form.submit()' name="secondHandFilter" aria-label="secondHand")
                                         if `${inputs.takeSecondHand}` == 'İkinci El'
                                             option(selected value="İkinci El") İkinci El
@@ -44,7 +44,7 @@ block content
                             h5.card-title 
                                 strong Fiyat Aralığı
                             p.card-text
-                                form(action="/price" method="GET") 
+                                form(action=`/price/categories/${selectedCategory}` method="GET") 
                                     input(type="text" class="form-control" name="minPrice" placeholder="En az" autocomplete="off" value=`${inputs.takeMinPrice}`).d-inline
                                     span  - 
                                     input(type="text" class="form-control" name="maxPrice" placeholder="En çok" autocomplete="off" value=`${inputs.takeMaxPrice}`).d-inline

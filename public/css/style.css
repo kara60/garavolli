@@ -15,7 +15,7 @@ body{
     overflow: scroll;
 }
 .mainContainerStyle{
-  padding-top: 100px;
+  padding-top: 80px;
 }
 .productPageCartBg{
   background-color: #FFFFFF;
@@ -93,43 +93,68 @@ body{
   height:  373.14px;
 }
 
-/* .page-footer{
-  background-color: #e1e6e7;
-  color: rgb(61, 59, 59);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 65px;
+/*******/
+
+.search {
+  position: relative;
+  width: 75%;
+  box-shadow: 0 0 40px rgba(102, 102, 102, 0.1);
+  margin-bottom: 10px;
+  transition: all .75s ease-in-out; 
+}
+
+.search:hover {
+  position: relative;
   width: 100%;
-  margin-top:25px;
-} */
+  box-shadow: 0 0 40px rgba(102, 102, 102, 0.1);
+  margin-bottom: 10px;
+}
 
-/* .row .col-lg-3 .list-group p{
-    background-color: #ecf0f1;
-    color: #000000;
-} */
+.search input {
+  height: 50px;
+  text-indent: 25px;
+  border: 1px solid #d6d4d4;
+  border-radius: 20px;
+  box-shadow: rgba(0, 0, 0, 0.15) 2.4px 2.4px 3.2px;
+  transition: all .75s ease-in-out; 
+}
 
-/* .row .col-lg-3 .list-group a{
-    transition: all .5s ease-in-out;  
-} */
+.search input:focus {
+  box-shadow: none;
+  border: 1px solid #acacac;
+  /* transform: scale(1.1);
+  -webkit-transform: scale(1.1); */
+  
+}
 
-/* .row .col-lg-3 .list-group a:hover{
-    background-color: #ededee;
-    color: black;
-    transform: translate(15px);
-    -webkit-transform: translate(15px);
-    
-}  */
-/* .row .col-lg-3 .list-group .active{
-    background-color: #ededee;
-    color: black;
-    border: 0;
-    transform: translate(15px);
-    -webkit-transform: translate(15px);
-}  */
-/* Menu düzenlemesi*/
+.search .fa-search {
+  position: absolute;
+  top: 17px;
+  left: 10px;
+}
 
-/* ---------------- */
+.search button {
+  position: absolute;
+  border:0;
+  top: 1px;
+  right: 0px;
+  height: 48px;
+  width: 70px;
+  border-top-right-radius: 20px;
+  border-bottom-right-radius: 20px;
+  border-bottom-left-radius: 0;
+  border-top-left-radius: 0;
+  background: #17A2B8;
+  transition: all .75s ease-in-out;
+}
 
-/*----------------------------------------*/
+.search button:hover {
+  position: absolute;
+  top: 1px;
+  right: 0px;
+  height: 48px;
+  width: 100px;
+  background: #148496;
+
+}
   
