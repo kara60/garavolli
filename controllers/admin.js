@@ -5,341 +5,216 @@ const Category = require('../models/category');
 const SubCategory = require('../models/sub-category');
 const SubSubCategory = require('../models/sub-sub-category');
 const fs = require('fs');
+const nodemailer = require("nodemailer");
 
-// exports.getProducts = (req, res, next) => {
-//     Product
-//         .find({userId: req.user._id})
-//         .populate('userId', 'name -_id')
-//         .select('name price imageUrl userId')
-//         .then(products => {
-//             res.render('admin/products', {
-//                 title: 'Ürünlerim',
-//                 products: products,
-//                 path: '/admin/products',
-//                 action: req.query.action
-//             });
-//         })
-//         .catch((err) => {
-//             next(err);
-//         });
-// }
+exports.getProducts = async (req, res, next) => {
+    try{
+        const products = await Product
+            .find({userId: req.user._id})
+            .populate('userId', 'name -_id')
+            .select('name price imageUrl userId');
+        const categories = await Category.find();
+        const subcategories = await SubCategory.find();
+        const subsubcategories = await SubSubCategory.find();
+
+        res.render('admin/products', {
+            title: 'Ürünlerim',
+            products: products,
+            path: '/admin/products',
+            action: req.query.action,
+            categories: categories,
+            subcategories: subcategories,
+            subsubcategories: subsubcategories
+        });
+    }
+    catch(err){
+        next(err);
+    }       
+}
+
+exports.getChooseCategory = async (req, res, next) => {
+    try{
+        const categories = await Category.find();
+
+        res.render('admin/choose-category', {
+            title: 'Ana Kategori Seç',
+            path: '/admin/choose-category',
+            categories: categories
+        })
+    }
+    catch(err){
+        next(err);
+    }
+}
+
+exports.getChooseSubCategory = async (req, res, next) => {
+    try{
+        const categoryid = req.params.categoryid;
+        const model = [];
+
+        const categories = await Category.find();
+        model.categories = categories;
+
+        const subCategories = await SubCategory.find({ categories: categoryid });
+
+        res.render('admin/choose-sub-category', {
+            title: 'Ürünler',
+            categories: subCategories,
+            selectedCategory: categoryid,
+            path: '/admin/choose-sub-category',
+            action: req.query.action
+        });
+    }
+    catch(err){
+        next(err);
+    }
+}
 
 
-exports.getProducts = (req, res, next) => {
-    Product
-        .find({userId: req.user._id})
-        .populate('userId', 'name -_id')
-        .select('name price imageUrl userId')
-        .then(products => {
-            Category.find()
-                .then(categories => {
-                    SubCategory.find()
-                        .then(subcategories => {
-                            SubSubCategory.find()
-                                .then(subsubcategories => {
-                                    res.render('admin/products', {
-                                        title: 'Ürünlerim',
-                                        products: products,
-                                        path: '/admin/products',
-                                        action: req.query.action,
-                                        categories: categories,
-                                        subcategories: subcategories,
-                                        subsubcategories: subsubcategories
-                                    });
-                        })
-                })
-        })})
-        .catch((err) => {
-            next(err);
-        });     
+
+exports.getChooseSubSubCategory = async (req, res, next) => {
+    try{
+        const categoryid = req.params.categoryid;
+        const model = [];
         
+        const categories = await SubCategory.find();
+        model.categories = categories;
+        const subsubCategories = await SubSubCategory.find({ categories: categoryid })
+
+        res.render('admin/choose-sub-sub-category', {
+            title: 'Ürünler',
+            categories: subsubCategories,
+            selectedCategory: categoryid,
+            path: '/admin/choose-sub-sub-category',
+            action: req.query.action
+        });
+    }
+    catch(err){
+        next(err);
+    }
 }
 
+exports.getAddProduct = async (req, res, next) => {
+    try{
+        const categoryid = req.params.categoryid;
 
-exports.getChooseCategory = (req, res, next) => {
-    Category.find()
-        .then(categories => {
-            res.render('admin/choose-category', {
-                title: 'Ana Kategori Seç',
-                path: '/admin/choose-category',
-                categories: categories
-            })
-        })
-}
+        const subsubCategories = await SubSubCategory.find();
 
-exports.getChooseSubCategory = (req, res, next) => {
-    const categoryid = req.params.categoryid;
-    const model = [];
-
-    Category.find()
-        .then(categories => {
-            model.categories = categories;
-            return SubCategory.find({
-                categories: categoryid   
-            });
-        })
-        .then(subCategories => {
-            res.render('admin/choose-sub-category', {
-                title: 'Ürünler',
-                categories: subCategories,
-                selectedCategory: categoryid,
-                path: '/admin/choose-sub-category',
-                action: req.query.action
-            });
-        })
-        .catch((err) => {
-            next(err);
-        })
-}
-
-
-
-exports.getChooseSubSubCategory = (req, res, next) => {
-    const categoryid = req.params.categoryid;
-    const model = [];
-    
-    SubCategory.find()
-        .then(categories => {
-            model.categories = categories;
-            return SubSubCategory.find({
-                categories: categoryid
-            });
-        })
-        .then(subsubCategories => {
-            res.render('admin/choose-sub-sub-category', {
-                title: 'Ürünler',
-                categories: subsubCategories,
-                selectedCategory: categoryid,
-                path: '/admin/choose-sub-sub-category',
-                action: req.query.action
-            });
-        })
-        .catch((err) => {
-            next(err);
-        })
-}
-
-exports.getAddProduct = (req, res, next) => {
-    const categoryid = req.params.categoryid;
-    const model = [];
-
-    SubSubCategory.find()
-
-        .then(subsubCategories => {
-            res.render('admin/add-product', {
-                title: 'Yeni Ürün Ekleme',
-                categories: subsubCategories,
-                selectedCategory: categoryid,
-                path: '/admin/add-product',
-                action: req.query.action,
-                inputs:{
-                    name: '',
-                    price: '',
-                    description: '',
-                    nameOfSeller: '',
-                    phoneOfSeller: '',
-                    mailOfSeller: ''
-                }
-            });
-        })
-        .catch((err) => {
-            next(err);
-        })
-}
-
-/*
-exports.getAddProduct = (req, res, next) => {
-    res.render('admin/add-product', {
-        title: 'Yeni Ürün Ekleme',
-        path: '/admin/add-product',
-        inputs:{
-            name: '',
-            price: '',
-            description: '' 
-        }
-    });
-}*/
-
-exports.postAddProduct = (req, res, next) => {
-    
-    const name = req.body.name;
-    const price = req.body.price;
-    const image = req.file;
-    const description = req.body.description;
-    const nameOfSeller = req.body.nameOfSeller;
-    const phoneOfSeller = req.body.phoneOfSeller;
-    const mailOfSeller = req.body.mailOfSeller;
-    const categoryid = req.body.categoryids;
-    const isSecondHand = req.body.isSecondHand;
-    const city = req.body.city;
-
-    if(!image){
-        return res.render('admin/add-product', {
+        res.render('admin/add-product', {
             title: 'Yeni Ürün Ekleme',
+            categories: subsubCategories,
+            selectedCategory: categoryid,
             path: '/admin/add-product',
-            errorMessage: 'Lütfen bir resim seçiniz.',
+            action: req.query.action,
             inputs:{
-                name: name,
-                price: price,
-                description: description,
-                categories: categoryid,
-                nameOfSeller: nameOfSeller,
-                phoneOfSeller: phoneOfSeller,
-                mailOfSeller: mailOfSeller,
-                isSecondHand: isSecondHand,
-                city: city
+                name: '',
+                price: '',
+                description: '',
+                nameOfSeller: '',
+                phoneOfSeller: '',
+                mailOfSeller: ''
             }
         });
     }
+    catch(err){
+        next(err);
+    }
+}
 
-    const confirm = new Confirmation(
-        {
-            name: name,
-            price: price,
-            imageUrl: image.filename,
-            description: description,
-            nameOfSeller: nameOfSeller,
-            phoneOfSeller: phoneOfSeller,
-            mailOfSeller: mailOfSeller,
-            userId: req.user,
-            categories: categoryid,
-            isSecondHand: isSecondHand,
-            city: city
-        }
-    );
+exports.postAddProduct = async (req, res, next) => {
+    try{
+        const name = req.body.name;
+        const price = req.body.price;
+        const image = req.file;
+        const description = req.body.description;
+        const nameOfSeller = req.body.nameOfSeller;
+        const phoneOfSeller = req.body.phoneOfSeller;
+        const mailOfSeller = req.body.mailOfSeller;
+        const categoryid = req.body.categoryids;
+        const isSecondHand = req.body.isSecondHand;
+        const city = req.body.city;
+    
+        const confirm = new Confirmation(
+            {
+                name: name,
+                price: price,
+                imageUrl: image.filename,
+                description: description,
+                nameOfSeller: nameOfSeller,
+                phoneOfSeller: phoneOfSeller,
+                mailOfSeller: mailOfSeller,
+                userId: req.user,
+                categories: categoryid,
+                isSecondHand: isSecondHand,
+                city: city
+            }
+        );
 
-    confirm.save()
-        .then(result => {
-            res.redirect('/admin/products?action=waiting');
-        })
-        .catch(err => {
-            
-            if(err.name == 'ValidationError'){
-                let message = '';
-                for(field in err.errors){
-                    message += err.errors[field].message + '<br>';
+        await confirm.save();
+        res.redirect('/admin/products?action=waiting');
+
+    }
+    catch(err){
+        if(err.name == 'ValidationError'){
+            let message = '';
+            for(field in err.errors){
+                message += err.errors[field].message + '<br>';
+            }
+
+            res.render('admin/add-product', {
+                title: 'Yeni Ürün Ekleme',
+                path: '/admin/add-product',
+                errorMessage: message,
+                inputs:{
+                    name: name,
+                    price: price,
+                    description: description,
+                    nameOfSeller: nameOfSeller,
+                    phoneOfSeller: phoneOfSeller,
+                    mailOfSeller: mailOfSeller,
+                    categories: categoryid,
+                    isSecondHand: isSecondHand,
+                    city: city
                 }
-
-                res.render('admin/add-product', {
-                    title: 'Yeni Ürün Ekleme',
-                    path: '/admin/add-product',
-                    errorMessage: message,
-                    inputs:{
-                        name: name,
-                        price: price,
-                        description: description,
-                        nameOfSeller: nameOfSeller,
-                        phoneOfSeller: phoneOfSeller,
-                        mailOfSeller: mailOfSeller,
-                        categories: categoryid,
-                        isSecondHand: isSecondHand,
-                        city: city
-                    }
-                });
-            }else{
-                //res.redirect('/500');
-                next(err);
-            }
-        });
+            });
+        }else{
+            next(err);
+        }
+    }
 }
 
-// exports.getEditProduct = (req, res, next) => {
-
-//     Product.findOne({_id: req.params.productid, userId:req.user._id})
-//         .then(product => {
-//             if(!product){
-//                 return res.redirect('/');
-//             }
-//             return product;
-//         })
-//         .then(product => {
-            
-         
-
-//             res.render('admin/edit-product', {
-//                 title: 'Ürün Düzenleme',
-//                 path: '/admin/products',
-//                 product: product,
-//             });
-//         })      
-//         .catch(err => { next(err); });
-// }
-
-exports.getEditProduct= (req, res, next) => {
-    Product
-        .findOne({_id: req.params.productid, userId:req.user._id})
-        .then(confirm => {
-            if(!confirm){
-                return res.redirect('/');
-            }
-            return confirm;
-        })
-        .then(confirm => {
-
-            SubSubCategory.find()
-                .then(categories => {
-
-                    categories = categories.map(category => {
-
-                        if(confirm.categories){
-                            confirm.categories.find(item => {
-                                if(item.toString() === category._id.toString()){
-                                    category.selected = true;
-                                }
-                            })
-                        }
-                        return category;
-                    })
-
-                    res.render('admin/edit-product', {
-                        title: 'Ürün İnceleme-Onaylama',
-                        path: '/admin/products',
-                        product: confirm,
-                        categories: categories
-                    });
-                })
-        })
-        .catch(err => { next(err); });
-
-}
-
-// exports.postEditProduct = (req, res, next) => {
-
-//     const id = req.body.id;
-//     const name = req.body.name;
-//     const price = req.body.price;
-//     const image = req.body.image;
-//     //const image = req.file;
-//     const isSecondHand = req.body.isSecondHand;
-//     const description = req.body.description;
-//     const ids = req.body.categoryids;
-//     const nameOfSeller = req.body.nameOfSeller;
-//     const phoneOfSeller = req.body.phoneOfSeller;
-//     const mailOfSeller = req.body.mailOfSeller;
-//     const userid = req.body.userid;
-
-//     Product.findOne({_id:id, userId:req.user._id})
-//         .then(product => {
-//             if(!product){
-//                 return res.redirect('/');
-//             }
-//             product.name = name;
-//             product.price = price;
-//             product.description = description;
-//             product.isSecondHand = isSecondHand;
-//             product.nameOfSeller = nameOfSeller;
-//             product.phoneOfSeller = phoneOfSeller;
-//             product.mailOfSeller = mailOfSeller;
+exports.getEditProduct= async (req, res, next) => {
+    try{
+        const confirm = await Product.findOne({ _id: req.params.productid, userId:req.user._id });
+        if(!confirm){
+            res.redirect('/');
+        }
         
-//             return product.save();
-//         }).then(result => {
-//             res.redirect('/admin/products?action=edit');
-//         }).catch(err => {
-//             next(err);
-//         });
-// }
+        let categories = await SubSubCategory.find();
+        categories =  await categories.map(category => {
 
-exports.postEditProduct = (req, res, next) => {
+            if(confirm.categories){
+                confirm.categories.find(item => {
+                    if(item.toString() === category._id.toString()){
+                        category.selected = true;
+                    }
+                })
+            }
+            return category;
+        })
+        res.render('admin/edit-product', {
+            title: 'Ürün İnceleme-Onaylama',
+            path: '/admin/products',
+            product: confirm,
+            categories: categories
+        });
+    }
+    catch(err){
+        next(err);
+    }
+}
+
+exports.postEditProduct = async (req, res, next) => {
 
     const name = req.body.name; 
     const price = req.body.price;
@@ -794,20 +669,20 @@ exports.getEditConfirmation= (req, res, next) => {
 }
 
 //post edit confirmation
-exports.postEditConfirmation = (req, res, next) => {
-
-    const id = req.body.id;
-    const name = req.body.name; 
-    const price = req.body.price;
-    const image = req.body.image;
-    const description = req.body.description;
-    const nameOfSeller = req.body.nameOfSeller;
-    const phoneOfSeller = req.body.phoneOfSeller;
-    const mailOfSeller = req.body.mailOfSeller;
-    const ids = req.body.categoryids;
-    const userid = req.body.userid;
-    const isSecondHand = req.body.isSecondHand;
-    const city = req.body.city;
+exports.postEditConfirmation = async (req, res, next) => {
+    try{
+        const id = req.body.id;
+        const name = req.body.name; 
+        const price = req.body.price;
+        const image = req.body.image;
+        const description = req.body.description;
+        const nameOfSeller = req.body.nameOfSeller;
+        const phoneOfSeller = req.body.phoneOfSeller;
+        const mailOfSeller = req.body.mailOfSeller;
+        const ids = req.body.categoryids;
+        const userid = req.body.userid;
+        const isSecondHand = req.body.isSecondHand;
+        const city = req.body.city;
 
         const confirm = new Product(
             {
@@ -824,76 +699,112 @@ exports.postEditConfirmation = (req, res, next) => {
                 city: city
             }
         );
-         
-        confirm.save()
-            .then(result => {
-                res.redirect('/admin/confirmation?action=confirm');
-            })
-            .catch(err => {
-                
-                if(err.name == 'ValidationError'){
-                    let message = '';
-                    for(field in err.errors){
-                        message += err.errors[field].message + '<br>';
-                    }
-    
-                    res.render('admin/add-product', {
-                        title: 'Yeni Ürün Ekleme',
-                        path: '/admin/add-product',
-                        errorMessage: message,
-                        inputs:{
-                            name: name,
-                            price: price,
-                            description: description
-                        }
-                    });
-                }else{
-                    //res.redirect('/500');
-                    next(err);
-                }
-            });
-            
-        // Silme işlemi
-        Confirmation.findOne({_id: id})
-            .then(product => {
-                if(!product){
-                    return next(new Error('Silinmek istenen ürün bulunamadı.'));
-                }
 
-                return Confirmation.deleteOne({_id: id})
-            })
-            .catch(err => {
+        await confirm.save()
+        const product = await Confirmation.findOne({_id: id})
+        if(!product){
+            return next(new Error('Silinmek istenen ürün bulunamadı.'));
+        }
+        await Confirmation.deleteOne({_id: id})
+        
+        //mail gönderme
+        const transfer = nodemailer.createTransport({
+            service: "gmail", //maili gönderen kişinin kullandığı servis
+            auth:{ // maili gönderen kişinin bilgileri
+                user:"garavollishopping@gmail.com",
+                pass:"enekcanel"
+            }
+        });
+
+        let mailBilgi = {
+            from: "garavollishopping@gmail.com",
+            to:mailOfSeller,
+            subject: "ÜRÜNÜNÜZ ONAYLANMIŞTIR!",
+            html: `<p>Ürününüzü inceledik ve satışa sunmakta herhangi bir sakınca olmadığı gördük, iyi satışlar..</p>`
+        };
+
+        transfer.sendMail(mailBilgi, err => {
+            if(err){
                 next(err);
+            }
+            else{
+                
+            }
+        });
+
+        res.redirect('/admin/confirmation?action=confirm')
+    }
+    catch(err){
+        if(err.name == 'ValidationError'){
+            let message = '';
+            for(field in err.errors){
+                message += err.errors[field].message + '<br>';
+            }
+
+            res.render('admin/add-product', {
+                title: 'Yeni Ürün Ekleme',
+                path: '/admin/add-product',
+                errorMessage: message,
+                inputs:{
+                    name: name,
+                    price: price,
+                    description: description
+                }
             });
+        }else{
+            next(err);
+        }
+    }
 }
 
 //post delete confirmation
-exports.postDeleteConfirmation= (req, res, next) => {
+exports.postDeleteConfirmation= async (req, res, next) => {
+    try{
+        const id = req.body.productid;
 
-    const id = req.body.productid;
-
-    Confirmation.findOne({_id: id})
-        .then(product => {
-            if(!product){
-                return next(new Error('Silinmek istenen ürün bulunamadı.'));
+        const product = await Confirmation.findOne({ _id: id });
+        if(!product){
+            return next(new Error('Silinmek istenen ürün bulunamadı.'));
+        }
+        fs.unlink('public/img/' + product.imageUrl, err => {
+            if(err){
+                console.log(err);
             }
-            fs.unlink('public/img/' + product.imageUrl, err => {
-                if(err){
-                    console.log(err);
-                }
-            });
-
-            return Confirmation.deleteOne({_id: id})
-        }).then((result) => {
-            if(result.deletedCount === 0){
-                return next(new Error('Silinmek istenen ürün bulunamadı.'));
-            }
-            
-            res.redirect('/admin/confirmation?action=delete');
-        })
-        .catch(err => {
-            next(err);
         });
+        const result = await Confirmation.deleteOne({_id: id})
+        if(result.deletedCount === 0){
+            return next(new Error('Silinmek istenen ürün bulunamadı.'));
+        }
+        
+        //mail gönderme
+        const transfer = nodemailer.createTransport({
+            service: "gmail", //maili gönderen kişinin kullandığı servis
+            auth:{ // maili gönderen kişinin bilgileri
+                user:"garavollishopping@gmail.com",
+                pass:"enekcanel"
+            }
+        });
+
+        let mailBilgi = {
+            from: "garavollishopping@gmail.com",
+            to: product.mailOfSeller,
+            subject: "ÜRÜNÜNÜZ ONAYLANMAMIŞTIR!",
+            text: "Ürününüzü inceledik ve satış kurallarına uymadığına karar vererek onaylamadık. garavolli Ekibi."
+        };
+
+        transfer.sendMail(mailBilgi, err => {
+            if(err){
+                next(err);
+            }
+            else{
+                
+            }
+        });
+        res.redirect('/admin/confirmation?action=delete'); 
+    }
+    catch(err){
+        next(err);
+    }
 }
 
 //getallProducts

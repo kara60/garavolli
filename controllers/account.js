@@ -10,221 +10,207 @@ const SubCategory = require('../models/sub-category');
 const SubSubCategory = require('../models/sub-sub-category');
 const Order = require('../models/order');
 const Confirmation = require('../models/confirmation');
+const nodemailer = require('nodemailer');
 
 sgMail.setApiKey('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');
 
-// exports.getLogin = (req,res,next) => {
+exports.getLogin = async (req, res, next) => {
+    try{
+        const categories = await Category.find();
+        const subcategories = await SubCategory.find();
+        const subsubcategories = await SubSubCategory.find();
 
-//     var errorMessage = req.session.errorMessage;
-//     delete req.session.errorMessage;
-//     res.render('account/login', {
-//         path: '/login',
-//         title: 'Giriş',
-//         errorMessage: errorMessage,
-//         action: req.query.action
-//     });
-// }
+        var errorMessage = req.session.errorMessage;
+        delete req.session.errorMessage;
 
-
-exports.getLogin = (req, res, next) => {
-    Category.find()
-        .then(categories => {
-            SubCategory.find()
-                .then(subcategories => {
-                    SubSubCategory.find()
-                        .then(subsubcategories => {
-                            var errorMessage = req.session.errorMessage;
-                            delete req.session.errorMessage;
-                            res.render('account/login', {
-                                path: '/login',
-                                title: 'Giriş',
-                                categories: categories,
-                                subcategories: subcategories,
-                                subsubcategories: subsubcategories,
-                                errorMessage: errorMessage,
-                                action: req.query.action
-                            });
-                        })
-                })
-        })
-        .catch((err) => {
-            next(err);
+        res.render('account/login', {
+            path: '/login',
+            title: 'Giriş',
+            categories: categories,
+            subcategories: subcategories,
+            subsubcategories: subsubcategories,
+            errorMessage: errorMessage,
+            action: req.query.action
         });
+    }
+    catch(err){
+        next(err);
+    }
 }
 
-
-exports.postLogin = (req,res,next) => {
+exports.postLogin = async (req,res,next) => {
+    try{
+        const email = req.body.email;
+        const password = req.body.password;
     
-    const email = req.body.email;
-    const password = req.body.password;
+        const loginModel = new Login({
+            email: email,
+            password: password
+        });
+        
+        await loginModel.validate()
+        const user = await User.findOne({ email: email })
+        
+        if(!user){
+            return res.redirect('/login?action=noEmail');
+        }
+        if(user.status != 'Active'){
+            return res.redirect('/login?action=verify');
+        }
+        const isSuccess = await bcrypt.compare(password,user.password)
+        if(isSuccess){
+            req.session.user = user;
+            req.session.isAuthenticated = true;
+            return req.session.save(function(err) {
+                var url = req.session.redirectTo || '/';
+                delete req.session.redirectTo;
+                res.redirect('/');
+            });
+        }
+        req.session.errorMessage = 'Hatalı eposta yada parola girdiniz.';
+        req.session.save(function(err){
+            return res.redirect('/login');
+        })
+    }
+    catch(err){
+        if(err.name == 'ValidationError'){
+            let message = '';
+            for(field in err.errors){
+                message += err.errors[field].message + '<br>';
+            }
 
-    const loginModel = new Login({
-        email: email,
-        password: password
-    });
+            res.render('account/login', {
+                path: '/login',
+                title: 'Giriş',
+                errorMessage: message
+            }); 
+        }else{
+            next(err);
+        }
+    }
+}
 
-    loginModel
-        .validate()
-        .then(() => {
-            User.findOne({email: email})
-            .then(user => {
-                if(!user){
-                    req.session.errorMessage = 'Bu mail adresi ile bir kayıt bulunamamıştır.';
-                    req.session.save(function(err){
-                        return res.redirect('/login');
-                    }) 
-                }
-    
-                bcrypt.compare(password,user.password)
-                    .then(isSuccess => {
-                        if(isSuccess){
-                            req.session.user = user;
-                            req.session.isAuthenticated = true;
-                            return req.session.save(function(err) {
-                                var url = req.session.redirectTo || '/';
-                                delete req.session.redirectTo;
-                                res.redirect('/');
-                            });
-                        }
-                        req.session.errorMessage = 'Hatalı eposta yada parola girdiniz.';
-                        req.session.save(function(err){
-                            return res.redirect('/login');
-                        }) 
-                    })
-                    .catch(err=> {
-                        console.log(err);
-                    })
-            })
-            .catch(err => {
+exports.getRegister = async (req, res, next) => {
+    try{
+        const categories = await Category.find();
+        const subcategories = await SubCategory.find();
+        const subsubcategories = await SubSubCategory.find();
+
+        var errorMessage = req.session.errorMessage;
+        delete req.session.errorMessage;
+
+        res.render('account/register', {
+            path: '/register',
+            title: 'Kayıt Ol',
+            categories: categories,
+            subcategories: subcategories,
+            subsubcategories: subsubcategories,
+            errorMessage: errorMessage
+        });
+    }
+    catch(err){
+        next(err)
+    }
+}
+
+exports.postRegister = async (req,res,next) => {
+    try{
+        const name = req.body.name;
+        const email = req.body.email;
+        const password = req.body.password;
+        const surname = req.body.surname;
+
+        const user = await User.findOne({ email: email });
+        console.log(user);
+        if(user){
+            req.session.errorMessage = 'Bu mail adresi ile daha önce kayıt olunmuş. Eğer parolanızı unuttuysanız lütfen giriş sayfasından şifre sıfırlama işlemini uygulayınız.';
+            req.session.save(function(err){
                 console.log(err);
             })
-        })
-        .catch(err => {
-            if(err.name == 'ValidationError'){
-                let message = '';
-                for(field in err.errors){
-                    message += err.errors[field].message + '<br>';
-                }
+            return res.redirect('/register');
+        }
 
-                res.render('account/login', {
-                    path: '/login',
-                    title: 'Giriş',
-                    errorMessage: message
-                }); 
-            }else{
-                next(err);
+        const hashedPassword = await bcrypt.hash(password, 10);
+        const newUser = new User({
+            name: name,
+            email: email,
+            password: hashedPassword,
+            surname: surname,
+            cart: {items: []}
+        });
+
+        await newUser.save();
+
+        res.redirect('/login?action=success');
+
+        const userid = await User.find({ email: email }, '_id');
+        const ids = userid.map(s => s._id);
+        console.log(ids);
+        //mail gönderme
+        const transfer = nodemailer.createTransport({
+            service: "gmail", //maili gönderen kişinin kullandığı servis
+            auth:{ // maili gönderen kişinin bilgileri
+                user:"garavollishopping@gmail.com",
+                pass:"enekcanel"
             }
         });
-}
 
-// exports.getRegister = (req,res,next) => {
-//     var errorMessage = req.session.errorMessage;
-//     delete req.session.errorMessage;
-//     res.render('account/register', {
-//         path: '/register',
-//         title: 'Kayıt Ol',
-//         errorMessage: errorMessage
-//     });
-// }
+        let mailBilgi = {
+            from: "garavollishopping@gmail.com",
+            to: email,
+            subject: "Hesabınız başarıyla oluşturuldu!",
+            html: `
+                <p>Lütfen hesabınızı aktifleştirmeniz için aşağıdaki linke tıklayınız:</p>
+                <a href='http://localhost:3000/verify/${ids}'}'>Aktifleştir</a>
+            `
+        };
 
+        transfer.sendMail(mailBilgi, err => {
+            if(err){
+                next(err);
+            }
+            else{
+                
+            }
+        });
+        
+    }
+    catch(err){
+        if(err.name == 'ValidationError'){
+            let message = '';
+            for(field in err.errors){
+                message += err.errors[field].message + '<br>';
+            }
 
-exports.getRegister = (req, res, next) => {
-
-    Category.find()
-        .then(categories => {
-            SubCategory.find()
-                .then(subcategories => {
-                    SubSubCategory.find()
-                        .then(subsubcategories => {
-                            var errorMessage = req.session.errorMessage;
-                            delete req.session.errorMessage;
-                            res.render('account/register', {
-                                path: '/register',
-                                title: 'Kayıt Ol',
-                                categories: categories,
-                                subcategories: subcategories,
-                                subsubcategories: subsubcategories,
-                                errorMessage: errorMessage
-                            });
-                        })
-                })
-        })
-        .catch((err) => {
+            res.render('account/register', {
+                path: '/register',
+                title: 'Kayıt Ol',
+                errorMessage: message
+            }); 
+        }else{
             next(err);
-        });
+        }
+    }
 }
 
-exports.postRegister = (req,res,next) => {
-    const name = req.body.name;
-    const email = req.body.email;
-    const password = req.body.password;
-    const surname = req.body.surname;
-    // const phoneNumber2 = req.body.phoneNumber2;
-    // const phoneNumber3 = req.body.phoneNumber3;
-    // const phoneNumber = phoneNumber2+phoneNumber3;
-    User.findOne({email: email})
-        .then(user => {
-            if(user){
-                req.session.errorMessage = 'Bu mail adresi ile daha önce kayıt olunmuş. Eğer parolanızı unuttuysanız lütfen giriş sayfasından şifre sıfırlama işlemini uygulayınız.';
-                req.session.save(function(err){
-                    console.log(err);
-                })
-                return res.redirect('/register');
-            }
-            return bcrypt.hash(password, 10);
-        })
-        .then(hashedPassword => {
-            const newUser = new User({
-                name: name,
-                email: email,
-                password: hashedPassword,
-                surname: surname,
-                // phoneNumber: phoneNumber,
-                cart: {items: []}
-            });
-            return newUser.save();
-        })
-        .then(() => {
-            res.redirect('/login?action=success');
+exports.verifyUser = async (req, res, next) => {
+    try{
+        const userid = req.params.ids;
+        const user = await User.findOne({ _id: userid});
+        
+        if (!user) {
+            return res.status(404).send({ message: "User Not found." });
+        }
+        user.status = "Active";
+        await user.save();
 
-            const msg = {
-                to: email,
-                from: 'garavollishopping@gmail.com',
-                subject: 'Hesap Oluşturuldu.',
-                html: '<h1>Hesabınız başarılı bir şekilde oluşturuldu.</h1>',
-            };
-            sgMail
-            .send(msg);
-        })
-        .catch(err => {
-            if(err.name == 'ValidationError'){
-                let message = '';
-                for(field in err.errors){
-                    message += err.errors[field].message + '<br>';
-                }
-
-                res.render('account/register', {
-                    path: '/register',
-                    title: 'Kayıt Ol',
-                    errorMessage: message
-                }); 
-            }else{
-                next(err);
-            }
-        })
+        return res.redirect('/login?action=verifySuccess');
+    }
+    catch(err){
+        next(err);
+    }
+    
 }
-
-// exports.getReset = (req,res,next) => {
-//     var errorMessage = req.session.errorMessage;
-//     delete req.session.errorMessage;
-
-
-//     res.render('account/reset', {
-//         path: '/reset-password',
-//         title: 'Parola yenileme',
-//         errorMessage: errorMessage
-//     });
-// }
 
 
 exports.getReset = (req, res, next) => {
@@ -295,32 +281,6 @@ exports.postReset = (req,res,next) => {
             })
     });
 }
-
-// exports.getNewPassword = (req, res, next) => {
-
-//     var errorMessage = req.session.errorMessage;
-//     delete req.session.errorMessage;
-
-//     const token = req.params.token;
-
-//     User.findOne({
-//         resetToken: token, resetTokenExpiration:{
-//         $gt: Date.now()
-//         }
-//     }).then(user => {
-
-//         res.render('account/new-password', {
-//             path: '/new-password',
-//             title: 'Yeni Parola',
-//             errorMessage: errorMessage,
-//             userId: user._id.toString(),
-//             passwordToken: token
-//         });
-//     }).catch(err => {
-//         next(err);
-//     })
-// }
-
 
 exports.getNewPassword = (req, res, next) => {
     Category.find()

@@ -9,62 +9,86 @@ block content
     .row
         .col-lg-12.productPageCartBg
             .row 
-                .col-lg-3.p-0
-                    div(style="width:auto;").card.m-2.productFilter
-                        //- .card-body
-                        //-     h5.card-title 
-                        //-         strong Neye bakmıştınız?
-                            
-                        //-     p.card-text 
-                        //-         form(action="/search" method="GET")
-                        //-             input(type="text" class="form-control" name="search" placeholder="Ürün ara.." autocomplete="off").w-100
-                        //-             button(type="submit").btn.btn-sm.btn-info.mb-1.w-100
-                        //-                 i(class="fas fa-search")
-                        
-                        .card-body
-                            h5.card-title 
-                                strong İkinci El Tercihi
-                            p.card-text
-                                form(action=`/secondHand/categories/${selectedCategory}` method="GET")
-                                    select(class="browser-default custom-select custom-select-lg" onchange='this.form.submit()' name="secondHandFilter" aria-label="secondHand")
-                                        if `${inputs.takeSecondHand}` == 'İkinci El'
-                                            option(selected value="İkinci El") İkinci El
-                                            option(value="İkinci El Değil") İkinci El Değil
-
-                                        else if `${inputs.takeSecondHand}` == 'İkinci El Değil'
-                                            option(selected value="İkinci El Değil") İkinci El Değil
-                                            option(value="İkinci El") İkinci El
-                                        else
-                                            option(selected) Seçiniz 
-                                            option(value="İkinci El") İkinci El
-                                            option(value="İkinci El Değil") İkinci El Değil
-                                        
-                        hr
-                        .card-body
-                            h5.card-title 
-                                strong Fiyat Aralığı
-                            p.card-text
-                                form(action=`/price/categories/${selectedCategory}` method="GET") 
-                                    input(type="text" class="form-control" name="minPrice" placeholder="En az" autocomplete="off" value=`${inputs.takeMinPrice}`).d-inline
-                                    span  - 
-                                    input(type="text" class="form-control" name="maxPrice" placeholder="En çok" autocomplete="off" value=`${inputs.takeMaxPrice}`).d-inline
-                                    button(type="submit").btn.btn-sm.btn-info.ml-1.mb-1
-                                        i(class="fas fa-arrow-right")
-                            
-                .col-lg-9.p-0
-                    each subsubcategory in subsubcategories
-                        if selectedCategory == `${subsubcategory._id}`
-                            h2.font-italic.ml-2.mt-3 
-                                |#{subsubcategory.name} Kategorisi 
-                                hr
-
-                    .row.pr-3
-                        if products.length > 0
-                            each product in products
+                if searchRegex
+                    .col-lg-9.p-0
+                        .row.pr-3
+                            if products.length > 0
+                                each product in products
+                                    
+                                    +createProduct(product)
                                 
-                                +createProduct(product)
+                            else
+                                h2.ml-4.mt-3 Gösterilecek ürün yok!
+                else
+                    .col-lg-3.p-0
+                        div(style="width:auto;").card.m-2.productFilter
+                            //- .card-body
+                            //-     h5.card-title 
+                            //-         strong Neye bakmıştınız?
                                 
-                        else
-                            h2.ml-4 Gösterilecek ürün yok!
+                            //-     p.card-text 
+                            //-         form(action="/search" method="GET")
+                            //-             input(type="text" class="form-control" name="search" placeholder="Ürün ara.." autocomplete="off").w-100
+                            //-             button(type="submit").btn.btn-sm.btn-info.mb-1.w-100
+                            //-                 i(class="fas fa-search")
+                            
+                            .card-body
+                                h5.card-title 
+                                    strong İkinci El Tercihi
+                                p.card-text
+                                    form(action=`/secondHand/categories/${selectedCategory}` method="GET")
+                                        select(class="browser-default custom-select custom-select-lg" onchange='this.form.submit()' name="secondHandFilter" aria-label="secondHand")
+                                            if `${inputs.takeSecondHand}` == 'İkinci El'
+                                                option(selected value="İkinci El") İkinci El
+                                                option(value="İkinci El Değil") İkinci El Değil
+
+                                            else if `${inputs.takeSecondHand}` == 'İkinci El Değil'
+                                                option(selected value="İkinci El Değil") İkinci El Değil
+                                                option(value="İkinci El") İkinci El
+                                            else
+                                                option(selected) Seçiniz 
+                                                option(value="İkinci El") İkinci El
+                                                option(value="İkinci El Değil") İkinci El Değil
+                                            
+                            hr
+                            .card-body
+                                h5.card-title 
+                                    strong Fiyat Aralığı
+                                p.card-text
+                                    form(action=`/price/categories/${selectedCategory}` method="GET") 
+                                        input(type="text" class="form-control" name="minPrice" placeholder="En az" autocomplete="off" value=`${inputs.takeMinPrice}`).d-inline
+                                        span  - 
+                                        input(type="text" class="form-control" name="maxPrice" placeholder="En çok" autocomplete="off" value=`${inputs.takeMaxPrice}`).d-inline
+                                        button(type="submit").btn.btn-sm.btn-info.ml-1.mb-1
+                                            i(class="fas fa-arrow-right")
+                                
+                    .col-lg-9.p-0
+                        //- each subsubcategory in subsubcategories
+                        //-     if selectedCategory == `${subsubcategory._id}`
+                        //-         h2.font-italic.ml-2.mt-3 
+                        //-             |#{subsubcategory.name} Kategorisi 
+                        //-             hr
+
+                        each subsubcategory in subsubcategories
+                            -var subsubcategoryCategories = `${subsubcategory.categories}`
+                            if selectedCategory == `${subsubcategory._id}`
+                                each subcategory in subcategories
+                                    -var subcategoryCategories = `${subcategory.categories}`
+                                    if subcategory._id == subsubcategoryCategories
+                                        each category in categories
+                                            if category._id == subcategoryCategories
+                                                h6.font-italic.ml-2.mt-3 
+                                                    b.text-secondary #{category.name} > #{subcategory.name} > 
+                                                        u.text-dark #{subsubcategory.name}
+                                                hr
+
+                        .row.pr-3
+                            if products.length > 0
+                                each product in products
+                                    
+                                    +createProduct(product)
+                                    
+                            else
+                                h2.ml-4.mt-3 Gösterilecek ürün yok!
 block script
     script(src="/js/deneme.js")

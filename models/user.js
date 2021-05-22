@@ -29,6 +29,11 @@ const userSchema = mongoose.Schema({
         type: Boolean,
         default: false
     },
+    status:{
+        type: String,
+        enum: ['Pending', 'Active'],
+        default: 'Pending'
+    },
     cart: {
         items: [{
             productId: {
