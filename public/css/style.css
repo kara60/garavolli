@@ -145,7 +145,7 @@ body{
   border-bottom-left-radius: 0;
   border-top-left-radius: 0;
   background: #17A2B8;
-  transition: all .75s ease-in-out;
+  transition: all .3s ease-in-out;
 }
 
 .search button:hover {

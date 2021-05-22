@@ -7,7 +7,7 @@
     "start": "nodemon app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords":[],
+  "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
@@ -23,6 +23,7 @@
     "mongoose": "^5.11.8",
     "multer": "^1.4.2",
     "negotiator": "^0.6.1",
+    "nodemailer": "^6.6.0",
     "pug": "^2.0.3",
     "validator": "^13.5.2"
   },

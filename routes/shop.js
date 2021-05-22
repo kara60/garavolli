@@ -22,6 +22,8 @@ router.get('/price/categories/:subsubcategoryid', locals, shopController.getPric
 
 router.get('/contact', locals, shopController.getContact);
 
+// router.get('/contact', locals, shopController.postContact);
+
 router.get('/cart', locals, isAuthentication, shopController.getCart);
 
 router.post('/cart', locals, isAuthentication, shopController.postCart);

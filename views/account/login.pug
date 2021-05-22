@@ -7,9 +7,16 @@ block megaMenu
     include ../includes/menu.pug
     
 block content
+    if action === 'verify'
+        div.alert.alert-danger.col-sm-7.container Lütfen email adresinizi doğrulayınız!
+    if action === 'verifySuccess'
+        div.alert.alert-success.col-sm-7.container Tebrikler hesabınız başarılı bir şekilde doğrulanmıştır.
+    if action === 'noEmail'
+        div.alert.alert-danger.col-sm-7.container Email bulunamadı.
+        
     if (action !== 'undefined' && action === 'success')
          script(type='text/javascript').
-            alert("Hesabınız başarıyla oluşturuldu. Giriş sayfasına yönlendiriliyorsunuz..");
+            alert("Hesabınız başarıyla oluşturuldu. Lütfen emailinizi kontrol ediniz..");
 
     if (action !== 'undefined' && action === 'reset')
         script(type='text/javascript').

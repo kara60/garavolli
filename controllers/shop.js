@@ -5,211 +5,126 @@ const SubSubCategory = require('../models/sub-sub-category');
 const Order = require('../models/order');
 const Confirmation = require('../models/confirmation');
 const User = require('../models/user');
-const product = require('../models/product');
+const nodemailer = require("nodemailer");
 
-exports.getIndex = (req, res, next) => {
+exports.getIndex = async (req, res, next) => {
+    try{
+        const orders = await Order.find();
+        const userNumber = await User.find();
+        const confirm = await Confirmation.find();
+        const products = await Product.find();
+        const categories = await Category.find();
+        const subcategories = await SubCategory.find();
+        const subsubcategories = await SubSubCategory.find();
 
-    Order
-        .find()
-        .then(orders => {
-            return orders;
-        })
-        .then(orders => {
-            User
-                .find()
-                .then(userNumber => {
-                    Confirmation
-                        .find()
-                        .then(confirm => {
-                            return confirm;
-                })
-                .then(confirm => {
-                    Product.find()
-                        .then(products => {
-                        return products;
-                    })
-                    .then(products => {
-                        Category.find()
-                            .then(categories => {
-                                SubCategory.find()
-                                    .then(subcategories => {
-                                        SubSubCategory.find()
-                                            .then(subsubcategories => {
-                                                res.render('shop/index', {
-                                                    title: 'Garavolli',
-                                                    products: products,
-                                                    path: '/',
-                                                    categories: categories,
-                                                    subcategories: subcategories,
-                                                    subsubcategories: subsubcategories,
-                                                    confirm: confirm,
-                                                    userNumber: userNumber,
-                                                    orders: orders,
-                                                    user: req.user
-                                                });
-                                            })
-                                    })
-                                
-                            })
-                    })
-                    .catch((err) => {
-                        next(err);
-                    });
-                })
-            })
-        })
+        res.render('shop/index', {
+            title: 'Garavolli',
+            products: products,
+            path: '/',
+            categories: categories,
+            subcategories: subcategories,
+            subsubcategories: subsubcategories,
+            confirm: confirm,
+            userNumber: userNumber,
+            orders: orders,
+            user: req.user
+        });
+    }
+    catch(err){
+        next(err);
+    }
 }
 
-// exports.getProducts = (req, res, next) => {
-//     Order
-//         .find()
-//         .then(orders => {
-//             return orders;
-//         })
-//         .then(orders => {
-//             User
-//                 .find()
-//                 .then(userNumber => {
-//                     Confirmation
-//                         .find()
-//                         .then(confirm => {
-//                             return confirm;
-//                 })
-//                 .then(confirm => {
-//                     Product.find()
-//                         .then(products => {
-//                         return products;
-//                     })
-//                     .then(products => {
-//                         SubSubCategory.find()
-//                             .then(subsubcategories => {
-//                                 SubCategory.find()
-//                                     .then(subcategories => {
-//                                         Category.find()
-//                                             .then(categories => {
-//                                                 res.render('shop/products', {
-//                                                     title: 'Tüm Ürünler',
-//                                                     products: products,
-//                                                     path: '/products',
-//                                                     categories: categories,
-//                                                     subcategories: subcategories,
-//                                                     subsubcategories: subsubcategories,
-//                                                     confirm: confirm,
-//                                                     userNumber: userNumber,
-//                                                     orders: orders,
-//                                                     inputs:{
-//                                                         takeSecondHand: '',
-//                                                         takeMinPrice: '',
-//                                                         takeMaxPrice: ''
-//                                                     }
-//                                                 });
-//                                             })
-//                                     })   
-//                             })
-//                     })
-//                     .catch((err) => {
-//                         next(err);
-//                     });
-//                 })
-//             })
-//         })
-// }
+exports.getProductsByCategoryId = async (req, res, next) => {
+    try{
+        const categoryid = req.params.subsubcategoryid;
+        const model = [];
 
-exports.getProductsByCategoryId = (req, res, next) => {
-    const categoryid = req.params.subsubcategoryid;
-    const model = [];
-
-    SubSubCategory.find()
-        .then(categories => {
-            model.categories = categories;
-            return Product.find({
-                categories: categoryid
+        const subsubcategories = await SubSubCategory.find();
+        model.subsubcategories = subsubcategories;
+        const products = await Product.find({ categories: categoryid });
+        
+        const subcategories = await SubCategory.find();
+        const categories = await Category.find();
+        
+        res.render('shop/products', {
+            title: 'Kategorilenmiş Ürünler',
+            products: products,
+            path: '/products',
+            categories: categories,
+            subcategories: subcategories,
+            subsubcategories: model.subsubcategories,
+            selectedCategory: categoryid, 
+            inputs:{
+                takeSecondHand: '',
+                takeMinPrice: '',
+                takeMaxPrice: ''
+            }
             });
-        })
-        .then(products => {
-            SubCategory.find()
-                .then(subcategories => {
-                    Category.find()
-                        .then(categories => {
-                            res.render('shop/products', {
-                            title: 'Kategorilenmiş Ürünler',
-                            products: products,
-                            path: '/products',
-                            categories: categories,
-                            subcategories: subcategories,
-                            subsubcategories: model.categories,
-                            selectedCategory: categoryid, 
-                            inputs:{
-                                takeSecondHand: '',
-                                takeMinPrice: '',
-                                takeMaxPrice: ''
-                            }
-                            });
-                        })
-                })
-        })
-        .catch((err) => {
-            next(err);
-        })
+    }   
+    catch(err){
+        next(err);
+    }
 }
 
-exports.getProduct = (req, res, next) => {
-
-    Product
-        .findById(req.params.productid)
-        //.findOne({_id:req.params.productid})
-        .then(product => {
-            SubSubCategory.find()
-                .then(subsubcategories => {
-                    res.render('shop/product-detail', {
-                    title: product.name.toUpperCase(),
-                    subsubcategories: subsubcategories,
-                    product: product,
-                    path: '/products'
-                    });
-                })
-
-        })
-        .catch((err) => {
-            next(err);
-        });
-}
-
-exports.getCart = (req, res, next) => {
-    req.user
-        .populate('cart.items.productId')
-        .execPopulate()
-        .then(user => {
-            res.render('shop/cart', {
-                title: 'Sepet',
-                path: '/cart',
-                products: user.cart.items
+exports.getProduct = async (req, res, next) => {
+    try{
+        const product = await Product.findById(req.params.productid);
+        const subsubcategories = await SubSubCategory.find();
+    
+        res.render('shop/product-detail', {
+            title: product.name.toUpperCase(),
+            subsubcategories: subsubcategories,
+            product: product,
+            path: '/products'
             });
-        }).catch(err => {
-            next(err);
-        });
+    }
+    catch(err){
+        next(err);
+    }
 }
 
-exports.postCart = (req, res, next) => {
-
-    const productId = req.body.productId;
-    Product.findById(productId)
-        .then(product => {
-            return req.user.addToCart(product);
-        })
-        .then(() => {
-            res.redirect('/cart');
-        })
-        .catch(err => next(err));
+exports.getCart = async (req, res, next) => {
+    try{
+        req.user
+        const user = await populate('cart.items.productId').execPopulate()
+        
+        res.render('shop/cart', {
+            title: 'Sepet',
+            path: '/cart',
+            products: user.cart.items
+        });
+    }
+    catch(err){
+        next(err);
+    }
 }
 
-exports.postCartItemDelete = (req, res, next) => {
-    const productid = req.body.productid;
-    req.user
-        .deleteCartItem(productid)
-        .then( () => {
-            res.redirect('/cart');
-        });
+exports.postCart = async (req, res, next) => {
+    try{
+        const productId = req.body.productId;
+
+        const product = await Product.findById(productId);
+
+        req.user.addToCart(product);
+
+        res.redirect('/cart');
+    }
+    catch(err){
+        next(err);
+    }
+}
+
+exports.postCartItemDelete = async (req, res, next) => {
+    try{
+        const productid = req.body.productid;
+        req.user.deleteCartItem(productid);
+
+        res.redirect('/cart');
+    }
+    catch(err){
+        next(err);
+    }
     
     // const productid = req.body.productid;
     
@@ -295,26 +210,23 @@ exports.postOrder = (req, res, next) => {
 
 // }
 
-exports.getContact = (req, res, next) => {
-    Category.find()
-        .then(categories => {
-            SubCategory.find()
-                .then(subcategories => {
-                    SubSubCategory.find()
-                        .then(subsubcategories => {
-                            res.render('shop/contact', {
-                                title: 'İletişim',
-                                path: '/contact',
-                                categories: categories,
-                                subcategories: subcategories,
-                                subsubcategories: subsubcategories
-                            });
-                        })
-                })
-        })
-        .catch((err) => {
-            next(err);
-        });     
+exports.getContact = async (req, res, next) => {
+    try{
+        const categories = await Category.find();
+        const subcategories = await SubCategory.find();
+        const subsubcategories = await SubSubCategory.find();
+
+        res.render('shop/contact', {
+            title: 'İletişim',
+            path: '/contact',
+            categories: categories,
+            subcategories: subcategories,
+            subsubcategories: subsubcategories
+        });
+    }
+    catch(err){
+        next(err);
+    }
 }
 
 /* Search box*/
@@ -322,150 +234,109 @@ function escapeRegex(text) {
     return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
 };
 
-exports.getSearch = (req, res, next) => {
-    Order
-        .find()
-        .then(orders => {
-            return orders;
-        })
-        .then(orders => {
-            User
-                .find()
-                .then(userNumber => {
-                    Confirmation
-                        .find()
-                        .then(confirm => {
-                            return confirm;
-                })
-                .then(confirm => {
-                    Product.find()
-                        .then(products => {
-                        return products;
-                    })
-                    .then(products => {
-                        SubSubCategory.find()
-                            .then(subsubcategories => {
-                                SubCategory.find()
-                                    .then(subcategories => {
-                                        Category.find()
-                                            .then(categories => {
-                                                    if(req.query.search){
-                                                        const regex = new RegExp(escapeRegex(req.query.search), 'gi');
-                                                        Product.find({ "name": regex }, function(err, foundjobs) {
-                                                            if(err) {
-                                                                console.log(err);
-                                                            } else {
-                                                                res.render('shop/products', {
-                                                                    title: 'Tüm Ürünler',
-                                                                    products: foundjobs,
-                                                                    path: '/products',
-                                                                    categories: categories,
-                                                                    subcategories: subcategories,
-                                                                    subsubcategories: subsubcategories,
-                                                                    confirm: confirm,
-                                                                    userNumber: userNumber,
-                                                                    orders: orders,
-                                                                    inputs:{
-                                                                        takeSecondHand: regex,
-                                                                        takeMinPrice: '',
-                                                                        takeMaxPrice: ''
-                                                                    }
-                                                                });
-                                                    }
-                                                });
-                                        }
-                                
-                                            })
-                                    })   
-                            })
-                    })
-                    .catch((err) => {
-                        next(err);
-                    });
-                })
-            })
-        })
+exports.getSearch = async (req, res, next) => {
+    try{
+        const subsubcategories = await SubSubCategory.find();
+        const subcategories = await SubCategory.find();
+        const categories = await Category.find();
+        
+        if(req.query.search){
+            var searchRegex = new RegExp(escapeRegex(req.query.search), 'gi');
+        }
+
+        const subsubcategoriesProduct = await SubSubCategory.find({ "name": searchRegex}, '_id')
+
+        const ids = subsubcategoriesProduct.map(s => s._id);
+
+        const finalProduct = await Product.find({ categories: {$in: ids} });
+
+        res.render('shop/products', {
+            title: 'Tüm Ürünler',
+            products: finalProduct,
+            path: '/products',
+            categories: categories,
+            subcategories: subcategories,
+            subsubcategories: subsubcategories,
+            searchRegex: searchRegex,
+            inputs:{
+                takeSecondHand: '',
+                takeMinPrice: '',
+                takeMaxPrice: ''
+            }
+        });
+    }
+    catch(err){
+        next(err);
+    }
 }
 
 /* SecondHand Filter*/
-exports.getSecondHandFilter = (req, res, next) => {
-    const categoryid = req.params.subsubcategoryid;
-    const model = [];
-    const regex = req.query.secondHandFilter;
-    
-    SubSubCategory.find()
-        .then(categories => {
-            model.categories = categories;
-            
-            return Product.find({ categories: categoryid, "isSecondHand": regex });
-            
-        })
-        .then(products => {
-            SubCategory.find()
-                .then(subcategories => {
-                    Category.find()
-                        .then(categories => {
-                            res.render('shop/products', {
-                            title: 'Kategorilenmiş Ürünler',
-                            products: products,
-                            path: '/products',
-                            categories: categories,
-                            subcategories: subcategories,
-                            subsubcategories: model.categories,
-                            selectedCategory: categoryid,
-                            action: regex,
-                            inputs:{
-                                takeSecondHand: regex,
-                                takeMinPrice: '',
-                                takeMaxPrice: ''
-                            }
-                            });
-                        })
-                })
-        })
-        .catch((err) => {
-            next(err);
-        })
+exports.getSecondHandFilter = async (req, res, next) => {
+    try{
+        const categoryid = req.params.subsubcategoryid;
+        const model = [];
+        const regex = req.query.secondHandFilter;
+
+        const subsubcategories = await SubSubCategory.find();
+        model.subsubcategories = subsubcategories;
+        
+        const products = await Product.find({ categories: categoryid, "isSecondHand": regex });
+        const subcategories = await SubCategory.find();
+        const categories = await Category.find();
+
+        res.render('shop/products', {
+            title: 'Kategorilenmiş Ürünler',
+            products: products,
+            path: '/products',
+            categories: categories,
+            subcategories: subcategories,
+            subsubcategories: model.subsubcategories,
+            selectedCategory: categoryid,
+            action: regex,
+            inputs:{
+                takeSecondHand: regex,
+                takeMinPrice: '',
+                takeMaxPrice: ''
+            }
+            });
+    }
+    catch(err){
+        next(err);
+    }
 }
 
 /* Price Filter*/
-exports.getPrice  = (req, res, next) => {
-    const categoryid = req.params.subsubcategoryid;
-    const model = [];
-    const regex = Number((req.query.minPrice));
-    const regex2 = Number((req.query.maxPrice));
-    
-    SubSubCategory.find()
-        .then(categories => {
-            model.categories = categories;
-            
-            return Product.find({ categories: categoryid, "price": {$gt: regex-1, $lt: regex2+1} });
-            
-        })
-        .then(products => {
-            SubCategory.find()
-                .then(subcategories => {
-                    Category.find()
-                        .then(categories => {
-                            res.render('shop/products', {
-                            title: 'Kategorilenmiş Ürünler',
-                            products: products,
-                            path: '/products',
-                            categories: categories,
-                            subcategories: subcategories,
-                            subsubcategories: model.categories,
-                            selectedCategory: categoryid,
-                            action: regex,
-                            inputs:{
-                                takeSecondHand: '',
-                                takeMinPrice: regex,
-                                takeMaxPrice: regex2
-                            }
-                            });
-                        })
-                })
-        })
-        .catch((err) => {
-            next(err);
-        })
+exports.getPrice  = async (req, res, next) => {
+    try{
+        const categoryid = req.params.subsubcategoryid;
+        const model = [];
+        const regex = Number((req.query.minPrice));
+        const regex2 = Number((req.query.maxPrice));
+
+        const subsubcategories = await SubSubCategory.find();
+        model.subsubcategories = subsubcategories;
+
+        const products = await Product.find({ categories: categoryid, "price": {$gt: regex-1, $lt: regex2+1} });
+        const subcategories = await SubCategory.find();
+        const categories = await Category.find();
+
+        res.render('shop/products', {
+            title: 'Kategorilenmiş Ürünler',
+            products: products,
+            path: '/products',
+            categories: categories,
+            subcategories: subcategories,
+            subsubcategories: model.subsubcategories,
+            selectedCategory: categoryid,
+            action: regex,
+            inputs:{
+                takeSecondHand: '',
+                takeMinPrice: regex,
+                takeMaxPrice: regex2
+            }
+            });
+    }
+    catch(err){
+        next(err);
+    }
 }
