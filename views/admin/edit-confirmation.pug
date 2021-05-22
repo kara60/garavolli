@@ -72,7 +72,7 @@ block content
         .form-group.row
             label(for="mailOfSeller").col-sm-2.col-form-label Satıcı Emaili:
             .col-sm-10
-                input.form-control#mailOfSeller(type="text" name="mailOfSeller" value=`${product.mailOfSeller}`)
+                input.form-control#mailOfSeller(type="email" name="mailOfSeller" value=`${product.mailOfSeller}`)
 
         .form-group.d-inline-block.mt-2
                 a(href="/admin/confirmation" data-toggle="tooltip" data-placement="top" title="İptal Et").btn.btn-warning

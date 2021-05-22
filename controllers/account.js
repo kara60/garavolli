@@ -121,7 +121,7 @@ exports.postRegister = async (req,res,next) => {
         const surname = req.body.surname;
 
         const user = await User.findOne({ email: email });
-        console.log(user);
+        
         if(user){
             req.session.errorMessage = 'Bu mail adresi ile daha önce kayıt olunmuş. Eğer parolanızı unuttuysanız lütfen giriş sayfasından şifre sıfırlama işlemini uygulayınız.';
             req.session.save(function(err){
@@ -145,7 +145,7 @@ exports.postRegister = async (req,res,next) => {
 
         const userid = await User.find({ email: email }, '_id');
         const ids = userid.map(s => s._id);
-        console.log(ids);
+        
         //mail gönderme
         const transfer = nodemailer.createTransport({
             service: "gmail", //maili gönderen kişinin kullandığı servis
@@ -162,6 +162,7 @@ exports.postRegister = async (req,res,next) => {
             html: `
                 <p>Lütfen hesabınızı aktifleştirmeniz için aşağıdaki linke tıklayınız:</p>
                 <a href='http://localhost:3000/verify/${ids}'}'>Aktifleştir</a>
+                <p>Garavolli Ekibi</p>
             `
         };
 
@@ -273,6 +274,7 @@ exports.postReset = (req,res,next) => {
                     <p>
                     <a href="http://localhost:3000/reset-password/${token}">Parola Sıfırla</a>
                     </p>
+                    <p>Garavolli Ekibi</p>
                     `,
                 };
                 sgMail.send(msg);
@@ -348,7 +350,7 @@ exports.postNewPassword = (req, res, next) => {
 
 exports.getlogout = (req, res, next) => {
     req.session.destroy(err => {
-        res.redirect('/');
+        res.redirect('/login');
     });
 } 
 
