@@ -66,7 +66,7 @@ block content
         .form-group.row
             label(for="mailOfSeller").col-sm-2.col-form-label Emailiniz:
             .col-sm-10
-                input.form-control#mailOfSeller(type="text" name="mailOfSeller" maxlength="50" value=`${product.mailOfSeller}` placeholder="Lütfen emailinizi giriniz")
+                input.form-control#mailOfSeller(type="email" name="mailOfSeller" maxlength="50" value=`${product.mailOfSeller}` placeholder="Lütfen emailinizi giriniz")
 
         .form-group.d-inline-block.mt-2
             a(href="/admin/products" data-toggle="tooltip" data-placement="top" title="İptal Et").btn.btn-warning

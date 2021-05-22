@@ -720,7 +720,10 @@ exports.postEditConfirmation = async (req, res, next) => {
             from: "garavollishopping@gmail.com",
             to:mailOfSeller,
             subject: "ÜRÜNÜNÜZ ONAYLANMIŞTIR!",
-            html: `<p>Ürününüzü inceledik ve satışa sunmakta herhangi bir sakınca olmadığı gördük, iyi satışlar..</p>`
+            html: `
+            <p>Ürününüzü inceledik ve satışa sunmakta herhangi bir sakınca olmadığı gördük, iyi satışlar..</p>
+            <p>Garavolli Ekibi</p>    
+            `
         };
 
         transfer.sendMail(mailBilgi, err => {
@@ -789,7 +792,11 @@ exports.postDeleteConfirmation= async (req, res, next) => {
             from: "garavollishopping@gmail.com",
             to: product.mailOfSeller,
             subject: "ÜRÜNÜNÜZ ONAYLANMAMIŞTIR!",
-            text: "Ürününüzü inceledik ve satış kurallarına uymadığına karar vererek onaylamadık. garavolli Ekibi."
+            html: `
+            <p>Ürününüzü inceledik ve satış kurallarına uymadığına karar vererek onaylamadık.</p> 
+            <p>Garavolli Ekibi</p>
+            `
+              
         };
 
         transfer.sendMail(mailBilgi, err => {
