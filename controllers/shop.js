@@ -221,8 +221,52 @@ exports.getContact = async (req, res, next) => {
             path: '/contact',
             categories: categories,
             subcategories: subcategories,
-            subsubcategories: subsubcategories
+            subsubcategories: subsubcategories,
+            action: req.query.action
         });
+    }
+    catch(err){
+        next(err);
+    }
+}
+
+exports.postContact = async (req, res, next) => {
+    try{
+        const name = req.body.name;
+        const subject = req.body.subject;
+        const message = req.body.message;
+
+        //mail gönderme
+        const transfer = nodemailer.createTransport({
+            service: "gmail", //maili gönderen kişinin kullandığı servis
+            auth:{ // maili gönderen kişinin bilgileri
+                user:"garavollishopping@gmail.com",
+                pass:"enekcanel"
+            }
+        });
+
+        let mailBilgi = {
+            from: "garavollishopping@gmail.com",
+            to:"garavollishopping@gmail.com",
+            subject: subject,
+            html: 
+            `
+                <h3>İsim: ${name}</h3>
+                <br>
+                <p>${message}</p>
+            `
+        };
+
+        transfer.sendMail(mailBilgi, err => {
+            if(err){
+                next(err);
+            }
+            else{
+                return res.redirect('/contact?action=success');
+            }
+        });
+
+        return res.redirect('/contact?action=success');
     }
     catch(err){
         next(err);
