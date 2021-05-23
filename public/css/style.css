@@ -144,7 +144,7 @@ body{
   border-bottom-right-radius: 20px;
   border-bottom-left-radius: 0;
   border-top-left-radius: 0;
-  background: #DC3545;
+  background: #F27A1A;
   transition: all .3s ease-in-out;
   color: #FFFFFF;
   box-shadow: rgba(50, 50, 105, 0.15) 0px 2px 5px 0px, rgba(0, 0, 0, 0.05) 0px 1px 1px 0px;
@@ -157,6 +157,6 @@ body{
   right: 0px;
   height: 50px;
   width: 100px;
-  background: #a12532;
+  background: #c26316;
 }
   

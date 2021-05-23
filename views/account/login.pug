@@ -7,12 +7,8 @@ block megaMenu
     include ../includes/menu.pug
     
 block content
-    if action === 'verify'
-        div.alert.alert-info.col-sm-7.container-fluid Lütfen email adresinizi doğrulayınız!
-    if action === 'verifySuccess'
-        div.alert.alert-success.col-sm-7.container-fluid Tebrikler hesabınız başarılı bir şekilde doğrulanmıştır.
-    if action === 'noEmail'
-        div.alert.alert-danger.col-sm-7.container-fluid Email bulunamadı.
+
+    
         
     if (action !== 'undefined' && action === 'success')
          script(type='text/javascript').
@@ -33,10 +29,16 @@ block content
         main.form-signin.mt-5
             form(action="/login" method="POST")
                 input(type="hidden" name="_csrf" value=`${csrfToken}`)
+                if action === 'verifySuccess'
+                    div.alert.alert-success.text-dark.col-sm-12.container-fluid Tebrikler hesabınız başarılı bir şekilde doğrulanmıştır.
+                if action === 'verify'
+                    div.alert.alert-warning.text-dark.col-sm-12.container-fluid Lütfen email adresinizi doğrulayınız!
+                if action === 'noEmail'
+                    div.alert.alert-danger.text-dark.col-sm-12.container-fluid Email bulunamadı.
                 img(src="img/garavolli.png" alt="garavolliAvatar" width="135" height="115").mb-3.mx-auto
                 h1.h3.mb-0.fw-normal Giriş Yap
                 br
-
+                
                 input(type="email" id="email" name="email" placeholder="E-posta" required autofocus).form-control.mb-2
             
                 input(type="password" id="password" name="password" placeholder="Şifre" required).form-control
