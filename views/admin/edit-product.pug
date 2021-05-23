@@ -56,6 +56,18 @@ block content
         hr
 
         .form-group.row
+            label(for="city").col-sm-2.col-form-label İlçe Seçimi:
+            .col-sm-10
+                select(class="form-select custom-select" name="city" required)#city
+                    option(value=`${product.city}`).selected #{product.city}
+                    option(value="Lefkoşa") Lefkoşa
+                    option(value="Girne") Girne
+                    option(value="Gazimağusa") Gazimağusa
+                    option(value="Lefke") Lefke
+                    option(value="İskele") İskele
+                    option(value="Güzelyurt") Güzelyurt
+
+        .form-group.row
             label(for="nameOfSeller").col-sm-2.col-form-label İsminiz:
             .col-sm-10
                 input.form-control#nameOfSeller(type="text" name="nameOfSeller" maxlength="20" placeholder="Lütfen ürünle beraber gösterilecek satıcı isminizi giriniz" value=`${product.nameOfSeller}`)

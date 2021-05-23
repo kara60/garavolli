@@ -8,11 +8,11 @@ block megaMenu
     
 block content
     if action === 'verify'
-        div.alert.alert-danger.col-sm-7.container Lütfen email adresinizi doğrulayınız!
+        div.alert.alert-info.col-sm-7.container-fluid Lütfen email adresinizi doğrulayınız!
     if action === 'verifySuccess'
-        div.alert.alert-success.col-sm-7.container Tebrikler hesabınız başarılı bir şekilde doğrulanmıştır.
+        div.alert.alert-success.col-sm-7.container-fluid Tebrikler hesabınız başarılı bir şekilde doğrulanmıştır.
     if action === 'noEmail'
-        div.alert.alert-danger.col-sm-7.container Email bulunamadı.
+        div.alert.alert-danger.col-sm-7.container-fluid Email bulunamadı.
         
     if (action !== 'undefined' && action === 'success')
          script(type='text/javascript').

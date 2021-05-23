@@ -22,7 +22,7 @@ router.get('/price/categories/:subsubcategoryid', locals, shopController.getPric
 
 router.get('/contact', locals, shopController.getContact);
 
-// router.get('/contact', locals, shopController.postContact);
+router.post('/contact', locals, shopController.postContact);
 
 router.get('/cart', locals, isAuthentication, shopController.getCart);
 

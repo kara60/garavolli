@@ -35,11 +35,15 @@ exports.getProducts = async (req, res, next) => {
 exports.getChooseCategory = async (req, res, next) => {
     try{
         const categories = await Category.find();
+        const subcategories = await SubCategory.find();
+        const subsubcategories = await SubSubCategory.find();
 
         res.render('admin/choose-category', {
             title: 'Ana Kategori Seç',
             path: '/admin/choose-category',
-            categories: categories
+            categories: categories,
+            subcategories: subcategories,
+            subsubcategories: subsubcategories
         })
     }
     catch(err){
@@ -55,14 +59,21 @@ exports.getChooseSubCategory = async (req, res, next) => {
         const categories = await Category.find();
         model.categories = categories;
 
-        const subCategories = await SubCategory.find({ categories: categoryid });
+        const subsubcategories = await SubSubCategory.find();
+        const subcategories = await SubCategory.find();
+
+        const chooseCategories = await SubCategory.find({ categories: categoryid });
 
         res.render('admin/choose-sub-category', {
             title: 'Ürünler',
-            categories: subCategories,
+            chooseCategories: chooseCategories,
             selectedCategory: categoryid,
             path: '/admin/choose-sub-category',
-            action: req.query.action
+            action: req.query.action,
+            categories: categories,
+            subcategories: subcategories,
+            subsubcategories:subsubcategories
+
         });
     }
     catch(err){
@@ -77,16 +88,24 @@ exports.getChooseSubSubCategory = async (req, res, next) => {
         const categoryid = req.params.categoryid;
         const model = [];
         
-        const categories = await SubCategory.find();
-        model.categories = categories;
-        const subsubCategories = await SubSubCategory.find({ categories: categoryid })
+        const categories = await Category.find();
+        const subsubcategories = await SubSubCategory.find();
+
+        const subcategories = await SubCategory.find();
+        model.subcategories = subcategories;
+        const choosesubsubCategories = await SubSubCategory.find({ categories: categoryid })
 
         res.render('admin/choose-sub-sub-category', {
             title: 'Ürünler',
-            categories: subsubCategories,
+            choosesubsubCategories: choosesubsubCategories,
             selectedCategory: categoryid,
             path: '/admin/choose-sub-sub-category',
-            action: req.query.action
+            action: req.query.action,
+            categories: categories,
+            subcategories: subcategories,
+            subsubcategories: subsubcategories
+
+
         });
     }
     catch(err){
@@ -214,12 +233,13 @@ exports.getEditProduct= async (req, res, next) => {
     }
 }
 
-exports.postEditProduct = async (req, res, next) => {
+exports.postEditProduct = (req, res, next) => {
 
     const name = req.body.name; 
     const price = req.body.price;
     const image = req.body.image;
     const description = req.body.description;
+    const city = req.body.city;
     const nameOfSeller = req.body.nameOfSeller;
     const phoneOfSeller = req.body.phoneOfSeller;
     const mailOfSeller = req.body.mailOfSeller;
@@ -233,6 +253,7 @@ exports.postEditProduct = async (req, res, next) => {
                 price: price,
                 imageUrl: image,
                 description: description,
+                city: city,
                 nameOfSeller: nameOfSeller,
                 phoneOfSeller: phoneOfSeller,
                 mailOfSeller: mailOfSeller,

@@ -7,8 +7,11 @@ block megaMenu
 block content
     .container-fluid 
         .alert.alert-secondary Reklam, işbirliği, şikayet, bug ve diğer her türlü istekleriniz için bizim ile iletişime geçebilirsiniz.
+    if action === 'success'
+        .container-fluid 
+            .alert.alert-success Mesajınız başarılı bir şekilde gönderilmiştir. En kısa zaman değerlendirmeye alacağız.
     div(class="container register-form").mt-5
-        form(action="/register" method="POST" autocomplete="off")
+        form(action="/contact" method="POST" autocomplete="off")
             input(type="hidden" name="_csrf" value=`${csrfToken}`)
             div(class="form-content")
                 div(class="row")
@@ -22,15 +25,14 @@ block content
                                 input(type="text" id="name" class="form-control" placeholder="Lütfen adınızı giriniz" name="name" value="" required autofocus)
 
                         .row
-                            label(for="email").col-sm-2 Email:
+                            label(for="subject").col-sm-2 Konu:
                             div(class="form-group").col-sm-10
-                                input(type="text" id="email" class="form-control" placeholder="example@email.com" name="email" required value="")
+                                input(type="text" id="subject" class="form-control" placeholder="Lütfen başlığı giriniz" name="subject" value="" required autofocus)
 
                         .row
-                            label(for="email").col-sm-2 Mesajınız:
+                            label(for="message").col-sm-2 Mesajınız:
                             div(class="form-floating").col-sm-10
-                                textarea(class="form-control" placeholder="Mesajınız.." style="height: 200px;" requiredd).mb-3
-
-                            
+                                textarea(class="form-control" name="message" placeholder="Mesajınız.." style="height: 200px;" requiredd).mb-3
+              
                 input(type="submit" class="btnSubmit" value="Gönder")
 
