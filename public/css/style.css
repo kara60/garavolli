@@ -136,25 +136,27 @@ body{
 .search button {
   position: absolute;
   border:0;
-  top: 1px;
+  top: 0px;
   right: 0px;
-  height: 48px;
+  height: 50px;
   width: 70px;
   border-top-right-radius: 20px;
   border-bottom-right-radius: 20px;
   border-bottom-left-radius: 0;
   border-top-left-radius: 0;
-  background: #17A2B8;
+  background: #DC3545;
   transition: all .3s ease-in-out;
+  color: #FFFFFF;
+  box-shadow: rgba(50, 50, 105, 0.15) 0px 2px 5px 0px, rgba(0, 0, 0, 0.05) 0px 1px 1px 0px;
 }
 
 .search button:hover {
+  color: #FFFFFF;
   position: absolute;
-  top: 1px;
+  top: 0px;
   right: 0px;
-  height: 48px;
+  height: 50px;
   width: 100px;
-  background: #148496;
-
+  background: #a12532;
 }
   

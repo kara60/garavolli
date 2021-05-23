@@ -1,5 +1,6 @@
 nav{
     background-color: #e1e6e7;
+    box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px;
 }
 
 .navbar-brand{
@@ -219,6 +220,7 @@ ul.menu .active .list a {
     margin: auto;
     border-bottom-right-radius: 30px;
     border-bottom-left-radius: 30px;
+    box-shadow: rgba(0, 0, 0, 0.56) 0px 22px 70px 4px;
 }
 .menu-area{
    position: static;
