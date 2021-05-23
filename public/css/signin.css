@@ -59,14 +59,15 @@ form{
 
 .loginButtonCss{
   
-  background-color:rgba(242,122,26);
+  background-color: #41474e;
   color:rgba(255,255,255);
   transition: all .5s ease-in-out;
   text-transform:capitalize;
+  border: 0;
   
 }
 .loginButtonCss:hover{
-  background-color:rgba(255,139,57);
+  background: #40474e;
   color:rgba(255,255,255);
   transform: scale(1.05);
   -webkit-transform: scale(1.0.5);
@@ -80,7 +81,7 @@ form{
 
 }
 .f-pas:hover{
-  color:rgba(255,139,57);
+  color:#a12532;
   text-decoration:none;
 }
 

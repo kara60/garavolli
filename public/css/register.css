@@ -27,12 +27,12 @@
     padding: 0.7%;
     width: 100%;
     cursor: pointer;
-    background:rgba(242,122,26);
+    background:#878D93;
     color: #fff;
     transition: all .5s ease-in-out; 
 }
 .btnSubmit:hover{
-    background-color:rgba(255,139,57);
+    background-color:#65696d;
     transform: scale(0.97);
     -webkit-transform: scale(0.97);
 }

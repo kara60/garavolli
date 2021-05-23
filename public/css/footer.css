@@ -4,7 +4,8 @@
     background: #525151;
     color: #627482 !important;
     margin-bottom: 0;
-    padding-bottom: 0
+    padding-bottom: 0;
+    box-shadow: rgba(0, 0, 0, 0.56) 0px 22px 70px 4px;
 }
 
 small {
