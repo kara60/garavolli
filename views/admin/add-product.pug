@@ -10,7 +10,7 @@ block content
     div.alert.alert-info.col-sm-12 Ürününüzü ekledikten sonra kontrol ve onay işlemi için bize gelecektir. En yakın zamanda onay vereceğimizden şüpheniz olmasın. Teşekkürler..
     div.alert.alert-warning.col-sm-12 Unutmayın, ürününüz sadece Kıbrıs'ta satılabilir. Türkiye ile şuan herhangi bir bağlantımız yoktur.
     
-    form(action="/admin/add-product" method="POST" enctype="multipart/form-data" autocomplete="off")
+    form(action="/admin/add-product" method="POST" enctype="multipart/form-data" autocomplete="off").productPageCartBg.p-5
         input(type="hidden" name="_csrf" value=`${csrfToken}`)
         .form-group.row
             h2.font-weight-bold
@@ -37,10 +37,9 @@ block content
             //-     input.form-control#price(type="text" name="price" maxlength="2" value=`00`).w-25
 
         .form-group.row
-            label(for="imageUrl").col-sm-2.col-form-label Ürün Resmi:
+            label(for="image").col-sm-2.col-form-label Ürün Resmi:
             .col-sm-10
-                input.form-control-file#image(type="file" name="image" required)
-                p 
+                input.form-control-file(type="file" name="image" id="image" multiple required)
         
         .form-group.row
             label(for="isSecondHand").col-sm-2.col-form-label İkinci El:

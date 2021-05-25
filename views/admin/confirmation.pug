@@ -25,7 +25,7 @@ block content
                 each product in products
                     tr
                         td
-                            img(src=`/img/${product.imageUrl}` width='120')
+                            img(src=`/img/${product.imageUrl[0]}` width='120')
                             
                         td.hidden-xs.text-uppercase #{product.name}
                         td #{product.price} TL

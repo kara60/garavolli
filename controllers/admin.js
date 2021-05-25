@@ -144,7 +144,7 @@ exports.postAddProduct = async (req, res, next) => {
     try{
         const name = req.body.name;
         const price = req.body.price;
-        const image = req.file;
+        const image = req.files;
         const description = req.body.description;
         const nameOfSeller = req.body.nameOfSeller;
         const phoneOfSeller = req.body.phoneOfSeller;
@@ -152,12 +152,14 @@ exports.postAddProduct = async (req, res, next) => {
         const categoryid = req.body.categoryids;
         const isSecondHand = req.body.isSecondHand;
         const city = req.body.city;
-    
+
+        const imgs = await image.map(s => s.filename);
+        console.log(image);
         const confirm = new Confirmation(
             {
                 name: name,
                 price: price,
-                imageUrl: image.filename,
+                imageUrl: imgs,
                 description: description,
                 nameOfSeller: nameOfSeller,
                 phoneOfSeller: phoneOfSeller,
@@ -208,12 +210,15 @@ exports.getEditProduct= async (req, res, next) => {
         if(!confirm){
             res.redirect('/');
         }
-        
-        let categories = await SubSubCategory.find();
-        categories =  await categories.map(category => {
 
-            if(confirm.categories){
-                confirm.categories.find(item => {
+        const categories = await Category.find();
+        const subcategories = await SubCategory.find();
+        
+        let subsubcategories = await SubSubCategory.find();
+        subsubcategories =  subsubcategories.map(category => {
+
+            if(confirm.subsubcategories){
+                confirm.subsubcategories.find(item => {
                     if(item.toString() === category._id.toString()){
                         category.selected = true;
                     }
@@ -225,7 +230,9 @@ exports.getEditProduct= async (req, res, next) => {
             title: 'Ürün İnceleme-Onaylama',
             path: '/admin/products',
             product: confirm,
-            categories: categories
+            subsubcategories: subsubcategories,
+            categories:categories,
+            subcategories:subcategories
         });
     }
     catch(err){
@@ -233,25 +240,51 @@ exports.getEditProduct= async (req, res, next) => {
     }
 }
 
-exports.postEditProduct = (req, res, next) => {
+exports.postEditProduct = async (req, res, next) => {
+    try{
+        const id = req.body.id;
+        const name = req.body.name; 
+        const price = req.body.price;
+        const description = req.body.description;
+        const city = req.body.city;
+        const nameOfSeller = req.body.nameOfSeller;
+        const phoneOfSeller = req.body.phoneOfSeller;
+        const mailOfSeller = req.body.mailOfSeller;
+        const ids = req.body.categoryids;
+        const userid = req.body.userid;
+        const isSecondHand = req.body.isSecondHand;
 
-    const name = req.body.name; 
-    const price = req.body.price;
-    const image = req.body.image;
-    const description = req.body.description;
-    const city = req.body.city;
-    const nameOfSeller = req.body.nameOfSeller;
-    const phoneOfSeller = req.body.phoneOfSeller;
-    const mailOfSeller = req.body.mailOfSeller;
-    const ids = req.body.categoryids;
-    const userid = req.body.userid;
-    const isSecondHand = req.body.isSecondHand;
+        const imageSelect = await Product.findOne({_id: id}, 'imageUrl');
+
+        if(imageSelect.imageUrl.length === 1){
+            var image = req.body.image;
+            var img = [image];
+        }
+
+        if(imageSelect.imageUrl.length === 2){
+            var image = req.body.image;
+            var image2 = req.body.image2;
+            var img = [image,image2];
+        }
+        if(imageSelect.imageUrl.length === 3){
+            var image = req.body.image;
+            var image2 = req.body.image2;
+            var image3 = req.body.image3;
+            var img = [image,image2,image3];
+        }
+        if(imageSelect.imageUrl.length === 4){
+            var image = req.body.image; 
+            var image2 = req.body.image2;
+            var image3 = req.body.image3;
+            var image4 = req.body.image4;
+            var img =  [image,image2,image3,image4];
+        }
 
         const confirm = new Confirmation(
             {
                 name: name,
                 price: price,
-                imageUrl: image,
+                imageUrl: img,
                 description: description,
                 city: city,
                 nameOfSeller: nameOfSeller,
@@ -262,75 +295,106 @@ exports.postEditProduct = (req, res, next) => {
                 isSecondHand: isSecondHand
             }
         );
-         
-        confirm.save()
-            .then(result => {
-                res.redirect('/admin/products?action=edit');
-            })
-            .catch(err => {
-                
-                if(err.name == 'ValidationError'){
-                    let message = '';
-                    for(field in err.errors){
-                        message += err.errors[field].message + '<br>';
-                    }
-    
-                    res.render('admin/add-product', {
-                        title: 'Yeni Ürün Ekleme',
-                        path: '/admin/add-product',
-                        errorMessage: message,
-                        inputs:{
-                            name: name,
-                            price: price,
-                            description: description
-                        }
-                    });
-                }else{
-                    //res.redirect('/500');
-                    next(err);
-                }
-            });
-        // Silme işlemi
-        const id = req.body.id;
-        Product.findOne({_id: id})
-        .then(product => {
-            if(!product){
-                return next(new Error('Silinmek istenen ürün bulunamadı.'));
-            }
 
-            return Product.deleteOne({_id: id})
-        })
-        .catch(err => {
-            next(err);
-        });
+        await confirm.save();
+
+        const product = await Product.findOne({_id: id})
+        if(!product){
+            return next(new Error('Silinmek istenen ürün bulunamadı.'));
+        }
+
+        await Product.deleteOne({_id: id})
+
+        res.redirect('/admin/products?action=edit');
+    }
+    catch(err){
+        next(err);
+    }
 }
 
-exports.postDeleteProduct = (req, res, next) => {
-    const id = req.body.productid;
-    
-    Product.findOne({_id: id, userId: req.user._id})
-        .then(product => {
-            if(!product){
-                return next(new Error('Silinmek istenen ürün bulunamadı.'));
-            }   
-            fs.unlink('public/img/' + product.imageUrl, err => {
+exports.postDeleteProduct = async (req, res, next) => {
+    try{
+        const id = req.body.productid;
+        const product = await Product.findOne({ _id: id, userId: req.user._id })
+
+        if(!product){
+            return next(new error('Silinmek istenen ürün bulunamadı.'))
+        }
+
+        const imagesSelect = product.imageUrl;
+
+        if(imagesSelect.length == 1){
+            fs.unlink('public/img/' + imagesSelect[0], err => {
                 if(err){
                     console.log(err);
                 }
             });
+        }
 
-            return Product.deleteOne({_id: id, userId: req.user._id})
+        if(imagesSelect.length == 2){
+            fs.unlink('public/img/' + imagesSelect[0], err => {
+                if(err){
+                    console.log(err);
+                }
+            });
+            fs.unlink('public/img/' + imagesSelect[1], err => {
+                if(err){
+                    console.log(err);
+                }
+            });
+        }
 
-        }).then((result) => {
-            if(result.deletedCount === 0){
-                return next(new Error('Silinmek istenen ürün bulunamadı.'));
-            }
-            
-            res.redirect('/admin/products?action=delete');
-        })
-        .catch(err => {
-            next(err);
-        });
+        if(imagesSelect.length == 3){
+            fs.unlink('public/img/' + imagesSelect[0], err => {
+                if(err){
+                    console.log(err);
+                }
+            });
+            fs.unlink('public/img/' + imagesSelect[1], err => {
+                if(err){
+                    console.log(err);
+                }
+            });
+            fs.unlink('public/img/' + imagesSelect[2], err => {
+                if(err){
+                    console.log(err);
+                }
+            });
+        }
+        if(imagesSelect.length == 4){
+            fs.unlink('public/img/' + imagesSelect[0], err => {
+                if(err){
+                    console.log(err);
+                }
+            });
+            fs.unlink('public/img/' + imagesSelect[1], err => {
+                if(err){
+                    console.log(err);
+                }
+            });
+            fs.unlink('public/img/' + imagesSelect[2], err => {
+                if(err){
+                    console.log(err);
+                }
+            });
+            fs.unlink('public/img/' + imagesSelect[3], err => {
+                if(err){
+                    console.log(err);
+                }
+            });
+        }
+
+        const result = await Product.deleteOne ({ _id: id, userId: req.user._id  })
+
+        if(result.deletedCount === 0){
+            return next(new Error('Silinmek istenen ürün bulunamadı.'));
+        }
+        
+        res.redirect('/admin/products?action)delete');
+    }
+    catch(err){
+        next(err);
+    }
 }
 
 exports.getAddCategory = (req, res, next) => {
@@ -634,59 +698,56 @@ exports.postDeleteSubSubCategory= (req, res, next) => {
 
 //Confirmation işlemleri
 //get confirmation
-exports.getConfirmation = (req, res, next) => {
-    Confirmation
-        .find()
-        .populate('userId')
-        .then(confirm => {
-            res.render('admin/confirmation', {
-                title: 'Onaylama Sayfası',
-                products: confirm,
-                path: '/admin/confirmation',
-                action: req.query.action
-            });
-        })
-        .catch((err) => {
-            next(err);
+exports.getConfirmation = async(req, res, next) => {
+    try{
+        const confirm = await Confirmation.find().populate('userId');
+
+        res.render('admin/confirmation', {
+            title: 'Onaylama Sayfası',
+            products: confirm,
+            path: '/admin/confirmation',
+            action: req.query.action
         });
+    }
+    catch(err){
+        next(err);
+    }
 }
 
-exports.getEditConfirmation= (req, res, next) => {
-    Confirmation
-        .findOne({_id: req.params.productid,})
-        .then(confirm => {
-            if(!confirm){
-                return res.redirect('/');
-            }
-            return confirm;
-        })
-        .then(confirm => {
+exports.getEditConfirmation= async (req, res, next) => {
+    try{
+        let confirm = await Confirmation.findOne({ _id: req.params.productid });
+        if(!confirm){
+            return res.redirect('/');
+        }
+        
+        const categories = await Category.find();
+        const subcategories = await SubCategory.find();
 
-            SubSubCategory.find()
-                .then(categories => {
-
-                    categories = categories.map(category => {
-
-                        if(confirm.categories){
-                            confirm.categories.find(item => {
-                                if(item.toString() === category._id.toString()){
-                                    category.selected = true;
-                                }
-                            })
-                        }
-                        return category;
-                    })
-
-                    res.render('admin/edit-confirmation', {
-                        title: 'Ürün İnceleme-Onaylama',
-                        path: '/admin/confirmation',
-                        product: confirm,
-                        categories: categories
-                    });
+        let subsubcategories = await SubSubCategory.find();
+        subsubcategories = subsubcategories.map(category => {
+            if(confirm.subsubcategories){
+                 confirm.subsubcategories.find(item => {
+                    if(item.toString() === category._id.toString()){
+                        category.selected = true;
+                    }
                 })
-        })
-        .catch(err => { next(err); });
+            }
+            return category;
+        });
 
+        res.render('admin/edit-confirmation', {
+            title: 'Ürün İnceleme-Onaylama',
+            path: '/admin/confirmation',
+            product: confirm,
+            subsubcategories: subsubcategories,
+            categories:categories,
+            subcategories:subcategories
+        });
+    }
+    catch(err){
+        next(err);
+    }
 }
 
 //post edit confirmation
@@ -695,7 +756,6 @@ exports.postEditConfirmation = async (req, res, next) => {
         const id = req.body.id;
         const name = req.body.name; 
         const price = req.body.price;
-        const image = req.body.image;
         const description = req.body.description;
         const nameOfSeller = req.body.nameOfSeller;
         const phoneOfSeller = req.body.phoneOfSeller;
@@ -705,11 +765,37 @@ exports.postEditConfirmation = async (req, res, next) => {
         const isSecondHand = req.body.isSecondHand;
         const city = req.body.city;
 
+        const imageSelect = await Confirmation.findOne({_id: id}, 'imageUrl');
+
+        if(imageSelect.imageUrl.length === 1){
+            var image = req.body.image;
+            var img = [image];
+        }
+
+        if(imageSelect.imageUrl.length === 2){
+            var image = req.body.image;
+            var image2 = req.body.image2;
+            var img = [image,image2];
+        }
+        if(imageSelect.imageUrl.length === 3){
+            var image = req.body.image;
+            var image2 = req.body.image2;
+            var image3 = req.body.image3;
+            var img = [image,image2,image3];
+        }
+        if(imageSelect.imageUrl.length === 4){
+            var image = req.body.image; 
+            var image2 = req.body.image2;
+            var image3 = req.body.image3;
+            var image4 = req.body.image4;
+            var img =  [image,image2,image3,image4];
+        }
+
         const confirm = new Product(
             {
                 name: name,
                 price: price,
-                imageUrl: image,
+                imageUrl: img,
                 description: description,
                 nameOfSeller: nameOfSeller,
                 phoneOfSeller: phoneOfSeller,
@@ -790,11 +876,70 @@ exports.postDeleteConfirmation= async (req, res, next) => {
         if(!product){
             return next(new Error('Silinmek istenen ürün bulunamadı.'));
         }
-        fs.unlink('public/img/' + product.imageUrl, err => {
-            if(err){
-                console.log(err);
-            }
-        });
+
+        const imagesSelect = product.imageUrl;
+
+        if(imagesSelect.length == 1){
+            fs.unlink('public/img/' + imagesSelect[0], err => {
+                if(err){
+                    console.log(err);
+                }
+            });
+        }
+
+        if(imagesSelect.length == 2){
+            fs.unlink('public/img/' + imagesSelect[0], err => {
+                if(err){
+                    console.log(err);
+                }
+            });
+            fs.unlink('public/img/' + imagesSelect[1], err => {
+                if(err){
+                    console.log(err);
+                }
+            });
+        }
+
+        if(imagesSelect.length == 3){
+            fs.unlink('public/img/' + imagesSelect[0], err => {
+                if(err){
+                    console.log(err);
+                }
+            });
+            fs.unlink('public/img/' + imagesSelect[1], err => {
+                if(err){
+                    console.log(err);
+                }
+            });
+            fs.unlink('public/img/' + imagesSelect[2], err => {
+                if(err){
+                    console.log(err);
+                }
+            });
+        }
+        if(imagesSelect.length == 4){
+            fs.unlink('public/img/' + imagesSelect[0], err => {
+                if(err){
+                    console.log(err);
+                }
+            });
+            fs.unlink('public/img/' + imagesSelect[1], err => {
+                if(err){
+                    console.log(err);
+                }
+            });
+            fs.unlink('public/img/' + imagesSelect[2], err => {
+                if(err){
+                    console.log(err);
+                }
+            });
+            fs.unlink('public/img/' + imagesSelect[3], err => {
+                if(err){
+                    console.log(err);
+                }
+            });
+        }
+
         const result = await Confirmation.deleteOne({_id: id})
         if(result.deletedCount === 0){
             return next(new Error('Silinmek istenen ürün bulunamadı.'));
@@ -836,42 +981,40 @@ exports.postDeleteConfirmation= async (req, res, next) => {
 }
 
 //getallProducts
-exports.getAllProducts = (req, res, next) => {
-    Product
-        .find()
-        .populate('userId')
-        .then(products => {
-            res.render('admin/all-products', {
-                title: 'Tüm Ürünler',
-                products: products,
-                path: '/admin/all-products',
-                action: req.query.action
-            });
-        })
-        .catch((err) => {
-            next(err);
+exports.getAllProducts = async(req, res, next) => {
+    try{
+        const products = await Product.find().populate('userId');
+
+        res.render('admin/all-products', {
+            title: 'Tüm Ürünler',
+            products: products,
+            path: '/admin/all-products',
+            action: req.query.action
         });
+    }
+    catch(err){
+        next(err);
+    }
 }
 
 //getallUsers
-exports.getAllUsers = (req, res, next) => {
-    User
-        .find()
-        .then(users => {
-            res.render('admin/all-users', {
-                title: 'Tüm Kullanıcılar',
-                users: users,
-                path: '/admin/all-users',
-                action: req.query.action
-            });
-        })
-        .catch((err) => {
-            next(err);
+exports.getAllUsers = async (req, res, next) => {
+    try{
+        const users = await User.find();
+
+        res.render('admin/all-users', {
+            title: 'Tüm Kullanıcılar',
+            users: users,
+            path: '/admin/all-users',
+            action: req.query.action
         });
+    }
+    catch(err){
+        next(err);
+    }
 }
 
 exports.postDeleteUser= (req, res, next) => {
-
     const id = req.body.productid;
 
     User.findOne({_id: id})
@@ -894,108 +1037,190 @@ exports.postDeleteUser= (req, res, next) => {
 }
 
 //All Products---------
-exports.getEditAllProducts= (req, res, next) => {
-    Product
-        .findOne({_id: req.params.productid})
-        .then(confirm => {
-            if(!confirm){
-                return res.redirect('/');
-            }
-            return confirm;
-        })
-        .then(confirm => {
+exports.getEditAllProducts= async(req, res, next) => {
+    try{
+        let confirm = await Product.findOne({ _id: req.params.productid });
+        if(!confirm){
+            return res.redirect('/');
+        }
+        
+        let subsubcategories = await SubSubCategory.find();
+        const subcategories = await SubCategory.find();
+        const categories = await Category.find();
 
-            SubSubCategory.find()
-                .then(categories => {
-
-                    categories = categories.map(category => {
-
-                        if(confirm.categories){
-                            confirm.categories.find(item => {
-                                if(item.toString() === category._id.toString()){
-                                    category.selected = true;
-                                }
-                            })
-                        }
-                        
-                        return category;
-                    })
-
-                    res.render('admin/edit-all-products', {
-                        title: 'Ürün İnceleme',
-                        path: '/admin/edit-all-products',
-                        product: confirm,
-                        categories: categories
-                    });
+        subsubcategories = subsubcategories.map(category => {
+            if(confirm.subsubcategories){
+                confirm.subsubcategories.find(item => {
+                    if(item.toString() === category._id.toString()){
+                        category.selected = true;
+                    }
                 })
+            }
+            return category;
         })
-        .catch(err => { next(err); });
+
+        res.render('admin/edit-all-products', {
+            title: 'Ürün İnceleme',
+            path: '/admin/edit-all-products',
+            product: confirm,
+            categories: categories,
+            subcategories: subcategories,
+            subsubcategories: subsubcategories
+        });
+    }
+    catch(err){
+        next(err);
+    }
+    
 }
 
 //post edit all-products
-exports.postEditAllProducts = (req, res, next) => {
+exports.postEditAllProducts = async(req, res, next) => {
+    try{
+        const id = req.body.id;
+        const name = req.body.name;
+        const price = req.body.price;
+        const description = req.body.description;
+        const ids = req.body.categoryids;
+        const userid = req.body.userid;
+        const nameOfSeller = req.body.nameOfSeller;
+        const phoneOfSeller = req.body.phoneOfSeller;
+        const mailOfSeller = req.body.mailOfSeller;
+        const isSecondHand = req.body.isSecondHand;
+        const city = req.body.city;
 
-    const id = req.body.id;
-    const name = req.body.name;
-    const price = req.body.price;
-    const image = req.file;
-    const description = req.body.description;
-    const ids = req.body.categoryids;
-    const userid = req.body.userid;
-    const nameOfSeller = req.body.nameOfSeller;
-    const phoneOfSeller = req.body.phoneOfSeller;
-    const mailOfSeller = req.body.mailOfSeller;
-    const isSecondHand = req.body.isSecondHand;
-    
-    Product.findOne({_id:id})
-        .then(product => {
-            if(!product){
-                return res.redirect('/');
-            }
-            
-            product.name = name;
-            product.price = price;
-            product.image = image;
-            product.description = description;
-            product.categories = ids;
-            product.userid = userid;
-            product.nameOfSeller = nameOfSeller;
-            product.phoneOfSeller = phoneOfSeller
-            product.mailOfSeller = mailOfSeller
-            product.isSecondHand = isSecondHand;
+        const product = await Product.findOne({ _id:id });
+        if(!product){
+            return res.redirect('/');
+        }
 
-            return product.save();
-        }).then(result => {
-            res.redirect('/admin/all-products?action=edit');
-        }).catch(err => {
-            next(err);
-        });
+        const imageSelect = await Product.findOne({_id: id}, 'imageUrl');
+
+        if(imageSelect.imageUrl.length === 1){
+            var image = req.body.image;
+            var img = [image];
+        }
+        if(imageSelect.imageUrl.length === 2){
+            var image = req.body.image;
+            var image2 = req.body.image2;
+            var img = [image,image2];
+        }
+        if(imageSelect.imageUrl.length === 3){
+            var image = req.body.image;
+            var image2 = req.body.image2;
+            var image3 = req.body.image3;
+            var img = [image,image2,image3];
+        }
+        if(imageSelect.imageUrl.length === 4){
+            var image = req.body.image; 
+            var image2 = req.body.image2;
+            var image3 = req.body.image3;
+            var image4 = req.body.image4;
+            var img =  [image,image2,image3,image4];
+        }
+
+        product.name = name;
+        product.price = price;
+        product.image = img;
+        product.description = description;
+        product.categories = ids;
+        product.userid = userid;
+        product.nameOfSeller = nameOfSeller;
+        product.phoneOfSeller = phoneOfSeller
+        product.mailOfSeller = mailOfSeller
+        product.isSecondHand = isSecondHand;
+        product.city = city;
+
+        product.save();
+
+        res.redirect('/admin/all-products?action=edit');
+    }
+    catch(err){
+        next(err);
+    }
 }
 
-exports.postDeleteAllProducts = (req, res, next) => {
+exports.postDeleteAllProducts = async (req, res, next) => {
+    try{
+        const id = req.body.productid;
 
-    const id = req.body.productid;
-    
-    Product.findOne({_id: id})
-        .then(product => {
-            if(!product){
-                return next(new Error('Silinmek istenen ürün bulunamadı.'));
-            }   
-            fs.unlink('public/img/' + product.imageUrl, err => {
+        const product = await Product.findOne({ _id: id });
+        if(!product){
+            return next(new Error('Silinmek istenen ürün bulunamadı.'));
+        }
+
+        const imagesSelect = product.imageUrl;
+
+        if(imagesSelect.length == 1){
+            fs.unlink('public/img/' + imagesSelect[0], err => {
                 if(err){
                     console.log(err);
                 }
             });
+        }
 
-            return Product.deleteOne({_id: id})
-        }).then((result) => {
-            if(result.deletedCount === 0){
-                return next(new Error('Silinmek istenen ürün bulunamadı.'));
-            }
-            
-            res.redirect('/admin/all-products?action=delete');
-        })
-        .catch(err => {
-            next(err);
-        });
+        if(imagesSelect.length == 2){
+            fs.unlink('public/img/' + imagesSelect[0], err => {
+                if(err){
+                    console.log(err);
+                }
+            });
+            fs.unlink('public/img/' + imagesSelect[1], err => {
+                if(err){
+                    console.log(err);
+                }
+            });
+        }
+
+        if(imagesSelect.length == 3){
+            fs.unlink('public/img/' + imagesSelect[0], err => {
+                if(err){
+                    console.log(err);
+                }
+            });
+            fs.unlink('public/img/' + imagesSelect[1], err => {
+                if(err){
+                    console.log(err);
+                }
+            });
+            fs.unlink('public/img/' + imagesSelect[2], err => {
+                if(err){
+                    console.log(err);
+                }
+            });
+        }
+        if(imagesSelect.length == 4){
+            fs.unlink('public/img/' + imagesSelect[0], err => {
+                if(err){
+                    console.log(err);
+                }
+            });
+            fs.unlink('public/img/' + imagesSelect[1], err => {
+                if(err){
+                    console.log(err);
+                }
+            });
+            fs.unlink('public/img/' + imagesSelect[2], err => {
+                if(err){
+                    console.log(err);
+                }
+            });
+            fs.unlink('public/img/' + imagesSelect[3], err => {
+                if(err){
+                    console.log(err);
+                }
+            });
+        }
+
+        const result = await Product.deleteOne({ _id: id});
+
+        if(result.deletedCount === 0){
+            return next(new Error('Silinmek istenen ürün bulunamadı.'));
+        }
+
+        res.redirect('/admin/all-products?action=delete');
+    }
+    catch(err){
+        next(err);
+    }
 }

@@ -4,27 +4,37 @@ block styles
     link(rel="stylesheet" href="/css/forms.css")
 
 block content
-    form(action="/admin/products" method="POST" enctype="multipart/form-data")
+    form(action="/admin/products" method="POST" enctype="multipart/form-data" onSubmit="return confirm('Onaylamak istediğinden emin misin?') ").productPageCartBg.p-3
         input(type="hidden" name="_csrf" value=`${csrfToken}`)
         input(type="hidden" name="id" value=`${product._id}`)
 
-        div.alert.alert-warning Ürünü düzenleyip değiştirdiğiniz zaman gösterimden kaldırılır ve onay için bize gönderilir.
+        div.alert.alert-warning 
+            b Ürünü düzenleyip değiştirdiğiniz zaman gösterimden kaldırılır ve onay için bize gönderilir.
+        div.alert.alert-danger.text-dark 
+            b Lütfen sadece 
+                span.text-success 
+                    u yeşil yazılı alanları 
+                |değiştirin.
         br
-        h2.font-weight-bold  Ürün Bilgileri
+        h2.font-weight-bold.text-dark 
+            b  Ürün Bilgileri
         hr
 
         .form-group.row
-            label(for="name").col-sm-2.col-form-label Ürün Adı:
+            label(for="name").col-sm-2.col-form-label.text-success 
+                u Ürün Adı:
             .col-sm-10
                 input.form-control#name(type="text" name="name" value=`${product.name}`)  
 
-        .form-group.row
-            label(for="price").col-sm-2.col-form-label Fiyatı:
+        .form-group.row.mt-5
+            label(for="price").col-sm-2.col-form-label.text-success 
+                u Fiyatı:
             .col-sm-10
                 input.form-control#price(type="text" name="price" value=`${product.price}`) 
 
-        .form-group.row
-            label(for="isSecondHand").col-sm-2.col-form-label İkinci El:
+        .form-group.row.mt-5
+            label(for="isSecondHand").col-sm-2.col-form-label.text-success 
+                u İkinci El:
             .col-sm-10
                 select(class="form-select custom-select" name="isSecondHand")#isSecondHand
                     option(value=`${product.isSecondHand}`).selected #{product.isSecondHand}
@@ -33,30 +43,114 @@ block content
                     else
                         option(value="İkinci El") İkinci El
 
-        .form-group.row
-            label(for="imageUrl").col-sm-2.col-form-label Ürün Resmi:
-            .col-sm-10
-                img(src=`/img/${product.imageUrl}` width="100")
-                input#image(type="text" name="image" value=`${product.imageUrl}`).ml-2
+        
+        // RESİMLER
+        if product.imageUrl.length == 1
+            .form-group.row.mt-5
+                label(for="image").col-sm-2.col-form-label.text-danger 
+                    del Ürün Resmi 1:
+                .col-sm-10
+                    img(src=`/img/${product.imageUrl[0]}` width="100")
+                    input#image(type="text" name="image" value=`${product.imageUrl[0]}`).ml-2
 
-        .form-group.row
-            label(for="categoryid").col-sm-2.col-form-label Ürün Kategorisi:
+        if product.imageUrl.length == 2
+            .form-group.row.mt-5
+                label(for="image").col-sm-2.col-form-label.text-danger 
+                    del Ürün Resmi 1:
+                .col-sm-10
+                    img(src=`/img/${product.imageUrl[0]}` width="100")
+                    input#image(type="text" name="image" value=`${product.imageUrl[0]}`).ml-2
+
+            .form-group.row.mt-5
+                label(for="image2").col-sm-2.col-form-label.text-danger 
+                    del Ürün Resmi 2:
+                .col-sm-10
+                    img(src=`/img/${product.imageUrl[1]}` width="100")
+                    input#image2(type="text" name="image2" value=`${product.imageUrl[1]}`).ml-2
+
+        if product.imageUrl.length == 3
+            .form-group.row.mt-5
+                label(for="image").col-sm-2.col-form-label.text-danger 
+                    del Ürün Resmi 1:
+                .col-sm-10
+                    img(src=`/img/${product.imageUrl[0]}` width="100")
+                    input#image(type="text" name="image" value=`${product.imageUrl[0]}`).ml-2
+
+            .form-group.row.mt-5
+                label(for="image2").col-sm-2.col-form-label.text-danger 
+                    del Ürün Resmi 2:
+                .col-sm-10
+                    img(src=`/img/${product.imageUrl[1]}` width="100")
+                    input#image2(type="text" name="image2" value=`${product.imageUrl[1]}`).ml-2
+
+            .form-group.row.mt-5
+                label(for="image3").col-sm-2.col-form-label.text-danger 
+                    del Ürün Resmi 3:
+                .col-sm-10
+                    img(src=`/img/${product.imageUrl[2]}` width="100")
+                    input#image3(type="text" name="image3" value=`${product.imageUrl[2]}`).ml-2
+
+        if product.imageUrl.length == 4
+            .form-group.row.mt-5
+                label(for="image").col-sm-2.col-form-label.text-danger 
+                 del Ürün Resmi 1:
+                .col-sm-10
+                    img(src=`/img/${product.imageUrl[0]}` width="100")
+                    input#image(type="text" name="image" value=`${product.imageUrl[0]}`).ml-2
+
+            .form-group.row.mt-5
+                label(for="image2").col-sm-2.col-form-label.text-danger 
+                    del Ürün Resmi 2:
+                .col-sm-10
+                    img(src=`/img/${product.imageUrl[1]}` width="100")
+                    input#image2(type="text" name="image2" value=`${product.imageUrl[1]}`).ml-2
+
+            .form-group.row.mt-5
+                label(for="image3").col-sm-2.col-form-label.text-danger 
+                    del Ürün Resmi 3:
+                .col-sm-10
+                    img(src=`/img/${product.imageUrl[2]}` width="100")
+                    input#image3(type="text" name="image3" value=`${product.imageUrl[2]}`).ml-2
+
+            .form-group.row.mt-5
+                label(for="image4").col-sm-2.col-form-label.text-danger 
+                    del Ürün Resmi 4:
+                .col-sm-10
+                    img(src=`/img/${product.imageUrl[3]}` width="100")
+                    input#image4(type="text" name="image4" value=`${product.imageUrl[3]}`).ml-2
+
+        //RESİMLER BİTİŞ
+
+        .form-group.row.mt-5
+            label(for="categoryid").col-sm-2.col-form-label.text-danger 
+                del Ürün Kategorisi:
             .col-sm-10
-                each category in categories
-                    div
-                        input(type="checkbox" name="categoryids" value=`${category._id}` checked=category.selected)
-                        |  #{category.name}
+                each subsubcategory in subsubcategories
+                    -var productCategories = `${product.categories}`
+                    -var subsubcategoryCategories = `${subsubcategory.categories}`
+                        if productCategories == `${subsubcategory._id}`
+                            each subcategory in subcategories 
+                                -var subcaregoryCategories = `${subcategory.categories}`
+                                if subsubcategoryCategories == `${subcategory._id}`
+                                    each category in categories
+                                        if subcaregoryCategories == `${category._id}`
+                                            div
+                                                select(class="form-select custom-select" name="categoryids")#categoryids
+                                                    option(value=`${subsubcategory._id}`).selected #{category.name} > #{subcategory.name} > #{subsubcategory.name}
                     
-        .form-group.row
-            label(for="description").col-sm-2.col-form-label Ürün Açıklaması:
+        .form-group.row.mt-5
+            label(for="description").col-sm-2.col-form-label.text-success 
+                u Ürün Açıklaması:
             .col-sm-10
                 textarea.form-control(id="editor" cols="95" rows="10" name="description") #{product.description}
         
-        h2.font-weight-bold  Satıcı Bilgileri
+        h2.font-weight-bold.text-dark  
+            b Satıcı Bilgileri
         hr
 
         .form-group.row
-            label(for="city").col-sm-2.col-form-label İlçe Seçimi:
+            label(for="city").col-sm-2.col-form-label.text-success 
+                u İlçe Seçimi:
             .col-sm-10
                 select(class="form-select custom-select" name="city" required)#city
                     option(value=`${product.city}`).selected #{product.city}
@@ -67,16 +161,19 @@ block content
                     option(value="İskele") İskele
                     option(value="Güzelyurt") Güzelyurt
 
-        .form-group.row
-            label(for="nameOfSeller").col-sm-2.col-form-label İsminiz:
+        .form-group.row.mt-5
+            label(for="nameOfSeller").col-sm-2.col-form-label.text-success 
+                u İsminiz:
             .col-sm-10
                 input.form-control#nameOfSeller(type="text" name="nameOfSeller" maxlength="20" placeholder="Lütfen ürünle beraber gösterilecek satıcı isminizi giriniz" value=`${product.nameOfSeller}`)
-        .form-group.row
-            label(for="phoneOfSeller").col-sm-2.col-form-label İrtibat Numaranız:
+        .form-group.row.mt-5
+            label(for="phoneOfSeller").col-sm-2.col-form-label.text-success 
+                u İrtibat Numaranız:
             .col-sm-10
                 input.form-control#phoneOfSeller(type="text" name="phoneOfSeller" maxlength="20" value=`${product.phoneOfSeller}` placeholder="Lütfen size müşterinin ulaşması için telefon numarasını doğru giriniz")
-        .form-group.row
-            label(for="mailOfSeller").col-sm-2.col-form-label Emailiniz:
+        .form-group.row.mt-5
+            label(for="mailOfSeller").col-sm-2.col-form-label.text-success 
+                u Emailiniz:
             .col-sm-10
                 input.form-control#mailOfSeller(type="email" name="mailOfSeller" maxlength="50" value=`${product.mailOfSeller}` placeholder="Lütfen emailinizi giriniz")
 

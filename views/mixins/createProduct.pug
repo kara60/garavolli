@@ -3,7 +3,7 @@ mixin createProduct(product)
         div.product-grid6.p-2
             div.product-image6
                 a(href=`/products/${product._id}`)
-                    img(src=`/img/${product.imageUrl}` alt=`${product.description}` ).pic-1
+                    img(src=`/img/${product.imageUrl[0]}` alt=`${product.description}` ).pic-1
             div.product-content
                 h4.title
                     a(href=`/products/${product._id}`).text-uppercase #{product.name}

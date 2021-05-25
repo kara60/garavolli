@@ -71,10 +71,14 @@ exports.getProduct = async (req, res, next) => {
     try{
         const product = await Product.findById(req.params.productid);
         const subsubcategories = await SubSubCategory.find();
-    
+        const subcategories = await SubCategory.find();
+        const categories = await Category.find();
+
         res.render('shop/product-detail', {
             title: product.name.toUpperCase(),
             subsubcategories: subsubcategories,
+            subcategories:subcategories,
+            categories:categories,
             product: product,
             path: '/products'
             });

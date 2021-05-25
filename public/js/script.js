@@ -1,2 +1,0 @@
-CKEDITOR.replace('editor');
-
