@@ -45,3 +45,8 @@
 .productDetailMultiPicture img:hover {
     opacity: 1;
 }
+
+.productInformationStyle{
+    width: auto;
+    word-wrap: break-word;
+}
