@@ -24,7 +24,7 @@ block content
                                         a().btn.btn-link.text-muted.p-0 > #{product.name}
     .row
         .col-lg-6.pt-3.alert.alert-light
-            .container.d-flex.justify-content-center.productDetailimageArea.img-zoom-container
+            .container.d-flex.justify-content-center.productDetailimageArea#zoom
                 img(src=`/img/${product.imageUrl[0]}` id="expandedImg" onclick="myFunction(this);" data-zoom-image="/img/1.jpg").img-fluid
             .productDetailMultiPicture.mt-1
                 if product.imageUrl.length == 1
