@@ -6,9 +6,11 @@ html(lang="en")
     body
         include ../includes/navbar
         block megaMenu
-        
+        a(href="/contact" class="float" target="_blank" data-toggle="tooltip" data-placement="top" title="İletişim")
+            i(class="fas fa-envelope fa-md my-float")
         .container.mainContainerStyle.mb-5
             block content
+                
             script(src="/js/language.js")
             
         include ../includes/footer

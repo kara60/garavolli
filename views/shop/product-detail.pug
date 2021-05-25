@@ -22,8 +22,8 @@ block content
                                         a(href=`/categories/${subsubcategory._id}`).btn.btn-link.text-info.p-0 
                                             u #{subsubcategory.name} Kategorisi
                                         a().btn.btn-link.text-muted.p-0 > #{product.name}
-    .row.productPageCartBg.productContentRow
-        .col-lg-6.mt-3
+    .row
+        .col-lg-6.pt-3.alert.alert-light
             .container.d-flex.justify-content-center.productDetailimageArea.img-zoom-container
                 img(src=`/img/${product.imageUrl[0]}` id="expandedImg" onclick="myFunction(this);" data-zoom-image="/img/1.jpg").img-fluid
             .productDetailMultiPicture.mt-1
@@ -55,7 +55,7 @@ block content
                     .column    
                         img(src=`/img/${product.imageUrl[3]}` onclick="myFunction(this);").img-fluid
 
-        .col-lg-6.pl-3.pt-3.productContent
+        .col-lg-6.pt-3.alert.productContent
             h2.mb-3.text-uppercase.font-weight-bold #{product.name}
             hr
             p
@@ -79,14 +79,14 @@ block content
                 //-         i(class="fas fa-cart-plus")
         
 
-    .row.productPageCartBg.mt-3
-        .col-md-6
-            h2.font-weight-bold.mt-2 Ürün Bilgileri
+    .row.mt-3
+        .col-md-6.alert.alert-light
+            h2.font-weight-bold.mt-3.text-dark Ürün Bilgileri
             hr
             p.p-3.productInformationStyle !{product.description}
         
-        .col-lg-6.pl-3.bg-light
-            h2.font-weight-bold.mt-2 Satıcı Bilgileri
+        .col-lg-6.pl-3.alert.productContent
+            h2.font-weight-bold.mt-3 Satıcı Bilgileri
             hr
             p 
                 b İlçe: 
