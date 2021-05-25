@@ -34,7 +34,7 @@
     transition: 0.3s;
 }
 .productContent{
-    background-color: #f1f1f3d2;
+    background-color: #eeecec;
     
 }
 
@@ -49,4 +49,21 @@
 .productInformationStyle{
     width: auto;
     word-wrap: break-word;
+}
+
+
+#zoom img {
+    -webkit-transition: all 1s ease;
+    -moz-transition: all 1s ease;
+    -o-transition: all 1s ease;
+    transition: all 1s ease;
+}
+            
+#zoom img:hover {
+    -moz-transform: scale(2);
+    -o-transform: scale(2);
+    transform: scale(2);
+    -webkit-transform: scale(2);
+    -ms-transform: scale(2);
+    z-index: 1;
 }
