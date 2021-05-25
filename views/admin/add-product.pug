@@ -35,8 +35,12 @@ block content
                 input.form-control#price(type="text" name="price" maxlength="7" placeholder="Ör: 1200" value=`${inputs.price}` required)
             //- .col.sm-2
             //-     input.form-control#price(type="text" name="price" maxlength="2" value=`00`).w-25
-
-        .form-group.row
+        
+        .form-group.row.mb-3
+            div.alert.alert-primary.col-sm-12.mt-3
+                b En fazla 4 resim yükleme hakkınız vardır. Lütfen çoklu resim yüklemek için 
+                    em "shift" 
+                    |tuşuyla seçin yapınız..
             label(for="image").col-sm-2.col-form-label Ürün Resmi:
             .col-sm-10
                 input.form-control-file(type="file" name="image" id="image" multiple required)
