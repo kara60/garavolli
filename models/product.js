@@ -16,9 +16,9 @@ const productSchema = mongoose.Schema({
     description: {
         type: String
     },
-    imageUrl: {
+    imageUrl: [{
         type: String
-    },
+    }],
     nameOfSeller: {
         type: String
     },

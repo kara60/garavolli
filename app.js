@@ -38,8 +38,8 @@ const storage = multer.diskStorage({
     }
 });
 
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(multer({ storage: storage }).single('image'));
+app.use(bodyParser.urlencoded({ extended: false })); 
+app.use(multer({ storage: storage }).array('image',4));
 app.use(cookieParser());
 app.use(session({ 
     secret: 'keyboard cat',

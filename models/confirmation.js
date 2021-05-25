@@ -22,9 +22,11 @@ const confirmationSchema = mongoose.Schema({
     description: {
         type: String
     },
-    imageUrl: {
-        type: String
-    },
+    imageUrl:[
+        {
+            type: String
+        }
+    ],
     nameOfSeller: {
         type: String
     },

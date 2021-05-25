@@ -1,56 +1,63 @@
 extends ../layouts/main-layout.pug
 
-//- block megaMenu 
-//-     include ../includes/menu.pug
+block megaMenu 
+    include ../includes/menu.pug
 block styles
     link(rel="stylesheet" href="/css/product-detail.css")
 
 block content
     .row
-        .col-lg-4
-            .images
-                img(src=`/img/${product.imageUrl}`).img-fluid
-                hr
-                .productDetailMultiPicture
-                    img(src=`/img/1.jpg` width="85").img-fluid
-                    img(src=`/img/2.jpg` width="85").img-fluid
-                    img(src=`/img/3.jpg` width="85").img-fluid
-                    img(src=`/img/4.jpg` width="85").img-fluid
-            div(id="image-viewer")
-                span.close &times;
-                img(id="").modal-content.full-image
-
-
-            //- #mySlider.carousel.slide(data-ride="carousel").mb-1.mt-0
-
-            //-     ol.carousel-indicators
-            //-         li(data-target="#mySlider" data-slide-to="1")
-            //-         li(data-target="#mySlider" data-slide-to="2")
-            //-         li(data-target="#mySlider" data-slide-to="3")
-            
-            //-     .carousel-inner
-            //-         .carousel-item.active
-            //-             img(src=`/img/${product.imageUrl}` alt="").d-block.img-fluid
-                    
-            //-         .carousel-item
-            //-             img(src=`/img/3.jpg` alt="").d-block.img-fluid
-
-            //-         .carousel-item
-            //-             img(src=`/img/1.jpg` alt="").d-block.img-fluid 
-    
-            //-     a(href="#mySlider"  data-slide="prev").carousel-control-prev
-            //-         span.carousel-control-prev-icon.bg-secondary
-                
-            //-     a(href="#mySlider"  data-slide="next").carousel-control-next
-            //-         span.carousel-control-next-icon.bg-secondary
-                   
-        .col-lg-4.pl-3
-            h2.mb-3.text-uppercase.font-weight-bold #{product.name}
-            hr
+        .col-lg-12.mt-3.alert.alert-light
             each subsubcategory in subsubcategories
                 -var productCategories = `${product.categories}`
+                -var subsubcategoryCategories = `${subsubcategory.categories}`
                     if productCategories == `${subsubcategory._id}`
-                        a(href=`/categories/${subsubcategory._id}`).btn.btn-link.p-0.mb-3.text-info - #{subsubcategory.name} Kategorisi
+                        each subcategory in subcategories 
+                            -var subcaregoryCategories = `${subcategory.categories}`
+                            if subsubcategoryCategories == `${subcategory._id}`
+                                each category in categories
+                                    if subcaregoryCategories == `${category._id}`
+                                        a().btn.btn-link.text-muted.p-0 #{category.name} > 
+                                        a().btn.btn-link.text-muted.p-0 #{subcategory.name} >
+                                        a(href=`/categories/${subsubcategory._id}`).btn.btn-link.text-info.p-0 
+                                            u #{subsubcategory.name} Kategorisi
+                                        a().btn.btn-link.text-muted.p-0 > #{product.name}
+    .row.productPageCartBg.productContentRow
+        .col-lg-6.mt-3
+            .container.d-flex.justify-content-center.productDetailimageArea.img-zoom-container
+                img(src=`/img/${product.imageUrl[0]}` id="expandedImg" onclick="myFunction(this);" data-zoom-image="/img/1.jpg").img-fluid
+            .productDetailMultiPicture.mt-1
+                if product.imageUrl.length == 1
+                    .column
+                        img(src=`/img/${product.imageUrl[0]}` onclick="myFunction(this);").img-fluid
+
+                if product.imageUrl.length == 2
+                    .column
+                        img(src=`/img/${product.imageUrl[0]}` onclick="myFunction(this);").img-fluid
+                    .column
+                        img(src=`/img/${product.imageUrl[1]}` onclick="myFunction(this);").img-fluid
+
+                if product.imageUrl.length == 3
+                    .column
+                        img(src=`/img/${product.imageUrl[0]}` onclick="myFunction(this);").img-fluid
+                    .column
+                        img(src=`/img/${product.imageUrl[1]}` onclick="myFunction(this);").img-fluid
+                    .column    
+                        img(src=`/img/${product.imageUrl[2]}` onclick="myFunction(this);").img-fluid
+
+                if product.imageUrl.length == 4
+                    .column
+                        img(src=`/img/${product.imageUrl[0]}` onclick="myFunction(this);").img-fluid
+                    .column
+                        img(src=`/img/${product.imageUrl[1]}` onclick="myFunction(this);").img-fluid
+                    .column    
+                        img(src=`/img/${product.imageUrl[2]}` onclick="myFunction(this);").img-fluid
+                    .column    
+                        img(src=`/img/${product.imageUrl[3]}` onclick="myFunction(this);").img-fluid
+
+        .col-lg-6.pl-3.pt-3.productContent
+            h2.mb-3.text-uppercase.font-weight-bold #{product.name}
+            hr
             p
                 b İlan Tarihi: 
                 | #{product.date.toDateString()}
@@ -62,7 +69,7 @@ block content
                     |Hayır
             p
             .mb-3
-                h4.text-success.mb-3 
+                h3.text-success.mb-3 
                     i.fas.fa-lira-sign #{product.price}
                 //- Ürün detayı sayfasındaki sepete ekle butonu ve çalışma fonksiyonu..
                 //- form(action="/cart" method="POST")
@@ -70,8 +77,16 @@ block content
                 //-     input(type="hidden" name='productId' value=`${product._id}`)
                 //-     button(type="submit" data-toggle="tooltip" data-placement="top" title="Sepete Ekle").btn.btn-primary.btn-lg
                 //-         i(class="fas fa-cart-plus")
-        .col-lg-4.pl-3
-            h2.font-weight-bold Satıcı Bilgileri
+        
+
+    .row.productPageCartBg.mt-3
+        .col-md-6
+            h2.font-weight-bold.mt-2 Ürün Bilgileri
+            hr
+            p.p-3 !{product.description}
+        
+        .col-lg-6.pl-3.bg-light
+            h2.font-weight-bold.mt-2 Satıcı Bilgileri
             hr
             p 
                 b İlçe: 
@@ -85,16 +100,6 @@ block content
             p 
                 b Satıcı Emaili: 
                 |#{product.mailOfSeller}
-    //- .row 
-    //-     .col-md-3
-    //-         img(src=`/img/${product.imageUrl}` alt="").w-25 
-    //-         img(src=`/img/3.jpg` alt="").w-25
-    //-         img(src=`/img/1.jpg` alt="").w-25
-    .row
-        .col-md-12
-            hr
-            h3.font-weight-bold Ürün Bilgileri:  
-            p.p-3 !{product.description}
 
 block script
     script(src="/js/product-detail.js")
