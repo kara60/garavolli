@@ -148,7 +148,8 @@ exports.postAddProduct = async (req, res, next) => {
         const description = req.body.description;
         const nameOfSeller = req.body.nameOfSeller;
         const phoneOfSeller = req.body.phoneOfSeller;
-        const mailOfSeller = req.body.mailOfSeller;
+        const userForEmail = await User.find({ _id: req.user._id }, 'email');
+        const mailOfSeller = userForEmail[0].email;
         const categoryid = req.body.categoryids;
         const isSecondHand = req.body.isSecondHand;
         const city = req.body.city;

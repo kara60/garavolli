@@ -39,8 +39,8 @@ block content
         .form-group.row.mb-3
             div.alert.alert-primary.col-sm-12.mt-3
                 b En fazla 4 resim yükleme hakkınız vardır. Lütfen çoklu resim yüklemek için 
-                    em "shift" 
-                    |tuşuyla seçin yapınız..
+                    em "ctrl" 
+                    |tuşuyla seçim yapınız..
             label(for="image").col-sm-2.col-form-label Ürün Resmi:
             .col-sm-10
                 input.form-control-file(type="file" name="image" id="image" multiple required)
@@ -90,10 +90,10 @@ block content
             label(for="phoneOfSeller").col-sm-2.col-form-label İrtibat Numaranız:
             .col-sm-10
                 input.form-control#phoneOfSeller(type="text" name="phoneOfSeller" maxlength="20" value=`${inputs.phoneOfSeller}` placeholder="Lütfen müşterinin ulaşması için telefon numaranızı doğru giriniz" required)
-        .form-group.row
-            label(for="mailOfSeller").col-sm-2.col-form-label Emailiniz:
-            .col-sm-10
-                input.form-control#mailOfSeller(type="email" name="mailOfSeller" maxlength="50" value=`${inputs.mailOfSeller}` placeholder="Lütfen emailinizi giriniz" required)
+        //- .form-group.row
+        //-     label(for="mailOfSeller").col-sm-2.col-form-label Emailiniz:
+        //-     .col-sm-10
+        //-         input.form-control#mailOfSeller(type="email" name="mailOfSeller" maxlength="50" value=`${inputs.mailOfSeller}` placeholder="Lütfen emailinizi giriniz" required)
 
 
         .form-group.row
