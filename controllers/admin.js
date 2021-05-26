@@ -154,7 +154,7 @@ exports.postAddProduct = async (req, res, next) => {
         const city = req.body.city;
 
         const imgs = await image.map(s => s.filename);
-        console.log(image);
+
         const confirm = new Confirmation(
             {
                 name: name,
@@ -176,31 +176,7 @@ exports.postAddProduct = async (req, res, next) => {
 
     }
     catch(err){
-        if(err.name == 'ValidationError'){
-            let message = '';
-            for(field in err.errors){
-                message += err.errors[field].message + '<br>';
-            }
-
-            res.render('admin/add-product', {
-                title: 'Yeni Ürün Ekleme',
-                path: '/admin/add-product',
-                errorMessage: message,
-                inputs:{
-                    name: name,
-                    price: price,
-                    description: description,
-                    nameOfSeller: nameOfSeller,
-                    phoneOfSeller: phoneOfSeller,
-                    mailOfSeller: mailOfSeller,
-                    categories: categoryid,
-                    isSecondHand: isSecondHand,
-                    city: city
-                }
-            });
-        }else{
-            next(err);
-        }
+        next(err);
     }
 }
 

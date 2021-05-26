@@ -4,7 +4,7 @@ const productSchema = mongoose.Schema({
     name: {
         type: String,
         required: [true, 'Ürün ismi girmelisiniz.'],
-        maxlength: [30, 'Ürün ismi için en fazla 255 karakter girebilirsiniz.'],
+        maxlength: [150, 'Ürün ismi için en fazla 150 karakter girebilirsiniz.'],
         uppercase: true, //büyük küçük olması
         trim: true // boşluk karakterini alır
     },

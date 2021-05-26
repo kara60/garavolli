@@ -210,7 +210,9 @@ ul.menu .active .list a {
 
 /**************************************/
 /* kategori menu */
-
+.categoryNameStyle{
+    font-size: 18px !important;
+}
 .area nav{
     position: relative;
     top: 58px;

@@ -27,12 +27,12 @@ block content
         .form-group.row
             label(for="name").col-sm-2.col-form-label Ürün Adı:
             .col-sm-10
-                input.form-control#name(type="text" name="name" maxlength="20" value=`${inputs.name}` placeholder="Lütfen en az 5 karakter giriniz." required)
+                input.form-control#name(type="text" name="name" maxlength="100" value=`${inputs.name}` placeholder="Lütfen en az 5 karakter giriniz." required)
 
         .form-group.row
             label(for="price").col-sm-2.col-form-label Fiyatı:
             .col-sm-2.pr-0
-                input.form-control#price(type="text" name="price" maxlength="7" placeholder="Ör: 1200" value=`${inputs.price}` required)
+                input.form-control#price(type="text" name="price" maxlength="12" placeholder="Ör: 1200" value=`${inputs.price}` required)
             //- .col.sm-2
             //-     input.form-control#price(type="text" name="price" maxlength="2" value=`00`).w-25
         

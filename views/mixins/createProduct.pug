@@ -5,10 +5,12 @@ mixin createProduct(product)
                 a(href=`/products/${product._id}`)
                     img(src=`/img/${product.imageUrl[0]}` alt=`${product.description}` ).pic-1
             div.product-content
-                h4.title
-                    a(href=`/products/${product._id}`).text-uppercase #{product.name}
-                    div.price.mt-1
-                        i.fas.fa-lira-sign #{product.price}
+                h6.title
+                    a(href=`/products/${product._id}`).text-uppercase.text-dark 
+                        b #{product.name}
+                hr.m-0
+                div.price.mt-2
+                    i.fas.fa-lira-sign #{product.price}
 
             ul.social
                 li
