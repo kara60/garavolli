@@ -34,29 +34,29 @@ block content
                 if product.imageUrl.length == 2
                     .column
                         img(src=`/img/${product.imageUrl[0]}` onclick="myFunction(this);").img-fluid
-                    .column
+                    .column.ml-2
                         img(src=`/img/${product.imageUrl[1]}` onclick="myFunction(this);").img-fluid
 
                 if product.imageUrl.length == 3
                     .column
                         img(src=`/img/${product.imageUrl[0]}` onclick="myFunction(this);").img-fluid
-                    .column
+                    .column.ml-2
                         img(src=`/img/${product.imageUrl[1]}` onclick="myFunction(this);").img-fluid
-                    .column    
+                    .column.ml-2    
                         img(src=`/img/${product.imageUrl[2]}` onclick="myFunction(this);").img-fluid
 
                 if product.imageUrl.length == 4
-                    .column
+                    .column.bg-muted
                         img(src=`/img/${product.imageUrl[0]}` onclick="myFunction(this);").img-fluid
                     .column
                         img(src=`/img/${product.imageUrl[1]}` onclick="myFunction(this);").img-fluid
                     .column    
                         img(src=`/img/${product.imageUrl[2]}` onclick="myFunction(this);").img-fluid
-                    .column    
+                    .column
                         img(src=`/img/${product.imageUrl[3]}` onclick="myFunction(this);").img-fluid
 
         .col-lg-6.pt-3.alert.productContent
-            h2.mb-3.text-uppercase.font-weight-bold #{product.name}
+            h5.mb-3.text-uppercase.font-weight-bold #{product.name}
             hr
             p
                 b İlan Tarihi: 
@@ -69,7 +69,7 @@ block content
                     |Hayır
             p
             .mb-3
-                h3.text-success.mb-3 
+                h2.text-success.mb-3 
                     i.fas.fa-lira-sign #{product.price}
                 //- Ürün detayı sayfasındaki sepete ekle butonu ve çalışma fonksiyonu..
                 //- form(action="/cart" method="POST")
@@ -80,8 +80,8 @@ block content
         
 
     .row.mt-3
-        .col-md-6.alert.alert-light
-            h2.font-weight-bold.mt-3.text-dark Ürün Bilgileri
+        .col-md-6.alert.alert-light.text-dark
+            h2.font-weight-bold.mt-3 Ürün Bilgileri
             hr
             p.p-3.productInformationStyle !{product.description}
         

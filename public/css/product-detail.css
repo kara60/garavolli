@@ -2,22 +2,27 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    padding-top: 25px;
+    padding-top: 30px;
     padding-bottom: 15px;
-
 }
-.column{
+.productDetailMultiPicture .column{
     display: flex;
     justify-content: center;
     align-items: center;
     height: 50px;
-    width: 40px;
+    width: 50px;
+    background-color: white;
+    box-shadow: rgba(0, 0, 0, 0.25) 0px 0.0625em 0.0625em, rgba(0, 0, 0, 0.25) 0px 0.125em 0.5em, rgba(255, 255, 255, 0.1) 0px 0px 0px 1px inset;
+    margin-left: 5px;
+    border-radius: 50%;
 }
 .productDetailMultiPicture img{
-
-    background-size: auto;
+    height: 40px;
+    max-width: 50px;
+    background-size: cover;
     background-position: center;
-    margin-left: 10px;
+    background-attachment: fixed;
+    padding: 5px;
 }
 
 .productDetailimageArea img{
@@ -25,6 +30,7 @@
     background-size: cover;
     background-position: center;
     background-attachment: fixed;
+    box-shadow: rgba(0, 0, 0, 0.3) 0px 19px 38px, rgba(0, 0, 0, 0.22) 0px 15px 12px;
 }
 .productDetailMultiPicture img{
     border: 0px solid rgb(204, 203, 203);
@@ -35,7 +41,6 @@
 }
 .productContent{
     background-color: #eeecec;
-    
 }
 
 .productContentRow{
@@ -57,13 +62,14 @@
     -moz-transition: all 1s ease;
     -o-transition: all 1s ease;
     transition: all 1s ease;
+    z-index: 1;
 }
             
 #zoom img:hover {
+    box-shadow: rgba(0, 0, 0, 0.60) 0px 42px 70px 100vh;
     -moz-transform: scale(2);
     -o-transform: scale(2);
     transform: scale(2);
     -webkit-transform: scale(2);
     -ms-transform: scale(2);
-    z-index: 1;
 }
