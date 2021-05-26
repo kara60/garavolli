@@ -90,13 +90,19 @@ exports.getProduct = async (req, res, next) => {
 
 exports.getCart = async (req, res, next) => {
     try{
-        req.user
-        const user = await populate('cart.items.productId').execPopulate()
+        
+        const user = await req.user .populate('cart.items.productId').execPopulate()
+        const categories = await Category.find();
+        const subcategories = await SubCategory.find();
+        const subsubcategories = await SubSubCategory.find();
         
         res.render('shop/cart', {
             title: 'Sepet',
             path: '/cart',
-            products: user.cart.items
+            products: user.cart.items,
+            categories: categories,
+            subcategories: subcategories,
+            subsubcategories: subsubcategories
         });
     }
     catch(err){
@@ -110,7 +116,7 @@ exports.postCart = async (req, res, next) => {
 
         const product = await Product.findById(productId);
 
-        req.user.addToCart(product);
+        await req.user.addToCart(product);
 
         res.redirect('/cart');
     }
@@ -122,7 +128,7 @@ exports.postCart = async (req, res, next) => {
 exports.postCartItemDelete = async (req, res, next) => {
     try{
         const productid = req.body.productid;
-        req.user.deleteCartItem(productid);
+        await req.user.deleteCartItem(productid);
 
         res.redirect('/cart');
     }
