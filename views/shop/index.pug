@@ -16,18 +16,18 @@ block content
                         button().btn Bul
         //-     i(class="fas fa-search")
 
-    marquee(direction=right) Merhaba, sitemizde bulunduğunuz süre boyunca yaşadığınız sıkıntıları, hataları ve eklemesini istediğiniz yenilikleri bizlere <a href="/contact" target="_blank">iletişim</a> sayfasından iletirseniz mutluluk duyarız. Teşekkürler..
+    marquee(direction=right) Merhaba, sitemizde bulunduğunuz süre boyunca yaşadığınız sıkıntıları, hataları ve eklemesini istediğiniz yenilikleri bizlere sağ altta bulunan butona tıklayarak <a href="/contact" target="_blank">İletişim</a> sayfasından iletirseniz mutluluk duyarız. Teşekkürler..
     //- .div.alert.alert-info.ml-0 Merhaba, sitemizde bulunduğunuz süre boyunca yaşadığınız sıkıntıları, hataları ve eklemesini istediğiniz yenilikleri bizlere <a href="/contact">iletişim</a> sayfasından iletirseniz mutluluk duyarız. Teşekkürler..
     .row
         //- .col-lg-3.p-0
         //-     //-include ../includes/menu.pug
         //-     include ../includes/information.pug
                        
-        .col-lg-12.pr-0.pl-0.homePageContent
-            
-            
+        .col-lg-8.pr-0.pl-0.homePageContent
             include ../includes/slider.pug
-            
+        .col-lg-1.pr-0.pl-0
+        .col-lg-3.pr-0.pl-0.homePageContent
+            include ../includes/rightMenu.pug
             //-.container
                 .row
                     if products.length > 0

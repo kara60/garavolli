@@ -69,8 +69,14 @@ body{
 .sliderStyle, .sliderStyle img{
   border-top-left-radius: 15px;
   border-top-right-radius: 15px;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
 }
+.rightMenu{
+  border-top-left-radius: 15px; 
+  border-top-right-radius: 15px;
 
+  box-shadow: rgba(14, 30, 37, 0.12) 0px 2px 4px 0px, rgba(14, 30, 37, 0.32) 0px 2px 16px 0px;
+}
 .pic-1{
   border-radius: 15px;
 }
@@ -173,6 +179,7 @@ body{
 	text-align:center;
   font-size:30px;
   z-index:100;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
   
 }
 
@@ -187,6 +194,7 @@ body{
 .my-float{
 	margin-top:16px;
   transition: all 1s ease-in-out;
+  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
 }
 .my-float:hover{
 	margin-top:16px;
