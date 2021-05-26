@@ -2,7 +2,8 @@ extends ../layouts/main-layout.pug
 
 block styles
     link(rel="stylesheet" href="/css/products-table.css")
-
+block megaMenu 
+    include ../includes/menu.pug
 block content 
     if (action !== 'undefined' && action === 'delete')
         div.alert.alert-danger Ürün Silindi.
@@ -11,42 +12,48 @@ block content
         div.alert.alert-success Ürün Güncellendi.
     
     if products.length > 0
-        table.table.table-striped.table-bordered.table-list
-            thead
-                tr
-                    th(style="width: 135px;") Resim
-                    th Ürün Adı
-                    th(style="width: auto;") Fiyat
-                    th Miktar
-                    th(style="width: auto; text-align:center;")
-                        em(class="fa fa-cog")
-            tbody
-                each product in products
+        div.alert.alert-light.text-dark
+            h2(class="panel-title")
+                i(class="fas fa-shopping-cart fa-sm").text-dark.mr-2
+                b Sepetim
+                    
+                hr
+            table.table.table-striped.table-bordered.table-list
+                thead
                     tr
-                        td
-                            img(src=`/img/${product.productId.imageUrl}` width='80')
-                        td.text-uppercase #{product.productId.name}
-                        td #{product.productId.price} TL
-                        td #{product.quantity}
-                        td 
-                            form(action='/delete-cartitem' method='POST' onSubmit="return confirm('Ürünü Sepetten kaldırmak istediğinizden emin misiniz?') ")
-                                input(type="hidden" name="_csrf" value=`${csrfToken}`)
-                                input(type='hidden' name='productid' value=`${product.productId._id}`)
-                                button(type='submit' data-toggle="tooltip" data-placement="top" title="Sepetten Kaldır").btn.btn-danger.btn-sm
-                                    em(class="fas fa-trash-alt")
-
-            tfoot
-                td(colspan="4")
-
-                    - var total = 0;
+                        th(style="width: 135px;") Resim
+                        th Ürün Adı
+                        th(style="width: auto;") Fiyat
+                        th Miktar
+                        th(style="width: auto; text-align:center;")
+                            em(class="fa fa-cog")
+                tbody
                     each product in products
-                        - total += (product.productId.price * product.quantity)
-                td  #{total} TL
+                        tr
+                            td
+                                img(src=`/img/${product.productId.imageUrl[0]}` width='80')
+                            td.text-uppercase #{product.productId.name}
+                            td #{product.productId.price} TL
+                            td #{product.quantity}
+                            td 
+                                form(action='/delete-cartitem' method='POST' onSubmit="return confirm('Ürünü Sepetten kaldırmak istediğinizden emin misiniz?') ")
+                                    input(type="hidden" name="_csrf" value=`${csrfToken}`)
+                                    input(type='hidden' name='productid' value=`${product.productId._id}`)
+                                    button(type='submit' data-toggle="tooltip" data-placement="top" title="Sepetten Kaldır").btn.btn-danger.btn-sm
+                                        em(class="fas fa-trash-alt")
 
-        .text-center
-            a(href="/products").btn.btn-warning Alışverişe Devam Et
-            form(action="/create-order" method="POST")
-                input(type="hidden" name="_csrf" value=`${csrfToken}`)
-                button(type="submit").btn.btn-success.ml-2 Alışverişi Tamamla
+                tfoot
+                    td(colspan="4")
+
+                        - var total = 0;
+                        each product in products
+                            - total += (product.productId.price * product.quantity)
+                    td  #{total} TL
+
+            .d-flex.justify-content-end
+                //- a(href="/products").btn.btn-warning Alışverişe Devam Et
+                form(action="/create-order" method="POST")
+                    input(type="hidden" name="_csrf" value=`${csrfToken}`)
+                    button(type="submit").btn.btn-success.ml-2 Alışverişi Tamamla
     else
         h1 Sepetinizde henüz ürün yok.

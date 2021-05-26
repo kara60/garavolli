@@ -3,21 +3,25 @@
 		.row.my-5.justify-content-center.py-5
 			.col-11
 				.row(class="top-footer").mb-5
-					.col-xl-5.col-md-4.col-sm-4.col-12.my-auto.mx-auto.a
-						h3.text-muted.mb-md-0.mb-5.bold-text Garavolli.
+					.col-lg-9.my-auto.mx-auto
+						h2.text-muted.mb-md-0.mb-5.bold-text Garavolli.
+						small.rights
+							span ®
+							|  Garavolli Tüm Hakları Saklıdır.
 				
-					.col-xl-5.col-md-4.col-sm-4.col-12.mt-4
-						h6.mb-3.mb-lg-4.text-muted.bold-text.mt-sm-0.mt-5
-							b ADRES
-						p.mb-2 KIBRIS,
-						p TÜRKİYE
-
-					.col-xl-1.col-md-4.col-sm-4.col-12.mt-2.mt-4
-						h6.mb-3.mb-lg-4.bold-text
-							div(id="google_translate_element")
+					//- .col-lg-3.col-12.mt-4.pl-4
+					//- 	h6.mb-1.mb-lg-4.text-muted.bold-text.mt-sm-0.mt-5
+					//- 		b ADRES
+					//- 	p.mb-2 KIBRIS
+					.col-lg-3.col-auto.order-1.mt-3.mb-3.d-flex.justify-content-start
+						small
+							span
+								i.fa.fa-envelope(aria-hidden='true' class="soc-media-icon")
+							|  garavollishopping@gmail.com
+					
 					
 				.row(class="bottom-footer").mt-5
-					.col-xl-6.col-md-4.col-sm-4.col-auto.my-md-0.mt-5.order-sm-1.order-3.align-self-end
+					.col-lg-6.mt-4.order-sm-1.order-3.pl-0
 						p.social.text-muted.mb-0.pb-0.bold-text
 							
 							span.mx-2
@@ -32,20 +36,16 @@
 							span.mx-2
 								a(href="https://www.instagram.com/garavollishopping/?hl=tr" target="_blank" class="soc-media-icon")
 									i.fab.fa-instagram(aria-hidden='true')
-						small.rights
-							span ®
-							|  Garavolli Tüm Hakları Saklıdır.
-					.col-xl-3.col-md-4.col-sm-4.col-auto.order-1.align-self-end
-						h6.mt-55.mt-2.text-muted.bold-text
-							b E-Mail
+
+					
+					
+					.col-lg-3.col-auto.order-1.mt-5.d-flex.justify-content-center
+						h6.mb-3.mb-lg-4.bold-text
+							div(id="google_translate_element")
+
+
+					.col-lg-3.col-auto.order-2.mt-4.mb-2.d-flex.justify-content-start
 						small
 							span
-								i.fa.fa-envelope(aria-hidden='true' class="soc-media-icon")
-							|  garavollishopping@gmail.com
-					.col-xl-3.col-md-4.col-sm-4.col-auto.order-2.align-self-end.mt-3
-						h6.text-muted.bold-text
-							b Telefon
-						small
-							span
-								i.fas.fa-phone(aria-hidden='true' class="soc-media-icon")
+								i.fas.fa-phone(aria-hidden='true' class="soc-media-icon") 
 							|  0555 555 45 55

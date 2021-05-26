@@ -72,11 +72,11 @@ block content
                 h2.text-success.mb-3 
                     i.fas.fa-lira-sign #{product.price}
                 //- Ürün detayı sayfasındaki sepete ekle butonu ve çalışma fonksiyonu..
-                //- form(action="/cart" method="POST")
-                //-     input(type="hidden" name="_csrf" value=`${csrfToken}`)
-                //-     input(type="hidden" name='productId' value=`${product._id}`)
-                //-     button(type="submit" data-toggle="tooltip" data-placement="top" title="Sepete Ekle").btn.btn-primary.btn-lg
-                //-         i(class="fas fa-cart-plus")
+                form(action="/cart" method="POST")
+                    input(type="hidden" name="_csrf" value=`${csrfToken}`)
+                    input(type="hidden" name='productId' value=`${product._id}`)
+                    button(type="submit" data-toggle="tooltip" data-placement="top" title="Sepete Ekle").btn.btn-primary.btn-lg
+                        i(class="fas fa-cart-plus")
         
 
     .row.mt-3

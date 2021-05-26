@@ -17,9 +17,9 @@ mixin createProduct(product)
                     a(href=`/products/${product._id}` data-tip="İncele")
                         i(class="fa fa-search")
                 //- Sepete ekle butonu ve çalışma mantığı..
-                //- li    
-                //-     form(action="/cart" method="POST" id="cartForm")
-                //-         input(type="hidden" name="_csrf" value=`${csrfToken}`)
-                //-         input(type="hidden" name='productId' value=`${product._id}`)
-                //-         a(href="#" data-tip="Sepete Ekle" onclick='this.parentNode.submit(); return false;')
-                //-             i(class="fas fa-cart-plus")
+                li    
+                    form(action="/cart" method="POST" id="cartForm")
+                        input(type="hidden" name="_csrf" value=`${csrfToken}`)
+                        input(type="hidden" name='productId' value=`${product._id}`)
+                        a(href="#" data-tip="Sepete Ekle" onclick='this.parentNode.submit(); return false;')
+                            i(class="fas fa-cart-plus")
