@@ -1,8 +1,8 @@
 .footer-css{
     overflow: hidden;
     margin-top: 650px;
-    background: #525151;
-    color: #627482 !important;
+    background: #fff;
+    color: #4b4c4d !important;
     margin-bottom: 0;
     padding-bottom: 0;
     box-shadow: rgba(0, 0, 0, 0.56) 0px 22px 70px 4px;
@@ -13,10 +13,10 @@ small {
 }
 
 .bold-text {
-    color: #989c9e !important
+    color:#4b4c4d !important
 }
 
-.mt-55 {
+.mt-55 
     margin-top: calc(50px + (60 - 50) * ((100vw - 360px) / (1600 - 360))) !important
 }
 
@@ -30,4 +30,31 @@ h3 {
 
 .rights {
     font-size: calc(10px + (12 - 10) * ((100vw - 360px) / (1600 - 360))) !important
+}
+.soc-media-icon{
+    border-radius:50%;
+    border:2px solid #ccc;
+    color:inherit;
+    opacity:0.75;
+    font-size:24px;
+    width:40px;
+    height:40px;
+    display:inline-block;
+    text-align:center;
+    margin-left:10px;
+    margin-top:22px;
+    line-height:40px;
+    
+
+}
+.soc-media-icon:hover{
+opacity:0.9;
+color:#4b4c4d;
+}
+.top-footer{
+    border-top:1px solid #ccc;
+    
+}
+.bottom-footer{
+    border-bottom:1px solid #ccc;
 }
