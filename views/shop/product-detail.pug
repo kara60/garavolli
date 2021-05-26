@@ -7,7 +7,7 @@ block styles
 
 block content
     .row
-        .col-lg-12.mt-3.alert.alert-light
+        .col-lg-12.mt-3.alert.alert-light.productDeteailShadow
             each subsubcategory in subsubcategories
                 -var productCategories = `${product.categories}`
                 -var subsubcategoryCategories = `${subsubcategory.categories}`
@@ -23,7 +23,7 @@ block content
                                             u #{subsubcategory.name} Kategorisi
                                         a().btn.btn-link.text-muted.p-0 > #{product.name}
     .row
-        .col-lg-6.pt-3.alert.alert-light
+        .col-lg-6.pt-3.alert.alert-light.productDeteailShadow
             .container.d-flex.justify-content-center.productDetailimageArea#zoom
                 img(src=`/img/${product.imageUrl[0]}` id="expandedImg" onclick="myFunction(this);" data-zoom-image="/img/1.jpg").img-fluid
             .productDetailMultiPicture.mt-1
@@ -55,7 +55,7 @@ block content
                     .column
                         img(src=`/img/${product.imageUrl[3]}` onclick="myFunction(this);").img-fluid
 
-        .col-lg-6.pt-3.alert.productContent
+        .col-lg-6.pt-3.alert.productContent.productDeteailShadow
             h5.mb-3.text-uppercase.font-weight-bold #{product.name}
             hr
             p
@@ -80,12 +80,12 @@ block content
         
 
     .row.mt-3
-        .col-md-6.alert.alert-light.text-dark
+        .col-md-6.alert.alert-light.text-dark.productDeteailShadow
             h2.font-weight-bold.mt-3 Ürün Bilgileri
             hr
             p.p-3.productInformationStyle !{product.description}
         
-        .col-lg-6.pl-3.alert.productContent
+        .col-lg-6.pl-3.alert.productContent.productDeteailShadow
             h2.font-weight-bold.mt-3 Satıcı Bilgileri
             hr
             p 
