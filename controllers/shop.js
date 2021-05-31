@@ -6,6 +6,7 @@ const Order = require('../models/order');
 const Confirmation = require('../models/confirmation');
 const User = require('../models/user');
 const nodemailer = require("nodemailer");
+const cron = require('node-cron');
 
 exports.getIndex = async (req, res, next) => {
     try{
@@ -112,11 +113,11 @@ exports.getCart = async (req, res, next) => {
 
 exports.postCart = async (req, res, next) => {
     try{
-        const productId = req.body.productId;
+        var productId = req.body.productId;
+        const productQuantityDetail = Number(req.body.productQuantityDetail);
+        const product = await Product.findById(productId).exec();
 
-        const product = await Product.findById(productId);
-
-        await req.user.addToCart(product);
+        await req.user.addToCart(product, productQuantityDetail);
 
         res.redirect('/cart');
     }
@@ -128,8 +129,9 @@ exports.postCart = async (req, res, next) => {
 exports.postCartItemDelete = async (req, res, next) => {
     try{
         const productid = req.body.productid;
-        await req.user.deleteCartItem(productid);
 
+        await req.user.deleteCartItem(productid);
+        
         res.redirect('/cart');
     }
     catch(err){
@@ -158,6 +160,35 @@ exports.postCartItemDelete = async (req, res, next) => {
     //     })
     //     .catch(err => next(err));
 }       
+
+exports.getCheckout = async (req, res, next) => {
+    try{
+        
+        const user = await req.user.populate('cart.items.productId').execPopulate()
+        const categories = await Category.find();
+        const subcategories = await SubCategory.find();
+        const subsubcategories = await SubSubCategory.find();
+
+        var userid = await req.user._id;
+        var userX = await User.findById(userid);
+        var items = userX.cart.items;
+
+        console.log(items)
+
+        res.render('shop/checkout', {
+            title: 'Satın Alma',
+            path: '/checkout',
+            products: user.cart.items,
+            categories: categories,
+            subcategories: subcategories,
+            subsubcategories: subsubcategories
+        });
+    }
+    catch(err){
+        next(err);
+    }
+}
+
 
 exports.getOrders = (req, res, next) => {
     Order

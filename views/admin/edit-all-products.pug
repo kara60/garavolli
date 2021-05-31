@@ -16,13 +16,9 @@ block content
             b  Ürün Bilgileri
         hr
 
-        .form-group.row
-            label(for="userid").col-sm-2.col-form-label.text-danger 
-                del UserId(!)
-            .col-sm-10
-                input.form-control#userid(type="text" name="userid" value=`${product.userId._id}`).bg-danger.text-light
+        input.form-control#userid(type="hidden" name="userid" value=`${product.userId._id}`).bg-danger.text-light
 
-        .form-group.row.mt-5
+        .form-group.row.mt-3
             label(for="name").col-sm-2.col-form-label.text-success 
                 u Ürün Adı:
             .col-sm-10
@@ -44,6 +40,15 @@ block content
                         option(value="İkinci El Değil") İkinci El Değil
                     else
                         option(value="İkinci El") İkinci El
+
+        .form-group.row(class="input-group plus-minus-input").mt-5
+            label(for="isSecondHand").col-sm-2.col-form-label.text-success  
+                u Ürün Adedi:
+            .col-sm-10
+                .input-group-button.d-inline
+                input(class="input-group-field" type="number" id="productQuantity" name="productQuantity" value=`${product.productQuantity}`)
+                .input-group-button.d-inline   
+
 
         // RESİMLER
         if product.imageUrl.length == 1

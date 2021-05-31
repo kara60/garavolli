@@ -13,6 +13,9 @@ const confirmationSchema = mongoose.Schema({
         required: [true, 'Lütfen fiyat bilgisini giriniz.'],
         min: 0,
     },
+    productQuantity:{
+        type: Number
+    },
     isSecondHand: {
         type: String
     },

@@ -29,7 +29,7 @@ block content
             .col-sm-10
                 input.form-control#name(type="text" name="name" maxlength="100" value=`${inputs.name}` placeholder="Lütfen en az 5 karakter giriniz." required)
 
-        .form-group.row
+        .form-group.row.mt-5
             label(for="price").col-sm-2.col-form-label Fiyatı:
             .col-sm-2.pr-0
                 input.form-control#price(type="text" name="price" maxlength="12" placeholder="Ör: 1200" value=`${inputs.price}` required)
@@ -45,7 +45,7 @@ block content
             .col-sm-10
                 input.form-control-file(type="file" name="image" id="image" multiple required)
         
-        .form-group.row
+        .form-group.row.mt-5
             label(for="isSecondHand").col-sm-2.col-form-label İkinci El:
             .col-sm-10
                 select(class="form-select custom-select" name="isSecondHand" required)#isSecondHand
@@ -53,7 +53,21 @@ block content
                     option(value="İkinci El") İkinci El
                     option(value="İkinci El Değil") İkinci El Değil
 
-    
+        .form-group.row(class="input-group plus-minus-input").mt-5
+            label(for="isSecondHand").col-sm-2.col-form-label Ürün Adedi:
+            .col-sm-10
+                .input-group-button.d-inline
+                    button(type="button" class="button hollow circle" data-quantity="minus" data-field="quantity")
+                        i(class="fa fa-minus" aria-hidden="true")
+                input(class="input-group-field" type="number" name="quantity" value="1")
+                .input-group-button.d-inline   
+                    button(type="button" class="button hollow circle" data-quantity="plus" data-field="quantity")
+                        i(class="fa fa-plus" aria-hidden="true")
+
+
+
+
+
         //- .form-group.row
         //-     label(for="categoryid").col-sm-2.col-form-label Ürün Kategorisi:
         //-     .col-sm-10
@@ -62,7 +76,7 @@ block content
         //-             |  #{category.name}
         //-             br
         
-        .form-group.row
+        .form-group.row.mt-5
             label(for="description").col-sm-2.col-form-label Ürün Açıklaması:
             .col-sm-10
                 textarea.form-control(id="editor" cols="95" rows="10" name="description" required) #{inputs.description}
@@ -103,3 +117,4 @@ block content
                     
 block script
     //- script(src="https://cdn.ckeditor.com/4.15.1/standard/ckeditor.js")
+    script(src="/js/script.js")

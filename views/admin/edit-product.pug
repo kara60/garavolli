@@ -43,6 +43,13 @@ block content
                     else
                         option(value="İkinci El") İkinci El
 
+        .form-group.row(class="input-group plus-minus-input").mt-5
+            label(for="isSecondHand").col-sm-2.col-form-label.text-success  
+                u Ürün Adedi:
+            .col-sm-10
+                .input-group-button.d-inline
+                input(class="input-group-field" type="number" id="productQuantity" name="productQuantity" value=`${product.productQuantity}`)
+                .input-group-button.d-inline  
         
         // RESİMLER
         if product.imageUrl.length == 1

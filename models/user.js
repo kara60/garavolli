@@ -49,17 +49,17 @@ const userSchema = mongoose.Schema({
     }
 });
 
-userSchema.methods.addToCart = function (product) {
+userSchema.methods.addToCart = function (product, productQuantityDetail) {
     const index = this.cart.items.findIndex(cp => {
     return cp.productId.toString() === product._id.toString()
     });
 
     const updatedCartItems = [...this.cart.items];
 
-    let itemQuantity = 1;
+    let itemQuantity = productQuantityDetail;
     if (index >= 0) {
         // cart zaten eklenmek istenen product var: quantity'i arttır
-        itemQuantity = this.cart.items[index].quantity + 1;
+        itemQuantity = this.cart.items[index].quantity + productQuantityDetail;
         updatedCartItems[index].quantity = itemQuantity;
 
     } else {

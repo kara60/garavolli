@@ -13,6 +13,9 @@ const productSchema = mongoose.Schema({
         required: [true, 'Lütfen fiyat bilgisini giriniz.'],
         min: 0,
     },
+    productQuantity:{
+        type: Number
+    },
     description: {
         type: String
     },
@@ -50,7 +53,9 @@ const productSchema = mongoose.Schema({
             ref: 'Subsubcategory',
             required: false
         }
-    ]
+    ],
+
+    //createdAt: { type: Date, expires: '1m', default: Date.now }
 });
 
 module.exports = mongoose.model('Product', productSchema);

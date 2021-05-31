@@ -1,3 +1,124 @@
 extends ../layouts/main-layout.pug
 
 block content
+    .container.mb-5.productPageCartBg.pt-1.pb-5
+        h1.mt-4.mb-4 
+            b Garavolli - Ödeme Sayfası
+        hr
+        .row
+            .col-md-8.order-md-1
+                h4.mb-3 
+                    b Fatura Bilgileri / Gönderi Adresi
+                form.needs-validation(action="/create-order" method="POST")
+                    input(type="hidden" name="_csrf" value=`${csrfToken}`)
+                    .row
+                        .col-md-6.mb-3
+                            label(for='firstName') Ad Soyad
+                            input#ad-soyad.form-control(type='text' required)
+                            .invalid-feedback Ad Soyad alanı gerekli.
+                        .col-md-6.mb-3
+                            label(for='lastName') Telefon
+                            input#telefon.form-control(type='text' required)
+                            .invalid-feedback Telefon alanı gerekli.
+                    .mb-3
+                        label(for='email')
+                            | Email 
+                            span.text-muted (Opsiyonel)
+                        input#email.form-control(type='email' placeholder='you@example.com')
+                    .mb-3
+                        label(for='address') Adres
+                        input#adres.form-control(type='text' placeholder='1234 Main St' required)
+                        .invalid-feedback Adres alanı gerekli.
+                    .row
+                        .col-md-5.mb-3
+                            label(for='country') İl
+                            select#il.custom-select.d-block.w-100(required)
+                                option(value='') Seçiniz...
+                                option İzmir
+                                option İstanbul
+                                option Ankara
+                            .invalid-feedback İl alanı gerekli.
+                        .col-md-4.mb-3
+                            label(for='state') İlçe
+                            select#ilce.custom-select.d-block.w-100(required)
+                                option(value='') Seçiniz...
+                                option Bornova
+                                option Konak
+                            .invalid-feedback İlçe alanı gerekli.
+                        .col-md-3.mb-3
+                            label(for='zip') Posta Kodu
+                            input#posta-kodu.form-control(type='text' placeholder='')
+                    hr.mb-4
+                    //- .custom-control.custom-checkbox
+                    //-     input.custom-control-input(type='checkbox' id='aynı-adres' checked='')
+                    //-     label.custom-control-label(for='aynı-adres') Gönderi adresi fatura adresimle aynı olsun
+                    //- .custom-control.custom-checkbox
+                    //-     input#bilgiyi-kaydet.custom-control-input(type='checkbox')
+                    //-     label.custom-control-label(for='bilgiyi-kaydet') Bu bilgileri bir dahaki sefere sakla
+                    //- hr.mb-4
+                    h4.mb-3 
+                        b Ödeme Türü
+                    .d-block.my-3
+                        .custom-control.custom-radio
+                            input#kredi-karti.custom-control-input(name='odeme_sekli' type='radio' required)
+                            label.custom-control-label(for='kredi-karti') Kredi Kartı
+                        .custom-control.custom-radio
+                            input#havale.custom-control-input(name='odeme_sekli' type='radio' required)
+                            label.custom-control-label(for='havale') Havale/EFT
+                        .custom-control.custom-radio
+                            input#kapida-odeme.custom-control-input(name='odeme_sekli' type='radio' required)
+                            label.custom-control-label(for='kapida-odeme') Kapıda Ödeme
+                    .form-container.active
+                        .row
+                            .col-md-6.mb-3
+                                label(for='cc-name') Ad Soyad
+                                input#cc-name.form-control(type='text' placeholder='' maxlength='40' name='name' required)
+                                small.text-muted Kredi kartı üzerinde yazılan ad soyad
+                                .invalid-feedback Ad Soyad alanı gerekli.
+                            .col-md-6.mb-3
+                                label(for='cc-number') Kredi Kartı Numarası
+                                input#cc-number.form-control(type='text' placeholder='' name='number' required)
+                                .invalid-feedback Kredi Kartı Numarası alanı gerekli.
+                        .row
+                            .col-md-3.mb-3
+                                label(for='cc-expiration') Son Kullanım Tarihi
+                                input#cc-expiration.form-control(type='text' placeholder='' name='expiry' required)
+                                small.text-muted AA/YY şeklinde
+                                .invalid-feedback Son Kullanım Tarihi alanı gerekli.
+                            .col-md-3.mb-3
+                                label(for='cc-cvv') CVV
+                                input#cc-cvv.form-control(type='text' placeholder='' name='cvc' required)
+                                small.text-muted Kartın arkasındaki kod
+                                .invalid-feedback CVV alanı gerekli.
+                    hr.mb-4
+                    button.btn.btn-primary.btn-lg.btn-block(type='submit') Ödeme İşlemine Devam Et
+            
+            .col-md-4.order-md-2.mb-4.d-none.d-sm-block
+                
+                h4.d-flex.justify-content-between.align-items-center.mb-3
+                    span.text-muted 
+                        b.ml-1 Sepetim
+                    span.badge.badge-success.badge-pill 2
+                hr
+                ul.list-group.mb-3
+                each product in products
+                    li.list-group-item.d-flex.justify-content-between.lh-condensed
+                        div
+                            h6.my-0 
+                                b #{product.productId.name}
+                            small.text-success Adet: #{product.quantity}
+                        span.text-muted 
+                            i.fas.fa-lira-sign.text-success #{product.productId.price}
+
+
+                li.list-group-item.d-flex.justify-content-between
+                    - var total = 0;
+                        each product in products
+                            - total += (product.productId.price * product.quantity)
+                        span Toplam (TRY)
+                        strong 
+                            i.fas.fa-lira-sign.text-success #{total}
+                    
+block script
+    script(src="/js/checkout.js")
+    

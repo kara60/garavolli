@@ -11,11 +11,7 @@ block content
         h2.text-dark 
             b Ürün Bilgileri
         hr
-
-        .form-group.row
-            label(for="userid").col-sm-2.col-form-label.text-danger UserId(!)
-            .col-sm-10
-                input.form-control#userid(type="text" name="userid" value=`${product.userId._id}`).bg-danger.text-light
+        input.form-control#userid(type="hidden" name="userid" value=`${product.userId._id}`).bg-danger.text-light
 
         .form-group.row.mt-5
             label(for="name").col-sm-2.col-form-label.text-success Ürün Adı:
@@ -32,6 +28,11 @@ block content
             .col-sm-10
                 select(class="form-select custom-select" name="isSecondHand")#isSecondHand
                     option(value=`${product.isSecondHand}`).selected #{product.isSecondHand}
+
+        .form-group.row(class="input-group plus-minus-input").mt-5
+            label(for="isSecondHand").col-sm-2.col-form-label.text-success Ürün Adedi:
+            .col-sm-10
+                input(class="input-group-field" type="number" id="productQuantity" name="productQuantity" value=value=`${product.productQuantity}`)
 
         // RESİMLER
         if product.imageUrl.length == 1
