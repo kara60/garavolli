@@ -23,7 +23,7 @@ block content
                                             u #{subsubcategory.name} Kategorisi
                                         a().btn.btn-link.text-muted.p-0 > #{product.name}
     .row
-        .col-lg-6.pt-3.alert.alert-light.productDeteailShadow
+        .col-lg-7.pt-3.alert.alert-light.productDeteailShadow
             .container.d-flex.justify-content-center.productDetailimageArea#zoom
                 img(src=`/img/${product.imageUrl[0]}` id="expandedImg" onclick="myFunction(this);" data-zoom-image="/img/1.jpg").img-fluid
             .productDetailMultiPicture.mt-1
@@ -55,7 +55,7 @@ block content
                     .column
                         img(src=`/img/${product.imageUrl[3]}` onclick="myFunction(this);").img-fluid
 
-        .col-lg-6.pt-3.alert.productContent.productDeteailShadow
+        .col-lg-5.pt-3.alert.productContent.productDeteailShadow
             h5.mb-3.text-uppercase.font-weight-bold #{product.name}
             hr
             p
@@ -67,25 +67,38 @@ block content
                     | Evet
                 else
                     |Hayır
-            p
-            .mb-3
-                h2.text-success.mb-3 
-                    i.fas.fa-lira-sign #{product.price}
-                //- Ürün detayı sayfasındaki sepete ekle butonu ve çalışma fonksiyonu..
-                form(action="/cart" method="POST")
-                    input(type="hidden" name="_csrf" value=`${csrfToken}`)
-                    input(type="hidden" name='productId' value=`${product._id}`)
-                    button(type="submit" data-toggle="tooltip" data-placement="top" title="Sepete Ekle").btn.btn-primary.btn-lg
-                        i(class="fas fa-cart-plus")
-        
+            form(action="/cart" method="POST") 
+                div(class="quantity buttons_added")
+                    b.mr-3 Adet:
+                    input(type="button" value="-" class="minus")
+                    input(type="number" step="1" min="1" max=`${product.productQuantity}` name="productQuantityDetail" value="1" title="Qty" class="input-text qty text" size="100")
+                    input(type="button" value="+" class="plus") 
+                    if product.productQuantity == 1
+                        p.alert.alert-warning.text-dark.p-2.mt-2 Stoklarda 1 adet kalmıştır!
+                    if product.productQuantity == 2
+                        p.alert.alert-warning.text-dark.p-2.mt-2 Stoklarda 2 adet kalmıştır!
+                    if product.productQuantity == 3
+                        p.alert.alert-warning.text-dark.p-2.mt-2 Stoklarda 3 adet kalmıştır!
+                hr
+                .mb-3.mt-2
+                    h2.text-dark.mb-3 
+                        i.fas.fa-lira-sign #{product.price}
+                    //- Ürün detayı sayfasındaki sepete ekle butonu ve çalışma fonksiyonu..
+                    if product.productQuantity 
+                        input(type="hidden" name="_csrf" value=`${csrfToken}`)
+                        input(type="hidden" name='productId' value=`${product._id}`)
+                        button(type="submit" data-toggle="tooltip" data-placement="top" title="Sepete Ekle").btn.btn-lg.text-light.productDetailPageButton
+                            i(class="fas fa-cart-plus")
+                    else
+                        .alert.alert-danger.p-2 Ürün tükenmiştir..
 
     .row.mt-3
-        .col-md-6.alert.alert-light.text-dark.productDeteailShadow
+        .col-md-7.alert.alert-light.text-dark.productDeteailShadow
             h2.font-weight-bold.mt-3 Ürün Bilgileri
             hr
             p.p-3.productInformationStyle !{product.description}
         
-        .col-lg-6.pl-3.alert.productContent.productDeteailShadow
+        .col-lg-5.pl-3.alert.productContent.productDeteailShadow
             h2.font-weight-bold.mt-3 Satıcı Bilgileri
             hr
             p 

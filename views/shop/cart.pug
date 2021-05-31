@@ -52,8 +52,8 @@ block content
 
             .d-flex.justify-content-end
                 //- a(href="/products").btn.btn-warning Alışverişe Devam Et
-                form(action="/create-order" method="POST")
-                    input(type="hidden" name="_csrf" value=`${csrfToken}`)
-                    button(type="submit").btn.btn-success.ml-2 Alışverişi Tamamla
+                //- form(action="/create-order" method="POST")
+                //-     input(type="hidden" name="_csrf" value=`${csrfToken}`)
+                button(type="submit").btn.btn-success.ml-2 Alışverişi Tamamla
     else
-        h1 Sepetinizde henüz ürün yok.
+        h1.d-flex.justify-content-center.mt-3 Sepetinizde henüz ürün yok.

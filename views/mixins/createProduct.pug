@@ -8,18 +8,24 @@ mixin createProduct(product)
                 h6.title
                     a(href=`/products/${product._id}`).text-uppercase.text-dark 
                         b #{product.name}
+                        
                 hr.m-0
                 div.price.mt-2
-                    i.fas.fa-lira-sign #{product.price}
+                    if product.productQuantity
+                        i.fas.fa-lira-sign #{product.price}
+                    else 
+                        p.text-warning TÜKENDİ!
 
             ul.social
                 li
                     a(href=`/products/${product._id}` data-tip="İncele")
                         i(class="fa fa-search")
                 //- Sepete ekle butonu ve çalışma mantığı..
-                li    
-                    form(action="/cart" method="POST" id="cartForm")
-                        input(type="hidden" name="_csrf" value=`${csrfToken}`)
-                        input(type="hidden" name='productId' value=`${product._id}`)
-                        a(href="#" data-tip="Sepete Ekle" onclick='this.parentNode.submit(); return false;')
-                            i(class="fas fa-cart-plus")
+                if product.productQuantity
+                    li  
+                        form(action="/cart" method="POST" id="cartForm")
+                            input(type="hidden" name="productQuantityDetail" value="1")
+                            input(type="hidden" name="_csrf" value=`${csrfToken}`)
+                            input(type="hidden" name='productId' value=`${product._id}`)
+                            a(href="#" data-tip="Sepete Ekle" onclick='this.parentNode.submit(); return false;')
+                                i(class="fas fa-cart-plus")

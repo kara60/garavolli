@@ -6,6 +6,10 @@
     padding-bottom: 15px;
     
 }
+.productDetailPageButton{
+    background-color:#F27A1A;
+    box-shadow: rgba(0, 0, 0, 0.25) 0px 0.0625em 0.0625em, rgba(0, 0, 0, 0.25) 0px 0.125em 0.5em, rgba(255, 255, 255, 0.1) 0px 0px 0px 1px inset;
+}
 .productDetailMultiPicture .column{
     display: flex;
     justify-content: center;
@@ -38,7 +42,7 @@
     opacity: 0.7;
     cursor: pointer;
     border-radius: 5px;
-    transition: 0.3s;
+    transition: all .5s ease-in-out;
 }
 .productContent{
     background-color: #eeecec;
@@ -52,8 +56,8 @@
 
 .productDetailMultiPicture img:hover {
     opacity: 1;
-    height: 45px;
-    max-width: 55px;
+    transform: rotate(360deg);
+    -webkit-transform: rotate(360deg);
 }
 
 .productInformationStyle{
@@ -79,3 +83,61 @@
     -webkit-transform: scale(2);
     -ms-transform: scale(2);
 }
+
+/* product quantity style*/
+
+.quantity {
+    display: inline-block; 
+}
+   
+   .quantity .input-text.qty {
+    width: 35px;
+    height: 40px;
+    padding: 0 5px;
+    text-align: center;
+    background-color: #e0dfde;
+    border: 0px solid #d3d3d3;
+   }
+   
+   .quantity.buttons_added {
+    text-align: left;
+    position: relative;
+    white-space: nowrap;
+    vertical-align: top; }
+   
+   .quantity.buttons_added input {
+    display: inline-block;
+    margin: 0;
+    vertical-align: top;
+    box-shadow: none;
+   }
+   
+   .quantity.buttons_added .minus,
+   .quantity.buttons_added .plus {
+    padding: 7px 10px 8px;
+    height: 41px;
+    background-color: #ffffff;
+    border: 1px solid #efefef;
+    cursor:pointer;}
+   
+   .quantity.buttons_added .minus {
+    border-right: 0; }
+   
+   .quantity.buttons_added .plus {
+    border-left: 0; }
+   
+   .quantity.buttons_added .minus:hover,
+   .quantity.buttons_added .plus:hover {
+    background: #f1f0ef; }
+   
+   .quantity input::-webkit-outer-spin-button,
+   .quantity input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    margin: 0; }
+    
+    .quantity.buttons_added .minus:focus,
+   .quantity.buttons_added .plus:focus {
+    outline: none; }
+   
+    

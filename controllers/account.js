@@ -65,6 +65,8 @@ exports.postLogin = async (req,res,next) => {
                 var url = req.session.redirectTo || '/';
                 delete req.session.redirectTo;
                 res.redirect('/');
+
+                
             });
         }
         req.session.errorMessage = 'Hatalı eposta yada parola girdiniz.';

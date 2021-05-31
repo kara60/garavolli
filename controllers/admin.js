@@ -153,6 +153,7 @@ exports.postAddProduct = async (req, res, next) => {
         const categoryid = req.body.categoryids;
         const isSecondHand = req.body.isSecondHand;
         const city = req.body.city;
+        const productQuantity = req.body.quantity;
 
         const imgs = await image.map(s => s.filename);
 
@@ -168,7 +169,8 @@ exports.postAddProduct = async (req, res, next) => {
                 userId: req.user,
                 categories: categoryid,
                 isSecondHand: isSecondHand,
-                city: city
+                city: city,
+                productQuantity: productQuantity
             }
         );
 
@@ -230,6 +232,7 @@ exports.postEditProduct = async (req, res, next) => {
         const ids = req.body.categoryids;
         const userid = req.body.userid;
         const isSecondHand = req.body.isSecondHand;
+        const productQuantity = req.body.productQuantity;
 
         const imageSelect = await Product.findOne({_id: id}, 'imageUrl');
 
@@ -269,7 +272,8 @@ exports.postEditProduct = async (req, res, next) => {
                 mailOfSeller: mailOfSeller,
                 userId: req.user,
                 categories: ids,
-                isSecondHand: isSecondHand
+                isSecondHand: isSecondHand,
+                productQuantity: productQuantity
             }
         );
 
@@ -741,6 +745,7 @@ exports.postEditConfirmation = async (req, res, next) => {
         const userid = req.body.userid;
         const isSecondHand = req.body.isSecondHand;
         const city = req.body.city;
+        const productQuantity = req.body.productQuantity;
 
         const imageSelect = await Confirmation.findOne({_id: id}, 'imageUrl');
 
@@ -780,7 +785,8 @@ exports.postEditConfirmation = async (req, res, next) => {
                 userId: userid,
                 categories: ids,
                 isSecondHand: isSecondHand,
-                city: city
+                city: city,
+                productQuantity: productQuantity
             }
         );
 
@@ -1065,6 +1071,7 @@ exports.postEditAllProducts = async(req, res, next) => {
         const mailOfSeller = req.body.mailOfSeller;
         const isSecondHand = req.body.isSecondHand;
         const city = req.body.city;
+        const productQuantity = req.body.productQuantity;
 
         const product = await Product.findOne({ _id:id });
         if(!product){
@@ -1107,6 +1114,7 @@ exports.postEditAllProducts = async(req, res, next) => {
         product.mailOfSeller = mailOfSeller
         product.isSecondHand = isSecondHand;
         product.city = city;
+        product.productQuantity = productQuantity;
 
         product.save();
 

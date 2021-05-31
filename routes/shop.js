@@ -30,6 +30,8 @@ router.post('/cart', locals, isAuthentication, shopController.postCart);
 
 router.post('/delete-cartitem', locals, shopController.postCartItemDelete);
 
+router.get('/checkout', locals, isAuthentication, shopController.getCheckout);
+
 router.get('/orders', locals, isAuthentication, shopController.getOrders);
 
 router.post('/create-order', locals, isAuthentication, shopController.postOrder);
