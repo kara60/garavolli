@@ -6,8 +6,8 @@ const Order = require('../models/order');
 const Confirmation = require('../models/confirmation');
 const User = require('../models/user');
 const nodemailer = require("nodemailer");
-const cron = require('node-cron');
 const product = require('../models/product');
+const user = require('../models/user');
 
 exports.getIndex = async (req, res, next) => {
     try{
@@ -236,13 +236,9 @@ exports.postOrder = async (req, res, next) => {
             var cartQuantity = items[i].quantity;
             var finalQuantity = productQuantity - cartQuantity;
             products[i].productQuantity = finalQuantity;
-            console.log(products[i].productQuantity);
             await products[i].save();
         }
-        
 
-        
-        
         await order.save();
         await req.user.clearCart();
         res.redirect('/orders')
@@ -431,6 +427,35 @@ exports.getPrice  = async (req, res, next) => {
                 takeMaxPrice: regex2
             }
             });
+    }
+    catch(err){
+        next(err);
+    }
+}
+
+exports.getProfile = async (req, res, next) => {
+    try{
+        const categories = await Category.find();
+        const subcategories = await SubCategory.find();
+        const subsubcategories = await SubSubCategory.find();
+        const user = await User.findById(req.user._id)
+        const products = await Product
+            .find({userId: req.user._id})
+            .populate('userId', 'name -_id')
+            .select('name price imageUrl userId');
+
+        const orders = await Order.find({ 'user.userId': req.user._id });
+
+        res.render('shop/profile', {
+            title: 'Profil Sayfası',
+            path: '/profile',
+            categories: categories,
+            subcategories: subcategories,
+            subsubcategories: subsubcategories,
+            user: user,
+            products: products,
+            orders: orders
+        });
     }
     catch(err){
         next(err);
