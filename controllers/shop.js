@@ -461,3 +461,42 @@ exports.getProfile = async (req, res, next) => {
         next(err);
     }
 }
+
+exports.getEditProfile = async (req, res, next) => {
+    try{
+        const categories = await Category.find();
+        const subcategories = await SubCategory.find();
+        const subsubcategories = await SubSubCategory.find();
+        const user = await User.findById(req.user._id);
+
+        res.render('shop/edit-profile', {
+            title: 'Profil Düzenleme Sayfası',
+            path: '/edit-profile',
+            categories: categories,
+            subcategories: subcategories,
+            subsubcategories: subsubcategories,
+            user: user,
+            action: req.query.action
+        });
+    }
+    catch(err){
+        next(err);
+    }
+}
+
+exports.postEditProfile = async (req, res, next) => {
+    try{
+        const user = await User.findById(req.user._id);
+        
+        const newUserName = req.body.name;
+        const newUserSurname = req.body.surname;
+        user.name = newUserName;
+        user.surname = newUserSurname;
+
+        await user.save();
+        res.redirect('/edit-profile?action=success');
+    }
+    catch(err){
+        next(err);
+    }
+}
