@@ -29,10 +29,10 @@ nav.navbar.navbar-expand-xl.navbar-light.fixed-top.navbar-inverse.p-0
                     li.nav-item
                         a(href="/admin/choose-category", class=(path==='/admin/choose-category'?'nav-link active p-3':'nav-link p-3')) Ürün Ekle
 
-                    li.nav-item
-                        a(href="/admin/products", class=(path==='/admin/products'?'nav-link active p-3':'nav-link p-3')) Ürünlerim
-                    li.nav-item
-                        a(href="/orders", class=(path === '/orders'?'nav-link active p-3':'nav-link p-3')) Siparişler
+                    //- li.nav-item
+                    //-     a(href="/admin/products", class=(path==='/admin/products'?'nav-link active p-3':'nav-link p-3')) Ürünlerim
+                    //- li.nav-item
+                    //-     a(href="/orders", class=(path === '/orders'?'nav-link active p-3':'nav-link p-3')) Siparişler
                         
                 if isAdmin
                     li.nav-item.dropdown
@@ -66,6 +66,13 @@ nav.navbar.navbar-expand-xl.navbar-light.fixed-top.navbar-inverse.p-0
                     li.nav-item
                         a(href="/cart" class=(path === '/cart'?'nav-link active p-3':'nav-link p-3') data-toggle="tooltip" data-placement="top" title="Sepet").text-success
                             i(class="fas fa-shopping-cart fa-lg")
+                            p(class="giriş-text").d-inline.ml-1 Sepetim
+                    
+                    li.nav-item
+                        div(class="")
+                            a.nav-link.text-info(href="/profile" data-toggle="tooltip" data-placement="top" title="Profile Git").p-3
+                                i(class="fa fa-user fa-lg")
+                                p(class="giriş-text").d-inline.ml-1 Profil
 
                     li.nav-item
                         div(class="")
@@ -78,7 +85,7 @@ nav.navbar.navbar-expand-xl.navbar-light.fixed-top.navbar-inverse.p-0
                     li.nav-item
                         div(class="")
                             a.nav-link.text-success(href="/login" data-toggle="tooltip" data-placement="top" title="Giriş Yap").p-3
-                                i(class="far fa-user fa lg ")
+                                i(class="far fa-user fa-lg")
                                 p(class="giriş-text").d-inline.ml-1 Giriş Yap | Üye Ol
                             
                     //- li.nav-item

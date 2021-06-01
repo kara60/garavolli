@@ -36,4 +36,6 @@ router.get('/orders', locals, isAuthentication, shopController.getOrders);
 
 router.post('/create-order', locals, isAuthentication, shopController.postOrder);
 
+router.get('/profile', locals, isAuthentication, shopController.getProfile);
+
 module.exports = router;
