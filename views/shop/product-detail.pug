@@ -1,13 +1,14 @@
 extends ../layouts/main-layout.pug
 
-block megaMenu 
-    include ../includes/menu.pug
 block styles
     link(rel="stylesheet" href="/css/product-detail.css")
 
+block megaMenu 
+    include ../includes/menu.pug
+
 block content
     .row
-        .col-lg-12.mt-3.alert.alert-light.productDeteailShadow
+        .col-lg-12.mt-3.alert.alert-light.productDeteailShadowRoad
             each subsubcategory in subsubcategories
                 -var productCategories = `${product.categories}`
                 -var subsubcategoryCategories = `${subsubcategory.categories}`
@@ -22,98 +23,139 @@ block content
                                         a(href=`/categories/${subsubcategory._id}`).btn.btn-link.text-info.p-0 
                                             u #{subsubcategory.name} Kategorisi
                                         a().btn.btn-link.text-muted.p-0 > #{product.name}
-    .row
-        .col-lg-7.pt-3.alert.alert-light.productDeteailShadow
-            .container.d-flex.justify-content-center.productDetailimageArea#zoom
-                img(src=`/img/${product.imageUrl[0]}` id="expandedImg" onclick="myFunction(this);" data-zoom-image="/img/1.jpg").img-fluid
-            .productDetailMultiPicture.mt-1
-                if product.imageUrl.length == 1
-                    .column
-                        img(src=`/img/${product.imageUrl[0]}` onclick="myFunction(this);").img-fluid
+    .container.emp-profile
+        form(action="/cart" method="POST")
+            .row
+                //- .col-md-4
+                //-     .profile-img
+                //-         img(src='https://via.placeholder.com/140x100' alt='')
 
-                if product.imageUrl.length == 2
-                    .column
-                        img(src=`/img/${product.imageUrl[0]}` onclick="myFunction(this);").img-fluid
-                    .column.ml-2
-                        img(src=`/img/${product.imageUrl[1]}` onclick="myFunction(this);").img-fluid
-
-                if product.imageUrl.length == 3
-                    .column
-                        img(src=`/img/${product.imageUrl[0]}` onclick="myFunction(this);").img-fluid
-                    .column.ml-2
-                        img(src=`/img/${product.imageUrl[1]}` onclick="myFunction(this);").img-fluid
-                    .column.ml-2    
-                        img(src=`/img/${product.imageUrl[2]}` onclick="myFunction(this);").img-fluid
-
-                if product.imageUrl.length == 4
-                    .column.bg-muted
-                        img(src=`/img/${product.imageUrl[0]}` onclick="myFunction(this);").img-fluid
-                    .column
-                        img(src=`/img/${product.imageUrl[1]}` onclick="myFunction(this);").img-fluid
-                    .column    
-                        img(src=`/img/${product.imageUrl[2]}` onclick="myFunction(this);").img-fluid
-                    .column
-                        img(src=`/img/${product.imageUrl[3]}` onclick="myFunction(this);").img-fluid
-
-        .col-lg-5.pt-3.alert.productContent.productDeteailShadow
-            h5.mb-3.text-uppercase.font-weight-bold #{product.name}
-            hr
-            p
-                b İlan Tarihi: 
-                | #{product.date.toDateString()}
-            p
-                b İkinci El: 
-                if `${product.isSecondHand}` == 'İkinci El'
-                    | Evet
-                else
-                    |Hayır
-            form(action="/cart" method="POST") 
-                div(class="quantity buttons_added")
-                    b.mr-3 Adet:
-                    input(type="button" value="-" class="minus")
-                    input(type="number" step="1" min="1" max=`${product.productQuantity}` name="productQuantityDetail" value="1" title="Qty" class="input-text qty text" size="100")
-                    input(type="button" value="+" class="plus") 
-                    if product.productQuantity == 1
-                        p.alert.alert-warning.text-dark.p-2.mt-2 Stoklarda 1 adet kalmıştır!
-                    if product.productQuantity == 2
-                        p.alert.alert-warning.text-dark.p-2.mt-2 Stoklarda 2 adet kalmıştır!
-                    if product.productQuantity == 3
-                        p.alert.alert-warning.text-dark.p-2.mt-2 Stoklarda 3 adet kalmıştır!
-                hr
-                .mb-3.mt-2
-                    h2.text-dark.mb-3 
-                        i.fas.fa-lira-sign #{product.price}
-                    //- Ürün detayı sayfasındaki sepete ekle butonu ve çalışma fonksiyonu..
+                .col-md-10
+                    .profile-head
+                        h3
+                            b #{product.name}
+                .col-md-2
                     if product.productQuantity 
                         input(type="hidden" name="_csrf" value=`${csrfToken}`)
                         input(type="hidden" name='productId' value=`${product._id}`)
                         button(type="submit" data-toggle="tooltip" data-placement="top" title="Sepete Ekle").btn.btn-lg.text-light.productDetailPageButton
                             i(class="fas fa-cart-plus")
+                            br
+                            |Sepete Ekle
                     else
                         .alert.alert-danger.p-2 Ürün tükenmiştir..
 
-    .row.mt-3
-        .col-md-7.alert.alert-light.text-dark.productDeteailShadow
-            h2.font-weight-bold.mt-3 Ürün Bilgileri
-            hr
-            p.p-3.productInformationStyle !{product.description}
-        
-        .col-lg-5.pl-3.alert.productContent.productDeteailShadow
-            h2.font-weight-bold.mt-3 Satıcı Bilgileri
-            hr
-            p 
-                b İlçe: 
-                |#{product.city}
-            p 
-                b Satıcı İsmi: 
-                |#{product.nameOfSeller}
-            p 
-                b Satıcı Numarası: 
-                |#{product.phoneOfSeller}
-            p 
-                b Satıcı Emaili: 
-                |#{product.mailOfSeller}
+            ul#myTab.nav.nav-tabs(role='tablist').mt-3.mb-3
+                li.nav-item
+                    a#home-tab.nav-link.active(data-toggle='tab' href='#home' role='tab' aria-controls='home' aria-selected='true') Ürün
+                li.nav-item
+                    a#products-tab.nav-link(data-toggle='tab' href='#products' role='tab' aria-controls='profile' aria-selected='false') Ürün Bilgileri
+                li.nav-item
+                    a#orders-tab.nav-link(data-toggle='tab' href='#orders' role='tab' aria-controls='profile' aria-selected='false') Satıcı Bilgileri       
+            .row
+                .col-md-12
+                    #myTabContent.tab-content.profile-tab
+                        #home.tab-pane.fade.show.active(role='tabpanel' aria-labelledby='home-tab')
+                            .row
+                                .col-md-6.productDeteailShadow
+                                    .container.d-flex.justify-content-center.productDetailimageArea#zoom
+                                        img(src=`/img/${product.imageUrl[0]}` id="expandedImg" onclick="myFunction(this);" data-zoom-image="/img/1.jpg").img-fluid
+                                    .productDetailMultiPicture.mt-1
+                                        if product.imageUrl.length == 1
+                                            .column
+                                                img(src=`/img/${product.imageUrl[0]}` onclick="myFunction(this);").img-fluid
+
+                                        if product.imageUrl.length == 2
+                                            .column
+                                                img(src=`/img/${product.imageUrl[0]}` onclick="myFunction(this);").img-fluid
+                                            .column.ml-2
+                                                img(src=`/img/${product.imageUrl[1]}` onclick="myFunction(this);").img-fluid
+
+                                        if product.imageUrl.length == 3
+                                            .column
+                                                img(src=`/img/${product.imageUrl[0]}` onclick="myFunction(this);").img-fluid
+                                            .column.ml-2
+                                                img(src=`/img/${product.imageUrl[1]}` onclick="myFunction(this);").img-fluid
+                                            .column.ml-2    
+                                                img(src=`/img/${product.imageUrl[2]}` onclick="myFunction(this);").img-fluid
+
+                                        if product.imageUrl.length == 4
+                                            .column.bg-muted
+                                                img(src=`/img/${product.imageUrl[0]}` onclick="myFunction(this);").img-fluid
+                                            .column
+                                                img(src=`/img/${product.imageUrl[1]}` onclick="myFunction(this);").img-fluid
+                                            .column    
+                                                img(src=`/img/${product.imageUrl[2]}` onclick="myFunction(this);").img-fluid
+                                            .column
+                                                img(src=`/img/${product.imageUrl[3]}` onclick="myFunction(this);").img-fluid
+                                .col.md-6
+                                    .row.mt-4
+                                        .col-md-6
+                                            label İlan Tarihi:
+                                        .col-md-6
+                                            p #{product.date.toDateString()}
+                                    .row.mt-4
+                                        .col-md-6
+                                            label İkinci El:
+                                        .col-md-6
+                                            p 
+                                                if `${product.isSecondHand}` == 'İkinci El'
+                                                    | Evet
+                                                else
+                                                    |Hayır
+
+                                    .row.mt-2
+                                        .col-md-6.d-flex.align-items-center
+                                            label Adet:
+                                        .col-md-6
+                                            p
+                                                
+                                                div(class="quantity buttons_added")
+                                                    input(type="button" value="-" class="minus")
+                                                    input(type="number" step="1" min="1" max=`${product.productQuantity}` name="productQuantityDetail" value="1" title="Qty" class="input-text qty text" size="100")
+                                                    input(type="button" value="+" class="plus") 
+                                                    if product.productQuantity == 1
+                                                        p.alert.alert-warning.text-dark.p-2.mt-2 Stoklarda 1 adet kalmıştır!
+                                                    if product.productQuantity == 2
+                                                        p.alert.alert-warning.text-dark.p-2.mt-2 Stoklarda 2 adet kalmıştır!
+                                                    if product.productQuantity == 3
+                                                        p.alert.alert-warning.text-dark.p-2.mt-2 Stoklarda 3 adet kalmıştır!
+                                    .row.mt-2
+                                        .col-md-6.d-flex.align-items-center
+                                            label Fiyat:
+                                        .col-md-6
+                                            p
+                                                h2.text-success.mb-3
+                                                    i.fas.fa-lira-sign #{product.price}
+                        #products.tab-pane.fade(role='tabpanel' aria-labelledby='products-tab')
+                            p.p-3.productInformationStyle !{product.description}
+                                                            
+                            
+
+                        #orders.tab-pane.fade(role='tabpanel' aria-labelledby='orders-tab')
+                            .row.mt-2
+                                .col-md-6
+                                    label İlçe
+                                .col-md-6
+                                    p #{product.city}
+                            .row.mt-2
+                                .col-md-6
+                                    label Satıcı İsmi
+                                .col-md-6
+                                    p #{product.nameOfSeller}
+                            .row.mt-2
+                                .col-md-6
+                                    label Satıcı Numarası
+                                .col-md-6 
+                                    p #{product.phoneOfSeller}
+                            .row.mt-2
+                                .col-md-6
+                                    label Satıcı Emaili
+                                .col-md-6
+                                    p #{product.mailOfSeller}
+
+                        
+
 
 block script
     script(src="/js/product-detail.js")
-            
