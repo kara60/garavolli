@@ -17,13 +17,14 @@ block content
 
                 .col-md-10
                     .profile-head
-                        h3 
+                        h2 
                             b #{user.name} #{user.surname}
                         h6
                             b Garavolli Üyesi
-                        p.proile-rating
-                            b Derece : 
-                            span 8/10
+                        h6.text-success
+                            b Puan : 
+                            span 
+                                b 8 / 10
                 .col-md-2
                     a.btn.btn-outline-primary(href="#" name='btnAddMore' value='Profili Düzenle').editProfileButton Profili Düzenle
                     a(href="/admin/choose-category" class="btn btn-sm btn-outline-success btn-create").mt-1
@@ -72,7 +73,7 @@ block content
 
                         #products.tab-pane.fade(role='tabpanel' aria-labelledby='products-tab')
                             if products.length > 0
-                                table.table.table-striped.table-bordered.table-list.bg-light
+                                table.table.table-striped.table-bordered.table-list.bg-light.table-light
                                     thead
                                         tr
                                             th(style="width: 80px;") Resmi    
@@ -116,6 +117,7 @@ block content
                                                     th Ürün Adı
                                                     th Fiyatı
                                                     th Miktarı
+                                                    th Durum
                                             tbody
                                                 each item in order.items
                                                     tr
@@ -124,14 +126,17 @@ block content
                                                         td #{item.product.name}
                                                         td #{item.product.price}
                                                         td #{item.quantity}
+                                                        td(style="width: auto; text-align:center;") Kargoda
                                             tfoot
                                                 tr
-                                                    td(colspan="2") #{order.date}
-                                                    td
+                                                    td(colspan="3") #{order.date}
+                                                    td(style="text-align:center;")
+                                                        b.text-success Toplam
                                                     - var total = 0;
                                                     each item in order.items
                                                         - total += (item.product.price * item.quantity)
-                                                    td  #{total} TL
+                                                    td(style="text-align:center;")
+                                                        b.text-success #{total} TL
 
                             else
                                 h1 Henüz sipariş vermemişsiniz.
