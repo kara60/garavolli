@@ -15,10 +15,10 @@ router.post('/register', locals,isntAuthentication, accountController.postRegist
 
 router.get('/logout', locals, accountController.getlogout);
 
-router.get('/reset-password', locals,isntAuthentication, accountController.getReset);
-router.post('/reset-password', locals, isntAuthentication,accountController.postReset);
+router.get('/reset-password', locals, accountController.getReset);
+router.post('/reset-password', locals,accountController.postReset);
 
-router.get('/reset-password/:token', locals,isntAuthentication, accountController.getNewPassword);
-router.post('/new-password', locals,isntAuthentication, accountController.postNewPassword);
+router.get('/reset-password/:token', locals, accountController.getNewPassword);
+router.post('/new-password', locals, accountController.postNewPassword);
 
 module.exports = router;

@@ -1,0 +1,64 @@
+extends ../layouts/main-layout.pug
+
+block styles
+    link(rel="stylesheet" href="/css/profile.css")
+    link(rel="stylesheet" href="/css/products-table.css")
+
+block megaMenu 
+    include ../includes/menu.pug
+
+block content
+    .container.emp-profile
+        .row
+            .col-md-12
+                .profile-head
+                    h2 
+                        b #{user.name} #{user.surname}
+                    h6
+                        b #{user.email}
+
+        ul#myTab.nav.nav-tabs(role='tablist').mt-3.mb-3
+            li.nav-item
+                a#home-tab.nav-link.active(data-toggle='tab' href='#home' role='tab' aria-controls='home' aria-selected='true') Hesap Bilgisi
+            //- li.nav-item
+            //-     a#products-tab.nav-link(data-toggle='tab' href='#products' role='tab' aria-controls='profile' aria-selected='false') Email Değiştirme
+            li.nav-item
+                a#orders-tab.nav-link(data-toggle='tab' href='#orders' role='tab' aria-controls='profile' aria-selected='false') Parola Sıfırlama
+
+        .row
+            .col-md-12 
+                #myTabContent.tab-content.profile-tab
+                    #home.tab-pane.fade.show.active(role='tabpanel' aria-labelledby='home-tab')
+                        form(action="/edit-profile" method="POST" autocomplete="off")
+                            input(type="hidden" name="_csrf" value=`${csrfToken}`)
+                            div(class="form-content")
+                                div(class="row")
+                                    div(class="col-md-12")
+                                        if action === 'success'
+                                            div.alert.alert-success.text-dark.col-sm-12.container-fluid Değişiklikler başarıyla uygulanmıştır.
+                                        .row
+                                            label(for="name").col-sm-2 Adınız:
+                                            div(class="form-group").col-sm-10
+                                                input(type="text" id="name" class="form-control" placeholder="Lütfen adınızı giriniz" name="name" value=`${user.name}` required)
+
+                                        .row
+                                            label(for="surname").col-sm-2 Soyadınız:
+                                            div(class="form-group").col-sm-10
+                                                input(type="text" id="surname" class="form-control" placeholder="Lütfen soyadınızı giriniz" value=`${user.surname}` name="surname" required)
+                            button(type="submit").btn.btn-outline-primary.mt-3 Değişiklikleri uygula
+                    
+                    //- #products.tab-pane.fade(role='tabpanel' aria-labelledby='products-tab')
+                    //-     a(href="#").btn.btn-outline-primary E-posta değiştirme talebi
+                    #orders.tab-pane.fade(role='tabpanel' aria-labelledby='orders-tab')
+                        form(action="/reset-password" method="POST")
+                            input(type="hidden" name="_csrf" value=`${csrfToken}`)
+                            .form-group.row
+                                label(for="email").col-sm-2.col-form-label Email:
+                                .col-sm-5
+                                    input.form-control#email(type="email" name="email" placeholder="Lütfen email adresinizi giriniz" autofocus required)
+
+                            .form-group.row
+                                .col-sm-5.offset-sm-2
+                                    input(type="submit" value="Gönder").btn.btn-outline-primary
+
+    
