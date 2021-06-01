@@ -26,18 +26,14 @@ nav.navbar.navbar-expand-xl.navbar-light.fixed-top.navbar-inverse.p-0
 
                 if isAuthenticated
                     //- Sepet ve siparişler linkleri
-                    
-
-                    li.nav-item
-                        a(href="/orders", class=(path === '/orders'?'nav-link active p-3':'nav-link p-3')) Siparişler
-                    
-                
                     li.nav-item
                         a(href="/admin/choose-category", class=(path==='/admin/choose-category'?'nav-link active p-3':'nav-link p-3')) Ürün Ekle
 
                     li.nav-item
                         a(href="/admin/products", class=(path==='/admin/products'?'nav-link active p-3':'nav-link p-3')) Ürünlerim
-
+                    li.nav-item
+                        a(href="/orders", class=(path === '/orders'?'nav-link active p-3':'nav-link p-3')) Siparişler
+                        
                 if isAdmin
                     li.nav-item.dropdown
                         a(class=(path==="#"?"nav-link dropdown-toggle active p-3":'nav-link dropdown-toggle p-3') data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false").dropDownStyle Admin Paneli
