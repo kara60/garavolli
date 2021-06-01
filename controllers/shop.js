@@ -7,6 +7,7 @@ const Confirmation = require('../models/confirmation');
 const User = require('../models/user');
 const nodemailer = require("nodemailer");
 const cron = require('node-cron');
+const product = require('../models/product');
 
 exports.getIndex = async (req, res, next) => {
     try{
@@ -173,8 +174,6 @@ exports.getCheckout = async (req, res, next) => {
         var userX = await User.findById(userid);
         var items = userX.cart.items;
 
-        console.log(items)
-
         res.render('shop/checkout', {
             title: 'Satın Alma',
             path: '/checkout',
@@ -190,27 +189,25 @@ exports.getCheckout = async (req, res, next) => {
 }
 
 
-exports.getOrders = (req, res, next) => {
-    Order
-        .find({'user.userId': req.user._id})
-        .then(orders => {
-            res.render('shop/orders', {
-                title: 'Siparişler',
-                path: '/orders',
-                orders: orders
-            });
-        })
-        .catch(err => {
-            next(err);
+exports.getOrders = async (req, res, next) => {
+    try{
+        const orders = await Order.find({ 'user.userId': req.user._id });
+
+        res.render('shop/orders', {
+            title: 'Siparişler',
+            path: '/orders',
+            orders: orders
         });
+    }
+    catch(err){
+        next(err);
+    }
 }
 
-exports.postOrder = (req, res, next) => {
-    req.user
-        .populate('cart.items.productId')
-        .execPopulate()
-        .then(user => {
-            const order =  new Order({
+exports.postOrder = async (req, res, next) => {
+    try{
+        const user = await req.user.populate('cart.items.productId').execPopulate();
+        const order =  new Order({
                 user: {
                     userId: req.user._id,
                     name: req.user.name,
@@ -228,17 +225,31 @@ exports.postOrder = (req, res, next) => {
                     };
                 })
             });
-            return order.save();
-        })
-        .then(() => {
-            return req.user.clearCart();
-        })
-        .then(() => {
-            res.redirect('/orders')
-        })
-        .catch(err => {
-            next(err);
-        })
+
+        var userid = await req.user._id;
+        var _user = await User.findById(userid);
+        var items = _user.cart.items;
+        var productId = items.map(e => e.productId);
+        var products = await Product.find({_id: productId});
+        for(var i=0; i<products.length; i++){
+            var productQuantity = products[i].productQuantity;
+            var cartQuantity = items[i].quantity;
+            var finalQuantity = productQuantity - cartQuantity;
+            products[i].productQuantity = finalQuantity;
+            console.log(products[i].productQuantity);
+            await products[i].save();
+        }
+        
+
+        
+        
+        await order.save();
+        await req.user.clearCart();
+        res.redirect('/orders')
+    }
+    catch(err){
+        next(err);
+    }
 }
 
 
