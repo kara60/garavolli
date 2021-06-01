@@ -28,14 +28,3 @@ if isAuthenticated
                                         strong Onay bekleyen ürün: #{confirm.length}
                                         
                                 //-a(href="#" class="btn btn-outline-dark") Profile git
-if !isAuthenticated
-        div(class="card" style="width: 17.9rem;").mb-3
-                div(class="card-body")
-                        h5(class="card-title") Merhaba..
-                        hr
-                        p(class="card-text") 
-                                em <a href="/register">Buradan</a> üye olabilir,
-                        p(class="card-text") 
-                                em <a href="/login">Buradan</a> giriş yapabilir,
-                        p(class="card-text") 
-                                em <a href="/contact">Buradan</a> bize ulaşabiliriniz.

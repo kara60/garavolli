@@ -10,12 +10,17 @@ block megaMenu
 block content
     .container.emp-profile
         .row
-            .col-md-12
+            .col-md-10
                 .profile-head
                     h2 
                         b #{user.name} #{user.surname}
                     h6
                         b #{user.email}
+            .col-md-2 
+                a(href="/profile" class="btn btn-sm btn-outline-danger btn-create").mt-1
+                    i(class="fas fa-long-arrow-alt-left").mr-1
+                    |Geri dön 
+                    
 
         ul#myTab.nav.nav-tabs(role='tablist').mt-3.mb-3
             li.nav-item

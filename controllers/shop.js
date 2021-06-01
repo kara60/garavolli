@@ -446,6 +446,11 @@ exports.getProfile = async (req, res, next) => {
 
         const orders = await Order.find({ 'user.userId': req.user._id });
 
+        const userNumber = await User.find();
+        const allproducts = await Product.find();
+        const allorders = await Order.find();
+        const confirm = await Confirmation.find();
+
         res.render('shop/profile', {
             title: 'Profil Sayfası',
             path: '/profile',
@@ -454,7 +459,11 @@ exports.getProfile = async (req, res, next) => {
             subsubcategories: subsubcategories,
             user: user,
             products: products,
-            orders: orders
+            allproducts:allproducts,
+            userNumber:userNumber,
+            orders:orders,
+            confirm:confirm,
+            allorders: allorders
         });
     }
     catch(err){
