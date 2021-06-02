@@ -121,7 +121,7 @@ block content
         .form-group.row.mt-5
             label(for="description").col-sm-2.col-form-label.text-success Ürün Açıklaması:
             .col-sm-10
-                textarea.form-control(id="editor" cols="95" rows="10" name="description") #{product.description}
+                textarea.form-control(id="editor" cols="95" rows="10" class="ckeditor" name="description") #{product.description}
         
         h2.text-dark 
             b Satıcı Bilgileri 
@@ -155,8 +155,9 @@ block content
             button(type="submit" data-toggle="tooltip" data-placement="top" title="Ürünü Onayla").btn.btn-success.pl-2.ml-1
                 i(class="fas fa-check")
 
-                
+    script. 
+        CKEDITOR.replace( 'description' );            
 
 block script
-    script(src="https://cdn.ckeditor.com/4.15.1/standard/ckeditor.js")
+    script(src="/ckeditor/ckeditor.js")
     script(src="/js/script.js")

@@ -56,7 +56,7 @@ block content
                 .col-md-12
                     #myTabContent.tab-content.profile-tab
                         #home.tab-pane.fade.show.active(role='tabpanel' aria-labelledby='home-tab')
-                            .row
+                            .row.mt-3
                                 .col-md-6.productDeteailShadow
                                     .container.d-flex.justify-content-center.productDetailimageArea#zoom
                                         img(src=`/img/${product.imageUrl[0]}` id="expandedImg" onclick="myFunction(this);" data-zoom-image="/img/1.jpg").img-fluid
@@ -127,8 +127,8 @@ block content
                                             p
                                                 h2.text-success.mb-3
                                                     i.fas.fa-lira-sign #{product.price}
-                        #products.tab-pane.fade(role='tabpanel' aria-labelledby='products-tab')
-                            p.p-3.productInformationStyle !{product.description}
+                        #products.tab-pane.fade(role='tabpanel' aria-labelledby='products-tab').descriptionOverFlow
+                            p.p-2.productInformationStyle !{product.description}
                                                             
                             
 
@@ -156,6 +156,7 @@ block content
 
                         
 
-
+    
 block script
     script(src="/js/product-detail.js")
+    

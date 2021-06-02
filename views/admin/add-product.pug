@@ -79,7 +79,7 @@ block content
         .form-group.row.mt-5
             label(for="description").col-sm-2.col-form-label Ürün Açıklaması:
             .col-sm-10
-                textarea.form-control(id="editor" cols="95" rows="10" name="description" required) #{inputs.description}
+                textarea.form-control(id="editor" cols="95" rows="10" name="description" class="ckeditor" required) #{inputs.description}
         hr
         h2.font-weight-bold Satıcı Bilgileri
         br
@@ -114,7 +114,8 @@ block content
             .col-sm-10.offset-sm-2
                 button(type="submit" data-toggle="tooltip" data-placement="top" title="Ürün Ekle").btn.btn-success
                     i(class="fas fa-plus")
-                    
+        script. 
+            CKEDITOR.replace( 'description' );   
 block script
-    //- script(src="https://cdn.ckeditor.com/4.15.1/standard/ckeditor.js")
+    script(src="/ckeditor/ckeditor.js")
     script(src="/js/script.js")

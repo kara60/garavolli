@@ -74,49 +74,49 @@ block content
                         if isAdmin
                             hr
                             h3.mb-3 
-                                b 
+                                b
                                     u Site Bilgileri:                 
                             .row
                                 .col-md-6         
                                     label Toplam kullanıcı sayısı: 
                                 .col-md-6
-                                    p #{userNumber.length}
+                                    p.text-success #{userNumber.length}
 
                             .row
                                 .col-md-6
                                     label Toplam ürün sayısı: 
                                 .col-md-6
-                                    p #{allproducts.length}
+                                    p.text-success #{allproducts.length}
 
                             .row
                                 .col-md-6
                                     label Ana kategori sayısı: 
                                 .col-md-6
-                                    p #{categories.length}
+                                    p.text-success #{categories.length}
 
                             .row
                                 .col-md-6
                                     label Kategori sayısı: 
                                 .col-md-6
-                                    p #{subcategories.length}
+                                    p.text-success #{subcategories.length}
 
                             .row
                                 .col-md-6
                                     label En alt kategori sayısı: 
                                 .col-md-6
-                                    p #{subsubcategories.length}
+                                    p.text-success #{subsubcategories.length}
 
                             .row
                                 .col-md-6
                                     label Toplam Sipariş sayısı: 
                                 .col-md-6
-                                    p #{allorders.length}
+                                    p.text-success #{allorders.length}
                                     
                             .row
                                 .col-md-6
                                     label Toplam onay bekleyen ürün: 
                                 .col-md-6
-                                    p #{confirm.length}
+                                    p.text-success #{confirm.length}
 
                     #products.tab-pane.fade(role='tabpanel' aria-labelledby='products-tab')
                         if products.length > 0
