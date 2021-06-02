@@ -5,8 +5,9 @@ block content
         h1.mt-4.mb-4 
             b Garavolli - Ödeme Sayfası
         if action == 'fail'
-            h3
-                .alert.alert-danger Almaya çalıştığınız ürün çoktan satılmış.
+            h4
+                .alert.alert-danger 
+                    b Almaya çalıştığınız ürün başkası tarafından satın alındığı için sepetinizden kaldırıldı ve işleminiz iptal oldu.
         hr
         .row
             .col-md-8.order-md-1

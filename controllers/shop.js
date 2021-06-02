@@ -239,6 +239,7 @@ exports.postOrder = async (req, res, next) => {
                 var finalQuantity = productQuantity - cartQuantity;
                 products[i].productQuantity = finalQuantity;
             }else{
+                await req.user.deleteCartItem(products[i]);
                 return res.redirect('/checkout?action=fail');
             }
         }
