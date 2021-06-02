@@ -43,7 +43,7 @@ block content
                             br
                             |Sepete Ekle
                     else
-                        .alert.alert-danger.p-2 Ürün tükenmiştir..
+                        
 
             ul#myTab.nav.nav-tabs(role='tablist').mt-3.mb-3
                 li.nav-item
@@ -109,11 +109,16 @@ block content
                                             label Adet:
                                         .col-md-6
                                             p
-                                                
-                                                div(class="quantity buttons_added")
-                                                    input(type="button" value="-" class="minus")
-                                                    input(type="number" step="1" min="1" max=`${product.productQuantity}` name="productQuantityDetail" value="1" title="Qty" class="input-text qty text" size="100")
-                                                    input(type="button" value="+" class="plus") 
+                                                if product.productQuantity
+                                                    div(class="quantity buttons_added")
+                                                        input(type="button" value="-" class="minus")
+                                                        input(type="number" step="1" min="1" max=`${product.productQuantity}` name="productQuantityDetail" value="1" title="Qty" class="input-text qty text" size="100")
+                                                        input(type="button" value="+" class="plus") 
+                                                else 
+                                                    div(class="quantity buttons_added")
+                                                        input(type="button" value="-" class="minus" disabled)
+                                                        input(type="number" step="1" min="1" max=`${product.productQuantity}` name="productQuantityDetail" value="0" title="Qty" class="input-text qty text" size="100" disabled)
+                                                        input(type="button" value="+" class="plus" disabled) 
                                     .row
                                         .col-md-12.d-flex.justify-content-start
                                             if product.productQuantity == 1
@@ -122,6 +127,8 @@ block content
                                                 p.alert.alert-warning.text-dark.p-2.w-100 Stoklarda 2 adet kalmıştır!
                                             if product.productQuantity == 3
                                                 p.alert.alert-warning.text-dark.p-2.w-100 Stoklarda 3 adet kalmıştır!
+                                            if product.productQuantity == 0
+                                                p.alert.alert-danger.text-dark.p-2.w-100 Stoklarda ürün kalmamıştır!
                                     .row.mt-2
                                         .col-md-6.d-flex.align-items-center
                                             label Fiyat:
