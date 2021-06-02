@@ -4,6 +4,9 @@ block content
     .container.mb-5.productPageCartBg.pt-1.pb-5
         h1.mt-4.mb-4 
             b Garavolli - Ödeme Sayfası
+        if action == 'fail'
+            h3
+                .alert.alert-danger Almaya çalıştığınız ürün çoktan satılmış.
         hr
         .row
             .col-md-8.order-md-1

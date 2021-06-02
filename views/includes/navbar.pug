@@ -1,12 +1,12 @@
-nav.navbar.navbar-expand-xl.navbar-light.fixed-top.navbar-inverse.p-0
+nav.navbar.navbar-expand-xl.navbar-light.fixed-top.navbar-inverse.p-0.m-0
     .container
         
-        img(src="/img/garavolli.png" width="40").mr-2
-        a(href="/").navbar-brand.mr-4 Garavolli
+        img(src="/img/garavolli.png" width="40").mr-2.ml-2  
+        a(href="/").navbar-brand Garavolli
             
-        button(type="button" class="navbar-toggler" data-toggle="collapse" data-target="#myNavbar")
+        button(type="button" class="navbar-toggler" data-toggle="collapse" data-target="#myNavbar" aria-controls="menu" aria-expanded="false" aria-label="Toggle navigation").mr-2.border-0.p-3
             span.navbar-toggler-icon
-            img(src="/img/emu_logo.png" width="40").ml-2.navbar
+            //- img(src="/img/emu_logo.png" width="40").ml-2
 
         //- span.text-secondary.mr-0.pr-0.mr-1
         //-     i(class="fas fa-people-carry fa-lg").mr-1
@@ -14,12 +14,12 @@ nav.navbar.navbar-expand-xl.navbar-light.fixed-top.navbar-inverse.p-0
         //-     span.font-weight-bold 1. 
         //-     |Tercih
 
-        div(class="vr")
+        //- div(class="vr")
         
-        div(class="collapse navbar-collapse" id="myNavbar")
-            ul.nav.navbar-nav.mr-auto
+        div(class="navbar-collapse collapse" id="myNavbar")
+            ul.navbar-nav.mr-auto
                 li.nav-item
-                    a(href="/", class=(path === '/'?'nav-link active p-3':'nav-link p-3')) Anasayfa
+                    a(href="/" class=(path === '/'?'nav-link active p-3':'nav-link p-3')) Anasayfa
 
                 //- li.nav-item
                 //-     a(href="/products", class=(path === '/products'?'nav-link active p-3':'nav-link p-3')) Ürünler
@@ -27,7 +27,7 @@ nav.navbar.navbar-expand-xl.navbar-light.fixed-top.navbar-inverse.p-0
                 if isAuthenticated
                     //- Sepet ve siparişler linkleri
                     li.nav-item
-                        a(href="/admin/choose-category", class=(path==='/admin/choose-category'?'nav-link active p-3':'nav-link p-3')) Ürün Ekle
+                        a(href="/admin/choose-category" class=(path==='/admin/choose-category'?'nav-link active p-3':'nav-link p-3')) Ürün Ekle
 
                     //- li.nav-item
                     //-     a(href="/admin/products", class=(path==='/admin/products'?'nav-link active p-3':'nav-link p-3')) Ürünlerim
@@ -91,6 +91,7 @@ nav.navbar.navbar-expand-xl.navbar-light.fixed-top.navbar-inverse.p-0
                     //- li.nav-item
                     //-     a.nav-link.text-warning(href="/register").p-3
                     //-         |Üye Ol
+            
             img(src="/img/emu_logo.png" width="40").ml-2
 
 //- .area.container-fluid
