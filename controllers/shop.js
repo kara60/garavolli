@@ -180,7 +180,8 @@ exports.getCheckout = async (req, res, next) => {
             products: user.cart.items,
             categories: categories,
             subcategories: subcategories,
-            subsubcategories: subsubcategories
+            subsubcategories: subsubcategories,
+            action: req.query.action
         });
     }
     catch(err){
@@ -234,8 +235,15 @@ exports.postOrder = async (req, res, next) => {
         for(var i=0; i<products.length; i++){
             var productQuantity = products[i].productQuantity;
             var cartQuantity = items[i].quantity;
-            var finalQuantity = productQuantity - cartQuantity;
-            products[i].productQuantity = finalQuantity;
+            if(cartQuantity <= productQuantity && productQuantity != 0){
+                var finalQuantity = productQuantity - cartQuantity;
+                products[i].productQuantity = finalQuantity;
+            }else{
+                return res.redirect('/checkout?action=fail');
+            }
+        }
+
+        for(var i=0; i<products.length; i++){
             await products[i].save();
         }
 
