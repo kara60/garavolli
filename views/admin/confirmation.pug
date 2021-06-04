@@ -9,32 +9,34 @@ block content
     
     if (action !== 'undefined' && action === 'confirm')
         div.alert.alert-warning Ürün onaylandı.
-    
+    h1 Toplam: #{products.length}
     if products.length > 0
-        table.table.table-striped.table-bordered.table-list
-            thead
-                tr
-                    th(style="width: 120px;") Resmi    
-                    th(style="width: auto;") Ürün adı
-                    th(style="width: auto;") Fiyatı 
-                    th(style="width: auto;") Ekleyen
-                    th(style="width: auto; text-align:center;")
-                        em(class="fa fa-cog")
-                    
+        table.table.table-list.productPageCartBg       
             tbody
                 each product in products
                     tr
-                        td
+                        td(width="80")
                             img(src=`/img/${product.imageUrl[0]}` width='120')
                             
-                        td.hidden-xs.text-uppercase #{product.name}
-                        td #{product.price} TL
-                        td #{product.userId.name}
-                        td.mr-0.ml-0.pr-0.pl-0
-                            a(href=`/admin/confirmation/${product._id}` data-toggle="tooltip" data-placement="top" title="İncele").btn.btn-default
-                                em(class="far fa-eye fa-lg")
+                        td.hidden-xs(width="auto")
+                            b.text-primary  #{product.name}
+                            br
+                            h4.mt-3.mb-2
+                                b #{product.price} TL
+                            span Ekleyen: 
+                                b #{product.userId.name} #{product.userId.surname}
+                            br
+                            span Adet: 
+                                b #{product.productQuantity}
+                            br
+                            b 
+                                em #{product.isSecondHand}
 
-                            form(action="/admin/delete-confirmation" method="POST" onSubmit="return confirm('Silmek istediğinden emin misin?') ")
+                        td(width="100")
+                            a(href=`/admin/confirmation/${product._id}` data-toggle="tooltip" data-placement="top" title="İncele").btn.btn-default.mt-5
+                                em(class="far fa-eye fa-lg")
+                        td(width="100")
+                            form(action="/admin/delete-confirmation" method="POST" onSubmit="return confirm('Silmek istediğinden emin misin?') ").mt-5
                                 input(type="hidden" name="_csrf" value=`${csrfToken}`)
                                 input(type="hidden" name="productid" value=`${product._id}`)
                                 button(type="submit" data-toggle="tooltip" data-placement="top" title="Reddet").btn.btn-danger

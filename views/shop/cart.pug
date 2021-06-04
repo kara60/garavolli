@@ -16,39 +16,41 @@ block content
             h2(class="panel-title")
                 i(class="fas fa-shopping-cart fa-sm").text-dark.mr-2
                 b Sepetim
-                    
-                hr
-            table.table.table-striped.table-bordered.table-list
-                thead
-                    tr
-                        th(style="width: 135px;") Resim
-                        th Ürün Adı
-                        th(style="width: auto;") Fiyat
-                        th Miktar
-                        th(style="width: auto; text-align:center;")
-                            em(class="fa fa-cog")
+
+            table.table.table-list.mt-3
                 tbody
                     each product in products
-                        tr
-                            td
+                        tr(height="190px")
+                            td(width="80")
                                 img(src=`/img/${product.productId.imageUrl[0]}` width='80')
-                            td.text-uppercase #{product.productId.name}
-                            td #{product.productId.price} TL
-                            td #{product.quantity}
-                            td 
+                            td(max-width="600px")
+                                b.text-info #{product.productId.name}
+                                br
+                                h4.mt-3.mb-0 
+                                    b #{product.productId.price} TL
+                                br
+                                span Adet: 
+                                    b #{product.quantity}
+                            td
+                            td
+                            td
                                 form(action='/delete-cartitem' method='POST' onSubmit="return confirm('Ürünü Sepetten kaldırmak istediğinizden emin misiniz?') ")
                                     input(type="hidden" name="_csrf" value=`${csrfToken}`)
                                     input(type='hidden' name='productid' value=`${product.productId._id}`)
                                     button(type='submit' data-toggle="tooltip" data-placement="top" title="Sepetten Kaldır").btn.btn-danger.btn-sm
                                         em(class="fas fa-trash-alt")
-
                 tfoot
-                    td(colspan="4")
+                    td(colspan="3")
 
                         - var total = 0;
                         each product in products
                             - total += (product.productId.price * product.quantity)
-                    td  #{total} TL
+                        span.float-right
+                            b.text-success Toplam: 
+                    td(colspan="2")
+                        b.fas.fa-lira-sign.text-success #{total} 
+                            
+                            
 
             .d-flex.justify-content-end
                 //- a(href="/products").btn.btn-warning Alışverişe Devam Et

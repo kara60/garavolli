@@ -250,7 +250,7 @@ exports.postOrder = async (req, res, next) => {
 
         await order.save();
         await req.user.clearCart();
-        res.redirect('/orders')
+        res.redirect('/profile?action=buySuccess')
     }
     catch(err){
         next(err);
@@ -472,7 +472,8 @@ exports.getProfile = async (req, res, next) => {
             userNumber:userNumber,
             orders:orders,
             confirm:confirm,
-            allorders: allorders
+            allorders: allorders,
+            action: req.query.action
         });
     }
     catch(err){

@@ -175,7 +175,7 @@ exports.postAddProduct = async (req, res, next) => {
         );
 
         await confirm.save();
-        res.redirect('/admin/products?action=waiting');
+        res.redirect('/profile?action=waiting');
 
     }
     catch(err){
@@ -286,7 +286,7 @@ exports.postEditProduct = async (req, res, next) => {
 
         await Product.deleteOne({_id: id})
 
-        res.redirect('/admin/products?action=edit');
+        res.redirect('/profile?action=edit');
     }
     catch(err){
         next(err);
@@ -371,7 +371,7 @@ exports.postDeleteProduct = async (req, res, next) => {
             return next(new Error('Silinmek istenen ürün bulunamadı.'));
         }
         
-        res.redirect('/admin/products?action)delete');
+        res.redirect('/profile?action=delete');
     }
     catch(err){
         next(err);

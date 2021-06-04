@@ -1,9 +1,10 @@
-form{
+/* form{
   display: inline;
 }
 table tbody{
   text-align: center;
   line-height: 100px;
+  background-color: rgb(255, 255, 255);
 }
 .editProducts{
   width: 125px;
@@ -42,7 +43,7 @@ table tbody{
   
   .panel-table .panel-footer .pagination{
     margin:0; 
-  }
+  } */
   
   /*
   used to vertically center elements, may need modification if you're not using default sizes.

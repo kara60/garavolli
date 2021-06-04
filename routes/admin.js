@@ -7,7 +7,7 @@ const locals = require('../middleware/locals');
 
 const adminController = require('../controllers/admin');
 
-router.get('/products', locals, isAuthentication, adminController.getProducts);
+// router.get('/products', locals, isAuthentication, adminController.getProducts);
 
 router.get('/choose-category', locals, isAuthentication, adminController.getChooseCategory);
 

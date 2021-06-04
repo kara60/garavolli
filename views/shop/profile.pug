@@ -13,8 +13,16 @@ block content
             //- .col-md-4
             //-     .profile-img
             //-         img(src='https://via.placeholder.com/140x100' alt='')
-
+            if (action !== 'undefined' && action === 'waiting')
+                div.alert.alert-success.container-fluid Ürününüz onay için beklemede. En kısa zamanda dönüş yapılacaktır. Bizi seçtiğiniz için teşekkürler..
+            if (action !== 'undefined' && action === 'delete')
+                div.alert.alert-danger.container-fluid Ürün Silindi.
+            if (action !== 'undefined' && action === 'edit')
+                div.alert.alert-info.container-fluid Ürününüz güncelleme için onaya gönderildi. En yakın zamanda dönüş yapılacaktır. Teşekkürler..
+            if (action !== 'undefined' && action === 'buySuccess')
+                div.alert.alert-primary.container-fluid Tebrikler ödeme işlemini başarıyla tamamladınız. Siparişlerim sekmesinden ürünlerinizi takip edebilirsiniz..
             .col-md-10
+                
                 .profile-head
                     h2 
                         b #{user.name} #{user.surname}
@@ -120,29 +128,24 @@ block content
 
                     #products.tab-pane.fade(role='tabpanel' aria-labelledby='products-tab')
                         if products.length > 0
-                            table.table.table-striped.table-bordered.table-list.bg-light.table-light
-                                thead
-                                    tr
-                                        th(style="width: 80px;") Resmi    
-                                        th(style="width: auto;") Ürün adı
-                                        th(style="width: auto;") Fiyatı 
-                                        th(style="width: auto; text-align:center;")
-                                            em(class="fa fa-cog")
-                                        
+                            table.table.table-list
                                 tbody
                                     each product in products
-                                        tr
+                                        tr(height="175px")
                                             td
                                                 img(src=`/img/${product.imageUrl[0]}` width='80')
                                             
                                             td.hidden-xs.text-uppercase #{product.name}
-                                            td #{product.price} TL
-                                            td.mr-0.ml-0.pr-0.pl-0
-                                                a(href=`/admin/products/${product._id}` data-toggle="tooltip" data-placement="top" title="Ürünü Düzenle").btn.btn-default
+                                                br
+                                                h5.mt-3.mb-0 
+                                                    b #{product.price} TL
+
+                                            td.d-flex.align-items-center
+                                                a(href=`/admin/products/${product._id}` data-toggle="tooltip" data-placement="top" title="Ürünü Düzenle").btn.btn-default.d-inline
                                                     em(class="fas fa-edit fa-lg")
                                                     
-
-                                                form(action="/admin/delete-product" method="POST" onSubmit="return confirm('Silmek istediğinden emin misin?') ")
+                                            td
+                                                form(action="/admin/delete-product" method="POST" onSubmit="return confirm('Silmek istediğinden emin misin?') ").d-inline
                                                     input(type="hidden" name="_csrf" value=`${csrfToken}`)
                                                     input(type="hidden" name="productid" value=`${product._id}`)
                                                     button(type="submit" data-toggle="tooltip" data-placement="top" title="Ürünü Kaldır").btn.btn-danger
@@ -191,3 +194,4 @@ block content
 
 block script
     script(src="/js/profile.js")
+    script(src="/js/script.js")
