@@ -19,17 +19,7 @@ block content
                         b Toplam Ürün Sayısı: #{products.length}
 
         if products.length > 0
-            table.table.table-striped.table-bordered.table-list
-                thead
-                    tr
-                        th(style="width: 120px;") Resmi    
-                        th(style="width: auto;") Ürün adı
-                        th(style="width: auto;") Fiyatı 
-                        th(style="width: auto;") Ekleyen
-                        th(style="width: auto;") Tel No
-                        th(style="width: auto;") Email
-                        th(style="width: auto; text-align:center;")
-                            em(class="fa fa-cog")
+            table.table.table-striped.table-list
                         
                 tbody
                     each product in products
@@ -37,16 +27,31 @@ block content
                             td
                                 img(src=`/img/${product.imageUrl[0]}` width='120')
                                 
-                            td.hidden-xs.text-uppercase #{product.name}
-                            td #{product.price} TL
-                            td #{product.userId.name} #{product.userId.surname}
-                            td #{product.phoneOfSeller}
-                            td #{product.userId.email}
-                            td.mr-0.ml-0.pr-0.pl-0
+                            td
+                                b.text-primary #{product.name}
+                                h5.mt-3
+                                    b.text-success #{product.price} TL
+                                    br
+                                    span
+                                        b.text-info Ekleyen: 
+                                        b 
+                                            em #{product.userId.name} #{product.userId.surname}
+                                    br
+                                    span 
+                                        b.text-info Telefon:  
+                                        b 
+                                            em #{product.phoneOfSeller}
+                                    br
+                                    span 
+                                        b.text-info E-mail:  
+                                        b 
+                                            em #{product.userId.email}
+
+                            td
                                 a(href=`/admin/all-products/${product._id}` data-toggle="tooltip" data-placement="top" title="İncele").btn.btn-default
                                     em(class="far fa-eye fa-lg")
-
-                                form(action="/admin/delete-all-products" method="POST" onSubmit="return confirm('Silmek istediğinden emin misin?') ")
+                            td
+                                form(action="/admin/delete-all-products" method="POST" onSubmit="return confirm('Silmek istediğinden emin misin?') ").d-inline
                                     input(type="hidden" name="_csrf" value=`${csrfToken}`)
                                     input(type="hidden" name="productid" value=`${product._id}`)
                                     button(type="submit" data-toggle="tooltip" data-placement="top" title="Ürünü Sil").btn.btn-danger

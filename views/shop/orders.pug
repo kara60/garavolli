@@ -10,21 +10,18 @@ block content
                 table.table.table-bordered.table-hover
                     thead.thead-dark
                         tr
-                            th Resim
                             th Ürün Adı
                             th Fiyatı
                             th Miktarı
                     tbody
                         each item in order.items
                             tr
-                                td
-                                    img(src=`/img/${item.product.imageUrl[0]}` width="80")
                                 td #{item.product.name}
                                 td #{item.product.price}
                                 td #{item.quantity}
                     tfoot
                         tr
-                            td(colspan="2") #{order.date}
+                            td(colspan="1") #{order.date}
                             td
                             - var total = 0;
                             each item in order.items

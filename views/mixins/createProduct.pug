@@ -7,7 +7,7 @@ mixin createProduct(product)
             div.product-content
                 h6.title
                     a(href=`/products/${product._id}`).text-uppercase.text-dark 
-                        b #{product.name}
+                        b.text-dark #{product.name}
                         
                 hr.m-0
                 div.price.mt-2

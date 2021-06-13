@@ -65,8 +65,6 @@ exports.postLogin = async (req,res,next) => {
                 var url = req.session.redirectTo || '/';
                 delete req.session.redirectTo;
                 res.redirect('/');
-
-                
             });
         }
         req.session.errorMessage = 'Hatalı eposta yada parola girdiniz.';
@@ -156,7 +154,7 @@ exports.postRegister = async (req,res,next) => {
                 pass:"enekcanel"
             }
         });
-
+        
         let mailBilgi = {
             from: "garavollishopping@gmail.com",
             to: email,
@@ -172,11 +170,9 @@ exports.postRegister = async (req,res,next) => {
             if(err){
                 next(err);
             }
-            else{
-                
+            else{   
             }
         });
-        
     }
     catch(err){
         if(err.name == 'ValidationError'){

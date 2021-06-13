@@ -297,7 +297,8 @@ exports.postDeleteProduct = async (req, res, next) => {
     try{
         const id = req.body.productid;
         const product = await Product.findOne({ _id: id, userId: req.user._id })
-
+        const user = await User.find({ "cart.items.productId": id })
+        
         if(!product){
             return next(new error('Silinmek istenen ürün bulunamadı.'))
         }
@@ -311,7 +312,6 @@ exports.postDeleteProduct = async (req, res, next) => {
                 }
             });
         }
-
         if(imagesSelect.length == 2){
             fs.unlink('public/img/' + imagesSelect[0], err => {
                 if(err){
@@ -324,7 +324,6 @@ exports.postDeleteProduct = async (req, res, next) => {
                 }
             });
         }
-
         if(imagesSelect.length == 3){
             fs.unlink('public/img/' + imagesSelect[0], err => {
                 if(err){
@@ -365,6 +364,9 @@ exports.postDeleteProduct = async (req, res, next) => {
             });
         }
 
+        for(var i=0; i<user.length; i++){
+            await user[i].deleteCartItem(id);
+        }
         const result = await Product.deleteOne ({ _id: id, userId: req.user._id  })
 
         if(result.deletedCount === 0){
@@ -372,7 +374,7 @@ exports.postDeleteProduct = async (req, res, next) => {
         }
         
         res.redirect('/profile?action=delete');
-    }
+}
     catch(err){
         next(err);
     }
@@ -1128,6 +1130,7 @@ exports.postEditAllProducts = async(req, res, next) => {
 exports.postDeleteAllProducts = async (req, res, next) => {
     try{
         const id = req.body.productid;
+        const user = await User.find({ "cart.items.productId": id })
 
         const product = await Product.findOne({ _id: id });
         if(!product){
@@ -1196,7 +1199,10 @@ exports.postDeleteAllProducts = async (req, res, next) => {
                 }
             });
         }
-
+        
+        for(var i=0; i<user.length; i++){
+            await user[i].deleteCartItem(id);
+        }
         const result = await Product.deleteOne({ _id: id});
 
         if(result.deletedCount === 0){
