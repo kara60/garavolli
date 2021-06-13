@@ -24,21 +24,21 @@ block content
                 tr
                     th(style="width: auto;") Kategori Adı
                     th(style="width: auto;") Kategori Açıklaması
-                    th(style="width: auto; text-align:center;")
+                    th(style="width: 200px; text-align:center;")
                         em(class="fa fa-cog")
             tbody
                 each category in categories
                     tr
                         td #{category.name}
                         td #{category.description}
-                        td 
+                        td(style="text-align:center;")
                             a.btn.btn-success.btn-sm.mr-2(href=`/admin/subsubCategories/${category._id}` data-toggle="tooltip" data-placement="top" title="En Alt Kategorileri İncele")
                                 i(class="fas fa-align-left")
                     
                             a.btn.btn-warning.btn-sm.mr-2(href=`/admin/editsubCategories/${category._id}` data-toggle="tooltip" data-placement="top" title="Kategoriyi Düzenle")
                                 em(class="fas fa-edit fa-lg")
 
-                            form(action="/admin/delete-sub-category" method="POST" onSubmit="return confirm('Silmek istediğinden emin misin?') ")
+                            form(action="/admin/delete-sub-category" method="POST" onSubmit="return confirm('Silmek istediğinden emin misin?') ").d-inline
                                 input(type="hidden" name="_csrf" value=`${csrfToken}`)
                                 input(type="hidden" name="categoryid" value=`${category._id}`)
                                 button(type="submit" data-toggle="tooltip" data-placement="top" title="Kategoriyi Kaldır").btn.btn-danger.btn-sm

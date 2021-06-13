@@ -128,17 +128,18 @@ block content
 
                     #products.tab-pane.fade(role='tabpanel' aria-labelledby='products-tab')
                         if products.length > 0
-                            table.table.table-list
+                            table.table.table-list.table-hover
                                 tbody
                                     each product in products
                                         tr(height="175px")
                                             td
                                                 img(src=`/img/${product.imageUrl[0]}` width='80')
                                             
-                                            td.hidden-xs.text-uppercase #{product.name}
+                                            td.hidden-xs.text-uppercase 
+                                                b.text-primary #{product.name}
                                                 br
                                                 h5.mt-3.mb-0 
-                                                    b #{product.price} TL
+                                                    b.text-success #{product.price} TL
 
                                             td.d-flex.align-items-center
                                                 a(href=`/admin/products/${product._id}` data-toggle="tooltip" data-placement="top" title="Ürünü Düzenle").btn.btn-default.d-inline
@@ -160,33 +161,30 @@ block content
                                 .card.mb-5
                                     .card-header
                                         h3 Sipariş numarası: ##{order._id}
-                                    table.table.table-bordered.table-hover
+                                    table.table.table-hover
                                         thead.thead-dark
                                             tr
-                                                th Resim
-                                                th Ürün Adı
+                                                th(width="800px") Ürün Adı
                                                 th Fiyatı
                                                 th Miktarı
                                                 th Durum
                                         tbody
                                             each item in order.items
                                                 tr
-                                                    td
-                                                        img(src=`/img/${item.product.imageUrl[0]}` width="80")
                                                     td #{item.product.name}
-                                                    td #{item.product.price}
-                                                    td #{item.quantity}
+                                                    td(style="text-align:center;") #{item.product.price}
+                                                    td(style="text-align:center;") #{item.quantity}
                                                     td(style="width: auto; text-align:center;") Kargoda
                                         tfoot
                                             tr
-                                                td(colspan="3") #{order.date}
+                                                td(colspan="2") #{order.date}
                                                 td(style="text-align:center;")
-                                                    b.text-success Toplam
+                                                    b.text-success Toplam:
                                                 - var total = 0;
                                                 each item in order.items
                                                     - total += (item.product.price * item.quantity)
                                                 td(style="text-align:center;")
-                                                    b.text-success #{total} TL
+                                                    b.fas.fa-lira-sign.text-success #{total}
 
                         else
                             h1 Henüz sipariş vermemişsiniz.
