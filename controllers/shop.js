@@ -6,8 +6,6 @@ const Order = require('../models/order');
 const Confirmation = require('../models/confirmation');
 const User = require('../models/user');
 const nodemailer = require("nodemailer");
-const product = require('../models/product');
-const user = require('../models/user');
 
 exports.getIndex = async (req, res, next) => {
     try{
@@ -350,6 +348,12 @@ exports.getSearch = async (req, res, next) => {
         const ids = subsubcategoriesProduct.map(s => s._id);
 
         const finalProduct = await Product.find({ categories: {$in: ids} });
+
+        const productNameSearch = await Product.find({ "name": searchRegex });
+        
+        for(var i=0; i < productNameSearch.length; i++){
+            finalProduct.push(productNameSearch[i]);
+        }
 
         res.render('shop/products', {
             title: 'Tüm Ürünler',

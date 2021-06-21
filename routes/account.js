@@ -20,5 +20,5 @@ router.post('/reset-password', locals,accountController.postReset);
 
 router.get('/reset-password/:token', locals, accountController.getNewPassword);
 router.post('/new-password', locals, accountController.postNewPassword);
-
+router.get('/registerTxt', locals, accountController.getRegisterTxt);
 module.exports = router;

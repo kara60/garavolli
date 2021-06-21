@@ -822,9 +822,6 @@ exports.postEditConfirmation = async (req, res, next) => {
             if(err){
                 next(err);
             }
-            else{
-                
-            }
         });
 
         res.redirect('/admin/confirmation?action=confirm')

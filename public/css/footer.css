@@ -16,7 +16,7 @@ small {
     color:#4b4c4d !important
 }
 
-.mt-55 
+.mt-55 {
     margin-top: calc(50px + (60 - 50) * ((100vw - 360px) / (1600 - 360))) !important
 }
 
@@ -57,4 +57,27 @@ color:#4b4c4d;
 }
 .bottom-footer{
     border-bottom:1px solid #ccc;
+}
+
+@media screen and (max-width: 1000px) {
+    .top-footer div h2{
+        display: flex;
+        justify-content: center;
+    }
+    .top-footer div small{
+        display: flex;
+        justify-content: center;
+    }
+    .bottom-footer div{
+        display: flex;
+        justify-content: center;
+    }
+    .top-footer{
+        display: flex;
+        justify-content: center;
+    }
+    .bottom-footer{
+        display: flex;
+        justify-content: center;
+    }
 }

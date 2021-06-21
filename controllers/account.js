@@ -123,7 +123,10 @@ exports.postRegister = async (req,res,next) => {
         const user = await User.findOne({ email: email });
         
         if(user){
-            req.session.errorMessage = 'Bu mail adresi ile daha önce kayıt olunmuş. Eğer parolanızı unuttuysanız lütfen giriş sayfasından şifre sıfırlama işlemini uygulayınız.';
+            req.session.errorMessage = 
+            `Bu mail adresi ile daha önce kayıt olunmuş. 
+            Eğer parolanızı unuttuysanız lütfen giriş 
+            sayfasından şifre sıfırlama işlemini uygulayınız.`;
             req.session.save(function(err){
                 console.log(err);
             })
@@ -169,8 +172,6 @@ exports.postRegister = async (req,res,next) => {
         transfer.sendMail(mailBilgi, err => {
             if(err){
                 next(err);
-            }
-            else{   
             }
         });
     }
@@ -238,84 +239,81 @@ exports.getReset = (req, res, next) => {
 }
 
 
-exports.postReset = (req,res,next) => {
-    const email = req.body.email;
+exports.postReset = async (req,res,next) => {
+    try{
+        const email = req.body.email;
 
-    crypto.randomBytes(32, (err,buffer) => {
-        if(err){
-            return res.redirect('/reset-password');
-        }
-        const token = buffer.toString('hex');
+        crypto.randomBytes(32, async (err,buffer) => {
+            if(err){
+                return res.redirect('/reset-password');
+            }
+            const token = buffer.toString('hex');   
+            const user = await User.findOne({ email: email })
 
-        User.findOne({email : email})
-            .then(user => {
-                if(!user){
-                    req.session.errorMessage = 'Mail adresi bulunamadı.';
-                    req.session.save(function(err){
-                    return res.redirect('/register');
-                    })
-                }
-                user.resetToken = token;
-                user.resetTokenExpiration = Date.now()+3600000;
+            if(!user){
+                req.session.errorMessage = 'Mail adresi bulunamadı.';
+                await req.session.save(function(err){
+                return res.redirect('/register');
+                })
+            }
 
-                return user.save();
-            }).then(() => {
-                res.redirect('/login?action=reset');
+            user.resetToken = token;
+            user.resetTokenExpiration = Date.now()+3600000;
 
-                const msg = {
-                    to: email,
-                    from: 'garavollishopping@gmail.com',
-                    subject: 'Parola Sıfırlama',
-                    html: 
-                    `
-                    <p>Parolanızı güncellemek için aşağıdaki linke tıklayınız</p>
-                    <p>
-                    <a href="http://localhost:3000/reset-password/${token}">Parola Sıfırla</a>
-                    </p>
-                    <p>Garavolli Ekibi</p>
-                    `,
-                };
-                sgMail.send(msg);
-            }).catch(err => {
-                next(err);
-            })
-    });
+            await user.save();
+            res.redirect('/login?action=reset');
+
+            const msg = {
+                to: email,
+                from: 'garavollishopping@gmail.com',
+                subject: 'Parola Sıfırlama',
+                html: 
+                `
+                <p>Parolanızı güncellemek için aşağıdaki linke tıklayınız</p>
+                <p>
+                <a href="http://localhost:3000/reset-password/${token}">Parola Sıfırla</a>
+                </p>
+                <p>Garavolli Ekibi</p>
+                `,
+            };
+            await sgMail.send(msg);
+        })
+    }
+    catch(err){
+        next(err);
+    }
 }
 
-exports.getNewPassword = (req, res, next) => {
-    Category.find()
-        .then(categories => {
-            SubCategory.find()
-                .then(subcategories => {
-                    SubSubCategory.find()
-                        .then(subsubcategories => {
-                            var errorMessage = req.session.errorMessage;
-                            delete req.session.errorMessage;
+exports.getNewPassword = async (req, res, next) => {
+    try{
+        const categories = await Category.find();
+        const subcategories = await SubCategory.find();
+        const subsubcategories = await SubSubCategory.find();
 
-                            const token = req.params.token;
+        var errorMessage = req.session.errorMessage;
+        delete req.session.errorMessage;
+        const token = req.params.token;
 
-                            User.findOne({
-                                resetToken: token, resetTokenExpiration:{
-                                $gt: Date.now()
-                                }
-                            }).then(user => {
+        const user = await User.findOne({ 
+            resetToken: token, resetTokenExpiration:{
+                $gt: Date.now()
+            }
+         })
 
-                                res.render('account/new-password', {
-                                    path: '/new-password',
-                                    title: 'Yeni Parola',
-                                    errorMessage: errorMessage,
-                                    categories: categories,
-                                    subcategories: subcategories,
-                                    subsubcategories: subsubcategories,
-                                    userId: user._id.toString(),
-                                    passwordToken: token
-                                });
-                                                })
-                                        })
-                                })
-        .catch((err) => {
-            next(err);
-        });     })
+         res.render('account/new-password', {
+            path: '/new-password',
+            title: 'Yeni Parola',
+            errorMessage: errorMessage,
+            categories: categories,
+            subcategories: subcategories,
+            subsubcategories: subsubcategories,
+            userId: user._id.toString(),
+            passwordToken: token
+        });
+    }
+    catch(err){
+        next(err);
+    }
 }
 
 
@@ -352,3 +350,14 @@ exports.getlogout = (req, res, next) => {
     });
 } 
 
+exports.getRegisterTxt = async (req, res, next) => {
+    try{
+        res.render('account/registerTxt', {
+            path: '/registerTxt',
+            title: 'Üyelik Formu'
+        });
+    }
+    catch(err){
+        next(err);
+    }
+}
