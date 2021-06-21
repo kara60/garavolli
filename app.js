@@ -22,7 +22,7 @@ const User = require('./models/user');
 const errorController = require('./controllers/errors');
 
 const ConnectionString = 'mongodb+srv://garavolli:enekcanel@cluster0.chjjh.mongodb.net/node-app?retryWrites=true&w=majority';
-   
+
 var store = new mongoDbStore({
     uri: ConnectionString,
     collection: 'mySessions'
@@ -52,10 +52,7 @@ app.use(session({
 
 app.use(express.static(path.join(__dirname, 'public')));
 
-
-
 app.use((req, res, next) => {
-
     if(!req.session.user){
         return next();
     }
@@ -87,4 +84,4 @@ mongoose.connect(ConnectionString)
     })
     .catch(err => {
         console.log(err);
-    }) 
+    })
